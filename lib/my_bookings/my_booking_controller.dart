@@ -78,8 +78,8 @@ class MyBookingController extends GetxController {
 
       // print("$appurl/my_bookings_byid?user_id=$userId");
       if (userId == "0") return;
-      // var url = "$appurl/my_bookings_byid?user_id=85";
-      var url = "$appurl/my_bookings_byid?user_id=$userId";
+      var url = "$appurl/my_bookings_byid?user_id=1";
+      // var url = "$appurl/my_bookings_byid?user_id=$userId";
       final response = await http
           .get(
             Uri.parse(url),
@@ -368,8 +368,8 @@ class MyBookingController extends GetxController {
         return;
       }
 
-      var url = "$appurl/my_bookings_new?user_id=1";
-      // var url = "$appurl/my_bookings_new?user_id=$userId";
+      // var url = "$appurl/my_bookings_new?user_id=1";
+      var url = "$appurl/my_bookings_new?user_id=$userId";
 
       final response = await http
           // .get(Uri.parse("$appurl/my_bookings?user_id=$userId"))

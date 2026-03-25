@@ -390,151 +390,154 @@ class _BookingCardState extends State<BookingCard> {
                   Container(
                     // height: 60,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0XFFA791BA),
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6A1B9A).withValues(alpha: 0.1),
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
+                      // border: Border.all(
+                      //   color: const Color(0xFF6A1B9A),
+                      //   width: 1.5,
+                      // ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
+                        horizontal: 5.0,
                         vertical: 10,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle, // 👈 important
-                                  border: Border.all(color: Colors.white, width: 2),
-
-                                ),
-                                height: 60,
-                                width: 60,
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    imageUrl: "$imageurl/${widget.booking['user_image']}",
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(Icons.person, size: 20),
-                                    ),
-                                    errorWidget: (context, url, error) => Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(Icons.person, size: 20),
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white, width: 2),
+                                  ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "$imageurl/${widget.booking['user_image']}",
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  // Image.network(
-                                  //   "$imageurl/${widget.booking['user_image']}",
-                                  //   height: 50,
-                                  //   width: 50,
-                                  //   fit: BoxFit.cover, // 👈 important
-                                  // ),
                                 ),
-                              ),
 
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
+                                const SizedBox(width: 7),
+
+                                Expanded( // ✅ THIS IS THE MAIN FIX
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 3.0),
+                                        child: Text(
+                                          "${widget.booking['user_name']}",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.location_on, size: 17),
+
+                                          const SizedBox(width: 3),
+
+                                          Expanded( // ✅ ALSO IMPORTANT
+                                            child: Text(
+                                              "City : ${widget.booking['user_city']} ",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+
                                 children: [
                                   Text(
-                                    "${widget.booking['user_name']}",
+                                    "PP ID: ${widget.booking['pp_id']}",
                                     style: const TextStyle(
                                       color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.start,
+                                  //   children: [
+                                  //     Container(
+                                  //       margin: EdgeInsets.only(left: 4,),
+                                  //       height: 20,
+                                  //       width: 3,
+                                  //       color: Colors.black,
+                                  //     ),
+                                  //     SizedBox(width: 8.0,),
+                                  //     Text(
+                                  //       "8.5K Ratings",
+                                  //       style: TextStyle(
+                                  //         color: Colors.white,
+                                  //         fontSize: 14,
+                                  //         fontWeight: FontWeight.bold,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.location_on,
+                                      StarRating(
+                                        size: 14.0,
+                                        rating: 3.5,
                                         color: Colors.black,
-                                        size: 20,
+                                        borderColor: Colors.black54,
+                                        allowHalfRating: true,
+                                        starCount: 5,
+                                        // filledIcon: Icons.favorite,
+                                        // halfFilledIcon: Icons.favorite_border,
+                                        // emptyIcon: Icons.favorite_outline,
+
                                       ),
+                                      SizedBox(width: 4,),
                                       Text(
-                                        "City : ${widget.booking['user_city']}",
+                                        "3.5",
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.normal,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "PP ID: ${widget.booking['pp_id']}",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: [
-                              //     Container(
-                              //       margin: EdgeInsets.only(left: 4,),
-                              //       height: 20,
-                              //       width: 3,
-                              //       color: Colors.black,
-                              //     ),
-                              //     SizedBox(width: 8.0,),
-                              //     Text(
-                              //       "8.5K Ratings",
-                              //       style: TextStyle(
-                              //         color: Colors.white,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              Row(
-                                children: [
-                                  StarRating(
-                                    size: 25.0,
-                                    rating: 3.5,
-                                    color: Colors.black,
-                                    borderColor: Colors.black54,
-                                    allowHalfRating: true,
-                                    starCount: 5,
-                                    // filledIcon: Icons.favorite,
-                                    // halfFilledIcon: Icons.favorite_border,
-                                    // emptyIcon: Icons.favorite_outline,
-
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    "3.5",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                            ),
                           ),
 
                         ],
@@ -548,7 +551,7 @@ class _BookingCardState extends State<BookingCard> {
           // Expired Overlay (Blur + Label) - Only for My Bookings tab
           if (widget.isMyBookingTab && isPast)
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 5),
+              margin: const EdgeInsets.symmetric(vertical: 15),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: BackdropFilter(
@@ -597,7 +600,7 @@ class _BookingCardState extends State<BookingCard> {
               // bottom: 0,
               // left: 0,
               // right: 0,
-              height: 90,
+              height: 70,
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   double maxWidth = constraints.maxWidth - 60;

@@ -287,27 +287,27 @@ class _BookedCardState extends State<BookedCard> {
                         ),
 
                       // Show Booked By ID for Book By Me tab
-                      if (!widget.isMyBookingTab &&
-                          bookedBy != null &&
-                          bookedBy.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 14),
-                          child: Row(
-                            children: [
-                              Icon(Icons.person,
-                                  size: 20, color: Colors.grey.shade600),
-                              const SizedBox(width: 8),
-                              Text(
-                                "Booked Bysss: $bookedBy",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      // if (!widget.isMyBookingTab &&
+                      //     bookedBy != null &&
+                      //     bookedBy.isNotEmpty)
+                      //   Padding(
+                      //     padding: const EdgeInsets.only(top: 14),
+                      //     child: Row(
+                      //       children: [
+                      //         Icon(Icons.person,
+                      //             size: 20, color: Colors.grey.shade600),
+                      //         const SizedBox(width: 8),
+                      //         Text(
+                      //           "Booked Bysss: $bookedBy",
+                      //           style: TextStyle(
+                      //             fontSize: 15,
+                      //             color: Colors.grey.shade700,
+                      //             fontWeight: FontWeight.w500,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
 
                       // if (!widget.isMyBookingTab &&
                       //     bookedBy != null &&
@@ -477,215 +477,160 @@ class _BookedCardState extends State<BookedCard> {
           // 3. Not past
           if (isBooked)
             Container(
-              // bottom: 0,
-              // left: 0,
-              // right: 0,
-              height: 90,
-
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  double maxWidth = constraints.maxWidth - 60;
-
-                  return  Container(
-                    // height: 60,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0XFFA791BA),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 10,
-                      ),
+              // height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color(0xFF6A1B9A).withValues(alpha: 0.1),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                // border: Border.all(
+                //   color: const Color(0xFF6A1B9A),
+                //   width: 1.5,
+                // ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5.0,
+                  vertical: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 3,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle, // 👈 important
-                                  border: Border.all(color: Colors.white, width: 2),
-
-                                ),
-                                height: 60,
-                                width: 60,
-                                child: ClipOval(
-                                  child:
-                                  CachedNetworkImage(
-                                    imageUrl: "$imageurl/${widget.booking['user_image']}",
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(Icons.person, size: 20),
-                                    ),
-                                    errorWidget: (context, url, error) => Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(Icons.person, size: 20),
-                                    ),
-                                  ),
-
-                                  // Image.network(
-                                  //   "$imageurl/${widget.booking['user_image']}",
-                                  //   height: 50,
-                                  //   width: 50,
-                                  //   fit: BoxFit.cover, // 👈 important
-                                  // ),
-                                ),
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: "$imageurl/${widget.booking['user_image']}",
+                                fit: BoxFit.cover,
                               ),
+                            ),
+                          ),
 
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
+                          const SizedBox(width: 7),
+
+                          Expanded( // ✅ THIS IS THE MAIN FIX
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 3.0),
+                                  child: Text(
                                     "${widget.booking['added_by_name']}",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.black,
-                                        size: 20,
-                                      ),
-                                      Text(
+                                ),
+
+                                Row(
+                                  children: [
+                                    const Icon(Icons.location_on, size: 17),
+
+                                    const SizedBox(width: 3),
+
+                                    Expanded( // ✅ ALSO IMPORTANT
+                                      child: Text(
                                         "City : ${widget.booking['user_city']}",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "PP ID: ${widget.booking['added_by_id']}",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: [
-                              //     Container(
-                              //       margin: EdgeInsets.only(left: 4,),
-                              //       height: 20,
-                              //       width: 3,
-                              //       color: Colors.white60,
-                              //     ),
-                              //     SizedBox(width: 8.0,),
-                              //     Text(
-                              //       "8.5K Ratings",
-                              //       style: TextStyle(
-                              //         color: Colors.white,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              Row(
-                                children: [
-                                  StarRating(
-                                    size: 25.0,
-                                    rating: 3.5,
-                                    color: Colors.black,
-                                    borderColor: Colors.black54,
-                                    allowHalfRating: true,
-                                    starCount: 5,
-                                    // filledIcon: Icons.favorite,
-                                    // halfFilledIcon: Icons.favorite_border,
-                                    // emptyIcon: Icons.favorite_outline,
-
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    "3.5",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  );
-                  //   Container(
-                  //   decoration: const BoxDecoration(
-                  //     color: Color(0xFF6A1B9A),
-                  //     borderRadius: BorderRadius.only(
-                  //       bottomLeft: Radius.circular(20),
-                  //       bottomRight: Radius.circular(20),
-                  //     ),
-                  //   ),
-                  //   child: Stack(
-                  //     alignment: Alignment.centerLeft,
-                  //     children: [
-                  //       /// Background Progress Fill
-                  //       Container(
-                  //         // width: _dragPosition + 60,
-                  //         margin:EdgeInsets.symmetric(horizontal: 12,),
-                  //         decoration: BoxDecoration(
-                  //           color: const Color(0xFF6A1B9A).withOpacity(0.7),
-                  //           borderRadius: const BorderRadius.only(
-                  //             bottomLeft: Radius.circular(20),
-                  //           ),
-                  //         ),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           children: [
-                  //             const Icon(Icons.check_circle,
-                  //                 color: Colors.white, size: 20),
-                  //             Text(
-                  //               "Booking Provider ID: ${bookedbyid.toString().toUpperCase() ?? 'N/A'}",
-                  //               style: const TextStyle(
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.bold,
-                  //                 fontSize: 16,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //
-                  //       /// Center Text
-                  //
-                  //
-                  //     ],
-                  //   ),
-                  // );
-                },
+                    const SizedBox(width: 4),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                          children: [
+                            Text(
+                              "PP ID: ${widget.booking['added_by_id']}",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.start,
+                            //   children: [
+                            //     Container(
+                            //       margin: EdgeInsets.only(left: 4,),
+                            //       height: 20,
+                            //       width: 3,
+                            //       color: Colors.black,
+                            //     ),
+                            //     SizedBox(width: 8.0,),
+                            //     Text(
+                            //       "8.5K Ratings",
+                            //       style: TextStyle(
+                            //         color: Colors.white,
+                            //         fontSize: 14,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            Row(
+                              children: [
+                                StarRating(
+                                  size: 14.0,
+                                  rating: 3.5,
+                                  color: Colors.black,
+                                  borderColor: Colors.black54,
+                                  allowHalfRating: true,
+                                  starCount: 5,
+                                  // filledIcon: Icons.favorite,
+                                  // halfFilledIcon: Icons.favorite_border,
+                                  // emptyIcon: Icons.favorite_outline,
+
+                                ),
+                                SizedBox(width: 4,),
+                                Text(
+                                  "3.5",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
             ),
         ],
