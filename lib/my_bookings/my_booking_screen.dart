@@ -180,7 +180,7 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
           ),
         );
       }),
-      bottomNavigationBar: _buildBottomNav(context),
+      // bottomNavigationBar: _buildBottomNav(context),
     );
   }
 

@@ -891,7 +891,7 @@ class _TimeField extends StatelessWidget {
                 color: Color(0xFF1A1A1A),
               ),
             ),
-            // Icon(Icons.star_outline, color: Colors.red, size: 18,),
+            Icon(Icons.star_outline, color: Colors.red, size: 18,),
           ],
         ),
         const SizedBox(height: 8),

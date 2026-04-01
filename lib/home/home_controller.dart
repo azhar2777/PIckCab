@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:pickcab_partner/smartbooking/SmartBookingScreen.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +13,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../const/const.dart';
 import '../../const/custom_notification.dart';
 import '../freebooking/freebooking_new.dart';
+import '../login/login_screen.dart';
 import '../my_bookings/my_booking_screen.dart';
 import '../alerts/alerts_screen.dart';
 import '../profile/profile_screen.dart';
@@ -52,6 +54,8 @@ class HomeController extends GetxController {
     fetchIndianCities();
     _startAutoCleanupTimer();
     _loadRemovedBookings(); // Load previously removed bookings
+
+    fetchUserProfile();
   }
 
   @override
@@ -69,6 +73,62 @@ class HomeController extends GetxController {
     _saveRemovedBookings(); // Save removed bookings before closing
     super.onClose();
   }
+
+  // ==================== Fetch User Details ====================
+  Future<void> fetchUserProfile() async {
+
+    hasError.value = false;
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString("user_id");
+
+      print(userId);
+
+      if (userId == null || userId == "0") {
+        Get.offAll(() => LoginScreen());
+        return;
+      }
+
+      final url = Uri.parse("$appurl/user_details?user_id=$userId");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final data = json["user_data"];
+          // print("UserData");
+          // print(data);
+
+          final prefs = await SharedPreferences.getInstance();
+
+          await prefs.setString("mobile_number", data['user_mobile']);
+
+
+          // print("Prefs${prefs.getString("mobile_number")}");
+
+
+
+
+        } else {
+          throw Exception(json["message"] ?? "Failed to load profile");
+        }
+      } else {
+        throw Exception("Server error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Profile fetch error: $e");
+      hasError.value = true;
+      CustomNotification.show(
+        title: "Connection Error",
+        message: "Failed to load profile. Pull to refresh.",
+        isSuccess: false,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 
   // ==================== PERSISTENCE METHODS ====================
 
@@ -390,7 +450,8 @@ class HomeController extends GetxController {
           _markAsRemoved(bookingId, true);
           debugPrint(
               "✅ Free booking $bookingId removed immediately (past removal time)");
-        } else {
+        }
+        else {
           bookings.removeWhere((b) => b['id'].toString() == bookingId);
           _markAsRemoved(bookingId, false);
           debugPrint(
@@ -957,6 +1018,9 @@ class HomeController extends GetxController {
   void onFreeVehicle() {
     Get.to(() => const FreebookingNew(), transition: Transition.downToUp);
   }
+
+  void navigateToSmartBooking() =>
+      Get.to(() => const SmartBookingScreen(), transition: Transition.fadeIn);
 
   // ==================== ACTIONS ====================
 

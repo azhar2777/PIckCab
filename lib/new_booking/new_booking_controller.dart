@@ -138,7 +138,7 @@ class NewBookingController extends GetxController {
 
       final request = http.MultipartRequest(
         "POST",
-        Uri.parse("$appurl/add_booking"),
+        Uri.parse("$appurl/add_new_booking"),
       );
       request.fields.addAll({
         "user_id": userId,
@@ -161,6 +161,7 @@ class NewBookingController extends GetxController {
       final json = jsonDecode(resp);
 
       if (json["status"] == true || json["status"] == "true") {
+        sendBookingNotification(json['booking_id'].toString());
         CustomNotification.show(
           title: "Success",
           message: "Booking created!",
@@ -189,20 +190,50 @@ class NewBookingController extends GetxController {
     }
   }
 
+  Future<void> sendBookingNotification(String bookingId) async {
+
+    try {
+      print(bookingId);
+      final request = http.MultipartRequest(
+        "POST",
+        Uri.parse("$appurl/send_booking_notification"),
+      );
+      request.fields.addAll({
+        "booking_id": bookingId
+      });
+
+      final response = await request.send();
+      final resp = await response.stream.bytesToString();
+      final json = jsonDecode(resp);
+      debugPrint(json);
+
+    } catch (e) {
+      print("Error in sendBookingNotification");
+      print(e);
+      // CustomNotification.show(
+      //   title: "Error",
+      //   message: "Check internet",
+      //   isSuccess: false,
+      // );
+    } finally {
+      isSubmitting.value = false;
+    }
+  }
+
   bool validateInputs() {
     if (fromController.text.trim().isEmpty ||
         toController.text.trim().isEmpty) {
       CustomNotification.show(
         title: "Required",
-        message: "Select From and To cities",
+        message: "Select Pickup and Drop cities",
         isSuccess: false,
       );
       return false;
     }
-    if (selectedDate.value == null ) {
+    if (selectedDate.value == null || selectedTime.value == null) {
       CustomNotification.show(
         title: "Required",
-        message: "Select date",
+        message: "Select date and time",
         isSuccess: false,
       );
       return false;

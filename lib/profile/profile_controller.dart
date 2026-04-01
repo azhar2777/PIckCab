@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:pickcab_partner/edit_profile/EditProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../alerts/alerts_screen.dart';
@@ -380,6 +381,16 @@ class ProfileController extends GetxController {
   void onFreeVehicle() =>
       Get.to(() => const FreebookingNew(), transition: Transition.downToUp);
 
+
+  Future<void> navigateToEditProfile() async {
+    await Get.to(
+          () => const Editprofilescreen(),
+      transition: Transition.fadeIn,
+    );
+
+    // 🔥 This runs when user comes back
+    fetchUserProfile(); // or controller.fetchData()
+  }
   Future<void> navigateToLogout() async {
     final prefs = await SharedPreferences.getInstance();
 // final prefs = await SharedPreferences.getInstance();

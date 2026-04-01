@@ -76,10 +76,9 @@ class MyBookingController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "0";
 
-      // print("$appurl/my_bookings_byid?user_id=$userId");
       if (userId == "0") return;
-      var url = "$appurl/my_bookings_byid?user_id=1";
-      // var url = "$appurl/my_bookings_byid?user_id=$userId";
+      // var url = "$appurl/my_bookings_byid?user_id=1";
+      var url = "$appurl/my_bookings_byid?user_id=$userId";
       final response = await http
           .get(
             Uri.parse(url),

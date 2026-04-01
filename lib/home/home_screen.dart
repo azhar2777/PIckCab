@@ -173,101 +173,101 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }),
 
-      // Bottom Navigation + FAB
-      bottomNavigationBar: SafeArea(
-        child: SizedBox(
-          height: 60,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 254, 237, 255),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0, -3),
-                    ),
-                  ],
-                ),
-                child: SafeArea(
-                  top: false,
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeBottom: true,
-                    child: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      selectedItemColor: Color(0xFF6A1B9A),
-                      unselectedItemColor: Colors.grey,
-                      selectedFontSize: 10,
-                      unselectedFontSize: 10,
-                      showUnselectedLabels: true,
-                      currentIndex: 0,
-                      onTap: (i) {
-                        if (i == 1) controller.navigateToMyBooking();
-                        if (i == 2) _showPostBottomSheet(context);
-                        if (i == 3) controller.navigateToAlerts();
-                        if (i == 4) controller.navigateToProfile();
-                      },
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.home),
-                          label: 'Home',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.bookmark_border),
-                          label: 'My Bookings',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: SizedBox.shrink(),
-                          label: '',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.notifications_outlined),
-                          label: 'My Alerts',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.person_outline),
-                          label: 'Profile',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              // Floating center button
-              Positioned(
-                child: GestureDetector(
-                  onTap: () => _showPostBottomSheet(context),
-                  child: Container(
-                    width: 68,
-                    height: 68,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF6A1B9A).withOpacity(0.6),
-                          blurRadius: 20,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(Icons.add, color: Colors.white, size: 38),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      // // Bottom Navigation + FAB
+      // bottomNavigationBar: SafeArea(
+      //   child: SizedBox(
+      //     height: 60,
+      //     child: Stack(
+      //       clipBehavior: Clip.none,
+      //       alignment: Alignment.bottomCenter,
+      //       children: [
+      //         Container(
+      //           decoration: const BoxDecoration(
+      //             color: Color.fromARGB(255, 254, 237, 255),
+      //             borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 color: Colors.black12,
+      //                 blurRadius: 10,
+      //                 offset: Offset(0, -3),
+      //               ),
+      //             ],
+      //           ),
+      //           child: SafeArea(
+      //             top: false,
+      //             child: MediaQuery.removePadding(
+      //               context: context,
+      //               removeBottom: true,
+      //               child: BottomNavigationBar(
+      //                 type: BottomNavigationBarType.fixed,
+      //                 backgroundColor: Colors.transparent,
+      //                 elevation: 0,
+      //                 selectedItemColor: Color(0xFF6A1B9A),
+      //                 unselectedItemColor: Colors.grey,
+      //                 selectedFontSize: 10,
+      //                 unselectedFontSize: 10,
+      //                 showUnselectedLabels: true,
+      //                 currentIndex: 0,
+      //                 onTap: (i) {
+      //                   if (i == 1) controller.navigateToMyBooking();
+      //                   if (i == 2) _showPostBottomSheet(context);
+      //                   if (i == 3) controller.navigateToAlerts();
+      //                   if (i == 4) controller.navigateToProfile();
+      //                 },
+      //                 items: const [
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.home),
+      //                     label: 'Home',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.bookmark_border),
+      //                     label: 'My Bookings',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: SizedBox.shrink(),
+      //                     label: '',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.notifications_outlined),
+      //                     label: 'My Alerts',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.person_outline),
+      //                     label: 'Profile',
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         // Floating center button
+      //         Positioned(
+      //           child: GestureDetector(
+      //             onTap: () => _showPostBottomSheet(context),
+      //             child: Container(
+      //               width: 68,
+      //               height: 68,
+      //               decoration: BoxDecoration(
+      //                 shape: BoxShape.circle,
+      //                 gradient: LinearGradient(
+      //                   colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
+      //                 ),
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Color(0xFF6A1B9A).withOpacity(0.6),
+      //                     blurRadius: 20,
+      //                     offset: Offset(0, 8),
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: const Icon(Icons.add, color: Colors.white, size: 38),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
@@ -760,12 +760,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Booked Stamp - Using the existing booked.png for all booked/expired bookings
                 if (isBooked || isExpired)
                   Positioned(
-                    top: 4,
+                    top: -2,
                     right: 4,
                     child: Transform.rotate(
                       angle: 0.2,
-                      child: Image.network(
-                        "https://guplfx.com/pickcab/public/images/booked.png",
+                      child: Image.asset(
+                        "assets/images/ic_booked.png",
                         width: 80,
                         height: 80,
                         fit: BoxFit.contain,
@@ -901,70 +901,77 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showPostBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Post',
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              _buildPostOption(
-                icon: Icons.add_road,
-                title: 'New Booking',
-                onTap: () => {Get.back(), controller.onNewBooking()},
-              ),
-              const SizedBox(height: 12),
-              _buildPostOption(
-                icon: Icons.directions_car,
-                title: 'Free Vehicle',
-                onTap: () => {Get.back(), controller.onFreeVehicle()},
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-      isScrollControlled: true,
-    );
-  }
-
-  Widget _buildPostOption({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: const Color(0xFF6A1B9A)),
-            const SizedBox(width: 16),
-            Text(title, style: const TextStyle(fontSize: 16)),
-          ],
-        ),
-      ),
-    );
-  }
+  // void _showPosBottomSheet(BuildContext context) {
+  //   Get.bottomSheet(
+  //     SafeArea(
+  //       child: Container(
+  //         padding: const EdgeInsets.all(20),
+  //         decoration: const BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  //         ),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Text(
+  //               'Post',
+  //               style: GoogleFonts.montserrat(
+  //                 fontSize: 20,
+  //                 fontWeight: FontWeight.bold,
+  //               ),
+  //             ),
+  //             const SizedBox(height: 20),
+  //             _buildPostOption(
+  //               icon: Icons.add_road,
+  //               title: 'Smart Booking',
+  //               onTap: () => {Get.back(), controller.navigateToSmartBooking()},
+  //             ),
+  //             const SizedBox(height: 20),
+  //
+  //             _buildPostOption(
+  //               icon: Icons.add_road,
+  //               title: 'New Booking',
+  //               onTap: () => {Get.back(), controller.onNewBooking()},
+  //             ),
+  //             const SizedBox(height: 12),
+  //             _buildPostOption(
+  //               icon: Icons.directions_car,
+  //               title: 'Free Vehicle',
+  //               onTap: () => {Get.back(), controller.onFreeVehicle()},
+  //             ),
+  //             const SizedBox(height: 20),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //     isScrollControlled: true,
+  //   );
+  // }
+  //
+  // Widget _buildPostOption({
+  //   required IconData icon,
+  //   required String title,
+  //   required VoidCallback onTap,
+  // }) {
+  //   return InkWell(
+  //     onTap: onTap,
+  //     borderRadius: BorderRadius.circular(12),
+  //     child: Container(
+  //       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+  //       decoration: BoxDecoration(
+  //         border: Border.all(color: Colors.grey.shade300),
+  //         borderRadius: BorderRadius.circular(12),
+  //       ),
+  //       child: Row(
+  //         children: [
+  //           Icon(icon, color: const Color(0xFF6A1B9A)),
+  //           const SizedBox(width: 16),
+  //           Text(title, style: const TextStyle(fontSize: 16)),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _showCitySearchDialog(BuildContext context, HomeController c) {
     final searchController = TextEditingController();

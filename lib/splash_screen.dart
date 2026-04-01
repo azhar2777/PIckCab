@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home_screen.dart';
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
           widget.bookingId != null) {
         Get.off(() => BookingDetailsScreen(bookingId: widget.bookingId!));
       } else {
-        Get.offAll(() => const HomeScreen());
+        Get.offAll(() => DashboardScreen());
       }
     } else {
       Get.offAll(() => const LoginScreen());
