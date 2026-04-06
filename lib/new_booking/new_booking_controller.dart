@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../const/custom_notification.dart';
@@ -170,7 +171,7 @@ class NewBookingController extends GetxController {
         clearForm();
         await Future.delayed(const Duration(milliseconds: 1000));
 
-        Get.offAll(() => const MyBookingScreen());
+        Get.offAll(() => const DashboardScreen(selectedTab: 1));
       } else {
         CustomNotification.show(
           title: "Failed",

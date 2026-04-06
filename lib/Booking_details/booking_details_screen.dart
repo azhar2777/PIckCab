@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pickcab_partner/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../includes/header.dart';
+import '../dashboard/DashboardScreen.dart';
 import '../login/login_screen.dart';
 import 'booking_details_controller.dart';
 
@@ -795,7 +796,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   Widget _buildSeeMoreButton() {
     return GestureDetector(
       onTap: () {
-        Get.to(HomeScreen());
+        // Get.to(HomeScreen());
+        Get.to(DashboardScreen(selectedTab: 0));
       },
       child: Container(
         width: double.infinity,

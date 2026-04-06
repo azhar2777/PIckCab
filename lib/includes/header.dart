@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../const/const.dart';
 import '../const/custom_notification.dart';
+import '../dashboard/DashboardController.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
 import '../profile/profile_screen.dart';
@@ -293,11 +295,26 @@ class _AppHeaderState extends State<AppHeader> {
   void navigateToProfile() async {
     if (!mounted) return;
 
-    // Navigate and wait for result
-    final result = await Get.to(() => const ProfileScreen(),
-        transition: Transition.fadeIn);
+    print("navigateToProfile");
 
-    // If profile was updated, refresh data
+    final controller = Get.find<DashboardController>();
+    controller.selectedIndex.value = 3;
+  }
+  void navigateToProfile1() async {
+    if (!mounted) return;
+    print("navigateToProfile");
+
+    // // Navigate and wait for result
+    // final result = await Get.to(() => const DashboardScreen(selectedTab: 3),
+    //     transition: Transition.fadeIn);
+    //
+    // // If profile was updated, refresh data
+
+
+    final result = await Get.off(
+          () => const DashboardScreen(selectedTab: 3),
+      transition: Transition.fadeIn,
+    );
     if (result == true && mounted) {
       await _fetchUserDetails();
     }
@@ -310,8 +327,12 @@ class _AppHeaderState extends State<AppHeader> {
   }
 
   void navigateToHome() {
+
     if (mounted) {
-      Get.to(() => const HomeScreen(), transition: Transition.fadeIn);
+      print("navigateToHome");
+      Get.offAll(() => const DashboardScreen(selectedTab: 1));
+      // Get.to(() => DashboardScreen(selectedTab: 0), transition: Transition.fadeIn);
+
     }
   }
 

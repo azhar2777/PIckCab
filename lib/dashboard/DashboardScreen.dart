@@ -11,11 +11,16 @@ import 'package:pickcab_partner/profile/profile_screen.dart';
 import '../home/home_screen.dart';
 import 'DashboardController.dart';
 
-class DashboardScreen extends StatelessWidget {
-  DashboardScreen({super.key});
+class DashboardScreen extends StatefulWidget {
+  final int selectedTab;
+  const DashboardScreen({super.key, required this.selectedTab});
 
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   final DashboardController controller = Get.put(DashboardController());
-
   final List<Widget> screens = [
     const HomeScreen(),
     const MyBookingScreen(),
@@ -23,6 +28,16 @@ class DashboardScreen extends StatelessWidget {
     const AlertsScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+
+    super.initState();
+    controller.selectedIndex.value =  widget.selectedTab !=null ? widget.selectedTab : 0 ;
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,48 +71,48 @@ class DashboardScreen extends StatelessWidget {
                   context: context,
                   removeBottom: true,
                   child:
-                BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  selectedItemColor: Color(0xFF6A1B9A),
-                  unselectedItemColor: Colors.grey,
-                  selectedFontSize: 10,
-                  unselectedFontSize: 10,
-                  showUnselectedLabels: true,
-                  currentIndex: controller.selectedIndex.value,
-                  onTap: (index) {
-                    if (index == 2) return; // 👈 ignore center item
+                  BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    selectedItemColor: Color(0xFF6A1B9A),
+                    unselectedItemColor: Colors.grey,
+                    selectedFontSize: 10,
+                    unselectedFontSize: 10,
+                    showUnselectedLabels: true,
+                    currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
+                    onTap: (index) {
+                      if (index == 2) return; // 👈 ignore center item
 
-                    if (index > 2) {
-                      controller.changeTab(index - 1); // shift index
-                    } else {
-                      controller.changeTab(index);
-                    }
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border),
-                      label: 'My Bookings',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SizedBox.shrink(),
-                      label: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.notifications_outlined),
-                      label: 'My Alerts',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.person_outline),
-                      label: 'Profile',
-                    ),
-                  ],
-                ),
+                      if (index > 2) {
+                        controller.changeTab(index - 1); // shift index
+                      } else {
+                        controller.changeTab(index);
+                      }
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.bookmark_border),
+                        label: 'My Bookings',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SizedBox.shrink(),
+                        label: '',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.notifications_outlined),
+                        label: 'My Alerts',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.person_outline),
+                        label: 'Profile',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -129,7 +144,7 @@ class DashboardScreen extends StatelessWidget {
       ),
 
     ),
-      
+
     );
 
 
@@ -154,12 +169,13 @@ class DashboardScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: controller.showSmartBooking.value ? 20: 0),
+              controller.showSmartBooking.value ?
               _buildPostOption(
                 icon: Icons.add_road,
                 title: 'Smart Booking',
                 onTap: () => {Get.back(), controller.navigateToSmartBooking()},
-              ),
+              ):Container(),
               const SizedBox(height: 20),
 
               _buildPostOption(
@@ -206,5 +222,5 @@ class DashboardScreen extends StatelessWidget {
       ),
     );
   }
-
 }
+

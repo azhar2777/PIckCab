@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:pickcab_partner/support/support_details.screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -171,7 +172,7 @@ class SupportController extends GetxController {
   }
 
   // Navigation methods...
-  void navigateToHome() => Get.offAllNamed('/home');
+  void navigateToHome() => Get.offAll(() => DashboardScreen(selectedTab: 0,), transition: Transition.fadeIn);
   // ... rest same
 }
 
@@ -302,7 +303,16 @@ class _SupportScreenState extends State<SupportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(),
+      // appBar: const AppHeader(),
+      appBar: AppBar(
+        title: Text(
+          "Support",
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(0xFF6A1B9A),
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: controller.fetchTickets,
@@ -570,110 +580,110 @@ class _SupportScreenState extends State<SupportScreen> {
         }),
       ),
 
-      // Bottom navigation bar remains THE SAME
-      bottomNavigationBar: SafeArea(
-        child: SizedBox(
-          height: 60,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 254, 237, 255),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0, -3),
-                    ),
-                  ],
-                ),
-                child: SafeArea(
-                  top: false,
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeBottom: true,
-                    child: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      selectedItemColor: Color(0xFF6A1B9A),
-                      unselectedItemColor: Colors.grey,
-                      selectedFontSize: 10, // 👈 small adjustment
-                      unselectedFontSize: 10,
-                      showUnselectedLabels: true,
-                      currentIndex: 4, // Profile is active
-                      onTap: (i) {
-                        if (i == 0)
-                          Get.to(() => const HomeScreen(),
-                              transition: Transition.fadeIn);
-                        if (i == 1)
-                          Get.to(() => const MyBookingScreen(),
-                              transition: Transition.fadeIn);
-                        if (i == 2) _showPostBottomSheet(context);
-                        if (i == 3)
-                          Get.to(() => const AlertsScreen(),
-                              transition: Transition.fadeIn);
-                        // i == 4 → stay on Profile
-                      },
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.home),
-                          label: 'Home',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.bookmark_border),
-                          label: 'My Bookings',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: SizedBox.shrink(),
-                          label: '',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.notifications_outlined),
-                          label: 'My Alerts',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.person_outline),
-                          label: 'Profile',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              /// Floating center button
-              Positioned(
-                // bottom: 28,
-                child: GestureDetector(
-                  onTap: () => _showPostBottomSheet(context),
-                  child: Container(
-                    width: 68,
-                    height: 68,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF6A1B9A).withOpacity(0.6),
-                          blurRadius: 20,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(Icons.add, color: Colors.white, size: 38),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      // // Bottom navigation bar remains THE SAME
+      // bottomNavigationBar: SafeArea(
+      //   child: SizedBox(
+      //     height: 60,
+      //     child: Stack(
+      //       clipBehavior: Clip.none,
+      //       alignment: Alignment.bottomCenter,
+      //       children: [
+      //         Container(
+      //           decoration: const BoxDecoration(
+      //             color: Color.fromARGB(255, 254, 237, 255),
+      //             borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 color: Colors.black12,
+      //                 blurRadius: 10,
+      //                 offset: Offset(0, -3),
+      //               ),
+      //             ],
+      //           ),
+      //           child: SafeArea(
+      //             top: false,
+      //             child: MediaQuery.removePadding(
+      //               context: context,
+      //               removeBottom: true,
+      //               child: BottomNavigationBar(
+      //                 type: BottomNavigationBarType.fixed,
+      //                 backgroundColor: Colors.transparent,
+      //                 elevation: 0,
+      //                 selectedItemColor: Color(0xFF6A1B9A),
+      //                 unselectedItemColor: Colors.grey,
+      //                 selectedFontSize: 10, // 👈 small adjustment
+      //                 unselectedFontSize: 10,
+      //                 showUnselectedLabels: true,
+      //                 currentIndex: 4, // Profile is active
+      //                 onTap: (i) {
+      //                   if (i == 0)
+      //                     Get.to(() => const HomeScreen(),
+      //                         transition: Transition.fadeIn);
+      //                   if (i == 1)
+      //                     Get.to(() => const MyBookingScreen(),
+      //                         transition: Transition.fadeIn);
+      //                   if (i == 2) _showPostBottomSheet(context);
+      //                   if (i == 3)
+      //                     Get.to(() => const AlertsScreen(),
+      //                         transition: Transition.fadeIn);
+      //                   // i == 4 → stay on Profile
+      //                 },
+      //                 items: const [
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.home),
+      //                     label: 'Home',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.bookmark_border),
+      //                     label: 'My Bookings',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: SizedBox.shrink(),
+      //                     label: '',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.notifications_outlined),
+      //                     label: 'My Alerts',
+      //                   ),
+      //                   BottomNavigationBarItem(
+      //                     icon: Icon(Icons.person_outline),
+      //                     label: 'Profile',
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //
+      //         /// Floating center button
+      //         Positioned(
+      //           // bottom: 28,
+      //           child: GestureDetector(
+      //             onTap: () => _showPostBottomSheet(context),
+      //             child: Container(
+      //               width: 68,
+      //               height: 68,
+      //               decoration: BoxDecoration(
+      //                 shape: BoxShape.circle,
+      //                 gradient: LinearGradient(
+      //                   colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
+      //                 ),
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Color(0xFF6A1B9A).withOpacity(0.6),
+      //                     blurRadius: 20,
+      //                     offset: Offset(0, 8),
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: const Icon(Icons.add, color: Colors.white, size: 38),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

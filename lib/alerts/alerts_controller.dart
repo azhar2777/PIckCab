@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/const.dart';
@@ -206,11 +207,11 @@ class AlertsController extends GetxController {
 
   // Navigation
   void navigateToHome() =>
-      Get.offAll(() => const HomeScreen(), transition: Transition.fadeIn);
+      Get.offAll(() => const DashboardScreen(selectedTab: 0), transition: Transition.fadeIn);
   void navigateToMyBooking() =>
-      Get.offAll(() => const MyBookingScreen(), transition: Transition.fadeIn);
+      Get.offAll(() => const DashboardScreen(selectedTab: 1), transition: Transition.fadeIn);
   void navigateToProfile() =>
-      Get.offAll(() => const ProfileScreen(), transition: Transition.fadeIn);
+      Get.offAll(() => const DashboardScreen(selectedTab: 3), transition: Transition.fadeIn);
   void onNewBooking() =>
       Get.to(() => const NewBookingScreen(), transition: Transition.fadeIn);
   void onFreeVehicle() {
@@ -220,7 +221,7 @@ class AlertsController extends GetxController {
   // Add this method in AlertsController
   void openHomeAndSearchCity(String cityName) async {
     // 1. Go to Home WITHOUT destroying everything
-    Get.offAll(() => const HomeScreen(), transition: Transition.fadeIn);
+    Get.offAll(() => const DashboardScreen(selectedTab: 0), transition: Transition.fadeIn);
 
     // 2. Wait until HomeScreen is fully inserted and its controller exists
     await Future.doWhile(() async {

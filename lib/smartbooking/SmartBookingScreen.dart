@@ -18,9 +18,12 @@ class SmartBookingScreen extends StatefulWidget {
 
 class _SmartBookingScreenState extends State<SmartBookingScreen> {
   final controller = Get.put(SmartBookingController(), permanent: true);
+
+
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return Obx(
+          () =>  PopScope(
       canPop: !controller.showBookingForm.value, // only allow pop if form is hidden
       onPopInvokedWithResult: (bool didPop, Object? result) {
         if (controller.showBookingForm.value) {
@@ -45,21 +48,21 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
           foregroundColor: Colors.white,
           elevation: 0,
         ),
-        body: Obx(
-          () => SafeArea(
+        body: SafeArea(
             child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: controller.showBookingForm.value
                         ? Container(
+                      margin: EdgeInsets.symmetric(horizontal: 6,),
                       child: ListView(
                         children: [
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 6),
                           Center(
                             child: Text("Booking Details",
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF6A1B9A),),
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF6A1B9A),),
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 4),
                           Obx(
                                 () => Row(
                               children: [
@@ -123,14 +126,16 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             ),
                           ),
 
-                          const SizedBox(height: 20.0,),
+                          const SizedBox(height: 6.0,),
                           // Date & Time
                           Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Expanded(
                                 child: _DateField(controller: controller, context: context, label: "Pickup Date",),
                               ),
-                              const SizedBox(width: 16),
+                              const SizedBox(width: 5),
                               Expanded(
                                 child: _TimeField(controller: controller, label: "Pickup Time",),
                               ),
@@ -175,15 +180,24 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           ),
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
+                            controller.vehicleController,
+                            "Vehicle",
+                            hintText:
+                            "Vehicle",
+                            keyboard: TextInputType.name,
+                            expands: false,
+                          ),
+                          const SizedBox(height: 10.0,),
+                          buildInputTextFiels(
                             controller.remarkController,
                             "Message",
                             hintText:
                             "remark",
                             keyboard: TextInputType.multiline,
                             expands: false,
-                            maxLines: 5,
+                            maxLines: 2,
                           ),
-                          const SizedBox(height: 30.0,),
+                          const SizedBox(height: 15.0,),
                           /// 👇 Button
                           SizedBox(
                             width: double.infinity,
@@ -194,7 +208,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                 FocusManager.instance.primaryFocus
                                     ?.unfocus();
 
-                                controller.getBookingData();
+                                controller.submitBooking();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF6A1B9A),
@@ -238,7 +252,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             ),
                           ),
 
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                         ],
                       ),
                     )
@@ -343,10 +357,14 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
       expands: expands,
       textAlignVertical: TextAlignVertical.top,
       style: GoogleFonts.poppins(
-        fontSize: 16,
+        fontSize: 15,
         color: const Color(0xFF333333),
       ),
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 13, // 👈 controls height
+          horizontal: 12,
+        ),
         filled: true,
         fillColor: Colors.white,
         labelText: label, // 🔹 Floating label
@@ -438,17 +456,17 @@ class _DateField extends StatelessWidget {
           return Text(
             label,
             style: TextStyle(
-              fontSize: hasValue ? 12 : 16,
+              fontSize: hasValue ? 12 : 12,
               color: hasValue ? Colors.purple : Colors.grey.shade600,
               fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
             ),
           );
         }),
-        const SizedBox(height: 4),
+        // const SizedBox(height: 4),
         InkWell(
           onTap: () => controller.pickDate(context),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -456,12 +474,13 @@ class _DateField extends StatelessWidget {
             ),
             child: Row(
               children: [
+                const SizedBox(width: 3),
                 const Icon(
                   Icons.calendar_today,
-                  size: 20,
+                  size: 15,
                   color: Color(0xFF6A1B9A),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 5),
                 Expanded(
                   child: Obx(
                         () => Text(
@@ -471,7 +490,7 @@ class _DateField extends StatelessWidget {
                       ).format(controller.selectedDate.value!)
                           : 'Select pickup date',
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Colors.black87,
                       ),
                     ),
@@ -503,7 +522,7 @@ class _TimeField extends StatelessWidget {
           return Text(
             label,
             style: TextStyle(
-              fontSize: hasValue ? 12 : 16,
+              fontSize: hasValue ? 12 : 12,
               color: hasValue ? Colors.purple : Colors.grey.shade600,
               fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
             ),
@@ -513,7 +532,7 @@ class _TimeField extends StatelessWidget {
         InkWell(
           onTap: () => controller.pickTime(context),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -523,15 +542,15 @@ class _TimeField extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.access_time,
-                  size: 20,
+                  size: 15,
                   color: Color(0xFF6A1B9A),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 5),
                 Obx(
                       () => Text(
                     controller.selectedTime.value?.format(context) ??
                         'Select pickup time',
-                    style: const TextStyle(fontSize: 16, color: Colors.black87),
+                    style: const TextStyle(fontSize: 12, color: Colors.black87),
                   ),
                 ),
               ],

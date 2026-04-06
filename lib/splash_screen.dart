@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
           widget.bookingId != null) {
         Get.off(() => BookingDetailsScreen(bookingId: widget.bookingId!));
       } else {
-        Get.offAll(() => DashboardScreen());
+        Get.offAll(() => DashboardScreen(selectedTab: 0,));
       }
     } else {
       Get.offAll(() => const LoginScreen());

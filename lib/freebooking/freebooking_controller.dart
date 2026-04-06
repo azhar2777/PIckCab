@@ -9,6 +9,7 @@ import '../../const/custom_notification.dart';
 import '../../my_bookings/my_booking_controller.dart';
 import '../../my_bookings/my_booking_screen.dart';
 import '../../const/const.dart';
+import '../dashboard/DashboardScreen.dart';
 
 class FreeNewBookingController extends GetxController {
   // Form Controllers
@@ -143,7 +144,8 @@ class FreeNewBookingController extends GetxController {
         );
 
         // Navigate to my bookings screen
-        Get.off(() => MyBookingScreen());
+        // Get.off(() => MyBookingScreen());
+        Get.off(() => const DashboardScreen(selectedTab: 1));
 
         clearForm();
 

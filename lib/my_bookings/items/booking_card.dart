@@ -5,14 +5,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:pickcab_partner/const/const.dart';
+import 'package:pickcab_partner/my_bookings/my_booking_controller.dart';
 
 class BookingCard extends StatefulWidget {
+  final int currentIndex;
   final Map<String, dynamic> booking;
   final bool
       isMyBookingTab; // true for My Bookings tab, false for Book By Me tab
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final Function(String, bool, int) onBookedByOwner;
   final Function(String, String) onMarkAsBooked;
 
   const BookingCard({
@@ -22,6 +28,8 @@ class BookingCard extends StatefulWidget {
     this.onEdit,
     this.onDelete,
     required this.onMarkAsBooked,
+    required this.onBookedByOwner,
+    required this.currentIndex,
   }) : super(key: key);
 
   @override
@@ -29,8 +37,12 @@ class BookingCard extends StatefulWidget {
 }
 
 class _BookingCardState extends State<BookingCard> {
+  final controller = Get.find<MyBookingController>();
   double _dragPosition = 0.0;
   bool _isCompleted = false;
+
+  late bool markBooked = controller
+      .bookings[widget.currentIndex]['mark_booked'];
 
   Future<bool> _showMarkAsBookedDialog(
     BuildContext context,
@@ -123,7 +135,6 @@ class _BookingCardState extends State<BookingCard> {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
-
       child: Column(
         children: [
           // Main Card
@@ -359,23 +370,68 @@ class _BookingCardState extends State<BookingCard> {
                             ),
                             const SizedBox(width: 14),
                             Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: widget.onDelete,
-                                icon:
-                                    const Icon(Icons.delete_outline, size: 20),
-                                label: const Text("Delete",
-                                    style: TextStyle(fontSize: 16)),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF6A1B9A),
-                                  foregroundColor: Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 14),
-                                  shape: RoundedRectangleBorder(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF6A1B9A),
+                                    // borderRadius: const BorderRadius.only(
+                                    //   bottomLeft: Radius.circular(20),
+                                    //   bottomRight: Radius.circular(20),
+                                    // ),
                                     borderRadius: BorderRadius.circular(14),
+                                    border: Border.all(
+                                      color: const Color(0xFF6A1B9A),
+                                      width: 1.5,
+                                    ),
                                   ),
-                                  elevation: 3,
-                                ),
-                              ),
+                                  child: Obx(() {
+                                    final booking = controller
+                                        .bookings[widget.currentIndex];
+
+                                    return Switch(
+                                      value: controller
+                                          .bookings[widget.currentIndex]['mark_booked'],
+                                      onChanged: (value) {
+                                        // controller
+                                        //     .bookings[widget.currentIndex]['mark_booked'] = value;
+
+                                        widget.onBookedByOwner(
+                                          booking['id'],
+                                          value,
+                                          widget.currentIndex,
+                                        );
+                                      },
+                                      thumbColor: WidgetStateProperty.resolveWith((states) {
+                                        if (states.contains(WidgetState.selected)) {
+                                          return Colors.green;
+                                        }
+                                        return Colors.grey;
+                                      }),
+                                      trackColor: WidgetStateProperty.resolveWith((states) {
+                                        if (states.contains(WidgetState.selected)) {
+                                          return const Color(0xFFFFFFFF);
+                                        }
+                                        return Colors.white;
+                                      }),
+                                    );
+                                  }),),
+
+                              // ElevatedButton.icon(
+                              //   onPressed: widget.onDelete,
+                              //   icon:
+                              //       const Icon(Icons.delete_outline, size: 20),
+                              //   label: const Text("Delete",
+                              //       style: TextStyle(fontSize: 16)),
+                              //   style: ElevatedButton.styleFrom(
+                              //     backgroundColor: const Color(0xFF6A1B9A),
+                              //     foregroundColor: Colors.white,
+                              //     padding:
+                              //         const EdgeInsets.symmetric(vertical: 14),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(14),
+                              //     ),
+                              //     elevation: 3,
+                              //   ),
+                              // ),
                             ),
                           ],
                         ),
@@ -386,7 +442,7 @@ class _BookingCardState extends State<BookingCard> {
                 ),
 
                 // Bottom Status Bar (only for My Bookings tab)
-                if (widget.isMyBookingTab && widget.booking['pp_id'] !=null )
+                if (widget.isMyBookingTab && widget.booking['pp_id'] != null)
                   Container(
                     // height: 60,
                     width: double.infinity,
@@ -419,24 +475,27 @@ class _BookingCardState extends State<BookingCard> {
                                   width: 40,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white, width: 2),
+                                    border: Border.all(
+                                        color: Colors.white, width: 2),
                                   ),
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      imageUrl: "$imageurl/${widget.booking['user_image']}",
+                                      imageUrl:
+                                          "$imageurl/${widget.booking['user_image']}",
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-
                                 const SizedBox(width: 7),
-
-                                Expanded( // ✅ THIS IS THE MAIN FIX
+                                Expanded(
+                                  // ✅ THIS IS THE MAIN FIX
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 3.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 3.0),
                                         child: Text(
                                           "${widget.booking['user_name']}",
                                           maxLines: 1,
@@ -447,14 +506,13 @@ class _BookingCardState extends State<BookingCard> {
                                           ),
                                         ),
                                       ),
-
                                       Row(
                                         children: [
-                                          const Icon(Icons.location_on, size: 17),
-
+                                          const Icon(Icons.location_on,
+                                              size: 17),
                                           const SizedBox(width: 3),
-
-                                          Expanded( // ✅ ALSO IMPORTANT
+                                          Expanded(
+                                            // ✅ ALSO IMPORTANT
                                             child: Text(
                                               "City : ${widget.booking['user_city']} ",
                                               maxLines: 1,
@@ -477,10 +535,10 @@ class _BookingCardState extends State<BookingCard> {
                           Expanded(
                             flex: 2,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 1.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-
                                 children: [
                                   Text(
                                     "PP ID: ${widget.booking['pp_id']}",
@@ -522,9 +580,10 @@ class _BookingCardState extends State<BookingCard> {
                                         // filledIcon: Icons.favorite,
                                         // halfFilledIcon: Icons.favorite_border,
                                         // emptyIcon: Icons.favorite_outline,
-
                                       ),
-                                      SizedBox(width: 4,),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
                                       Text(
                                         "3.5",
                                         style: TextStyle(
@@ -539,7 +598,6 @@ class _BookingCardState extends State<BookingCard> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -579,7 +637,8 @@ class _BookingCardState extends State<BookingCard> {
                           SizedBox(height: 8),
                           Text(
                             "This trip has passed",
-                            style: TextStyle(fontSize: 17, color: Colors.white70),
+                            style:
+                                TextStyle(fontSize: 17, color: Colors.white70),
                           ),
                           SizedBox(height: 16),
                         ],
@@ -596,7 +655,6 @@ class _BookingCardState extends State<BookingCard> {
           // 3. Not past
           if (widget.isMyBookingTab && !isBooked && !isPast)
             Container(
-
               // bottom: 0,
               // left: 0,
               // right: 0,

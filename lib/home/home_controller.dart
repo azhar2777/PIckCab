@@ -27,6 +27,7 @@ class HomeController extends GetxController {
       <Map<String, dynamic>>[].obs;
 
   // UI States
+  final RxBool isApiCalled = true.obs;
   final RxBool isLoading = true.obs;
   final RxBool hasError = false.obs;
   final RxString searchQuery = ''.obs;
@@ -48,6 +49,8 @@ class HomeController extends GetxController {
   final RxList<String> filteredCities = <String>[].obs;
   final RxBool isCitiesLoading = true.obs;
 
+
+
   @override
   void onInit() {
     super.onInit();
@@ -55,15 +58,29 @@ class HomeController extends GetxController {
     _startAutoCleanupTimer();
     _loadRemovedBookings(); // Load previously removed bookings
 
-    fetchUserProfile();
   }
 
   @override
   void onReady() {
     super.onReady();
     NotificationService.updateTokenAfterLogin();
-    fetchAvailableBookings();
-    fetchAvailablefreeBookings();
+    callAllFunctions();
+  }
+
+  void callAllFunctions() async {
+    try{
+      isApiCalled.value = false;
+      await fetchAvailableBookings();
+      await fetchAvailablefreeBookings();
+    }
+    catch (e) {
+      debugPrint("callAllFunctions error: $e");
+
+    } finally {
+      isApiCalled.value = true;
+
+    }
+
   }
 
   @override
@@ -74,60 +91,6 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  // ==================== Fetch User Details ====================
-  Future<void> fetchUserProfile() async {
-
-    hasError.value = false;
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final userId = prefs.getString("user_id");
-
-      print(userId);
-
-      if (userId == null || userId == "0") {
-        Get.offAll(() => LoginScreen());
-        return;
-      }
-
-      final url = Uri.parse("$appurl/user_details?user_id=$userId");
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        if (json["status"] == true) {
-          final data = json["user_data"];
-          // print("UserData");
-          // print(data);
-
-          final prefs = await SharedPreferences.getInstance();
-
-          await prefs.setString("mobile_number", data['user_mobile']);
-
-
-          // print("Prefs${prefs.getString("mobile_number")}");
-
-
-
-
-        } else {
-          throw Exception(json["message"] ?? "Failed to load profile");
-        }
-      } else {
-        throw Exception("Server error: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Profile fetch error: $e");
-      hasError.value = true;
-      CustomNotification.show(
-        title: "Connection Error",
-        message: "Failed to load profile. Pull to refresh.",
-        isSuccess: false,
-      );
-    } finally {
-      isLoading.value = false;
-    }
-  }
 
 
   // ==================== PERSISTENCE METHODS ====================
@@ -783,6 +746,7 @@ class HomeController extends GetxController {
               'date': b["trip_date"] ?? "",
               'time': b["trip_time"] ?? "",
               'status': b["status"]?.toString() ?? "1",
+              'mark_booked': b["mark_booked"]?.toString() ?? "1",
               'isTwoWay': b["trip_type"] == "two_way",
               'carType': b["car_type"] ?? "Sedan",
               'carrier': b["carrier"]?.toString() ?? "0",
@@ -1023,8 +987,35 @@ class HomeController extends GetxController {
       Get.to(() => const SmartBookingScreen(), transition: Transition.fadeIn);
 
   // ==================== ACTIONS ====================
+  void updateCallerCount(String bookingId) async {
+    // showBookingForm.value = true;
+    try {
+      var postData = {
+        'booking_id' : bookingId,
 
-  Future<void> makePhoneCall(String phone) async {
+
+      };
+      print("$appurl/update_call_count");
+      print("postData $postData ");
+      final response = await http.post(
+        Uri.parse("$appurl/update_call_count"),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: postData,
+      );
+
+      final json = jsonDecode(response.body);
+      print(json);
+
+    } catch (e) {
+      debugPrint("error while getting booking details : $e");
+    }
+
+
+  }
+
+  Future<void> makePhoneCall(String phone, String bookingId) async {
+    print("bookingId $bookingId");
+    updateCallerCount(bookingId);
     final cleaned = phone.replaceAll(RegExp(r'\D'), '');
     if (cleaned.isEmpty) return;
     final uri = Uri(scheme: 'tel', path: cleaned);

@@ -141,33 +141,61 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Main Content
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await controller.refreshBookings();
-                },
-                color: const Color(0xFF6A1B9A),
-                child: controller.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFF6A1B9A),
-                        ),
-                      )
-                    : displayList.isEmpty
-                        ? _buildEmptyState(
-                            controller.searchQuery.value.isNotEmpty
-                                ? "No trips from '${controller.searchQuery.value}'"
-                                : "No available bookings yet",
-                          )
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(5),
-                            itemCount: displayList.length,
-                            itemBuilder: (context, index) => _buildBookingCard(
-                              displayList[index],
-                              controller,
-                              isBookingsTab ? "booking" : "free",
+              child: controller.isApiCalled.value
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        await controller.refreshBookings();
+                      },
+                      color: const Color(0xFF6A1B9A),
+                      child: controller.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF6A1B9A),
+                              ),
+                            )
+                          : displayList.isEmpty
+                              ? _buildEmptyState(
+                                  controller.searchQuery.value.isNotEmpty
+                                      ? "No trips from '${controller.searchQuery.value}'"
+                                      : "No available bookings yet",
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.all(5),
+                                  itemCount: displayList.length,
+                                  itemBuilder: (context, index) =>
+                                      _buildBookingCard(
+                                    displayList[index],
+                                    controller,
+                                    isBookingsTab ? "booking" : "free",
+                                  ),
+                                ),
+                    )
+                  : Container(
+                      child: Center(
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Image.asset(
+                                "assets/images/ic_logo.jpeg",
+                                fit: BoxFit.contain,
+                                // width: MediaQuery.of(context).size.width*0.95,
+                                height: 100,
+                              ),
                             ),
-                          ),
-              ),
+                            Center(
+                              child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                  child: CircularProgressIndicator(
+                                color: Color(0xFF6A1B9A),
+                              ),
+
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
             ),
           ],
         );
@@ -467,7 +495,14 @@ class _HomeScreenState extends State<HomeScreen> {
     String itemType,
   ) {
     final bool isTwoWay = (booking['isTwoWay'] as bool?) ?? false;
-    final bool isBooked = (booking['status']?.toString() ?? "") == "0";
+    bool isBooked = (booking['status']?.toString() ?? "") == "0";
+    if (booking['mark_booked'].toString() == "1") {
+      isBooked = true;
+    }
+
+    print(
+        "${booking['id']} isBooked $isBooked mark_booked ${booking['mark_booked'].toString()}");
+
     final bool isVerified = (booking['verified'] as bool?) ?? false;
 
     // Check if booking is expired
@@ -528,26 +563,24 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
-              itemType == "booking" ?
-
-              GestureDetector(
-                onTap: () {
-                  Get.to(BookingDetailsScreen(
-                    bookingId: bookingid,
-                  ));
-                },
-                child: Text(
-                  "ID: $tripId",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: isExpired ? Colors.grey : Colors.redAccent,
-                    fontWeight: FontWeight.bold,
-                    // decoration: isExpired ? TextDecoration.lineThrough : null,
-                  ),
-                ),
-              ): Container()
-              ,
+              itemType == "booking"
+                  ? GestureDetector(
+                      onTap: () {
+                        Get.to(BookingDetailsScreen(
+                          bookingId: bookingid,
+                        ));
+                      },
+                      child: Text(
+                        "ID: $tripId",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isExpired ? Colors.grey : Colors.redAccent,
+                          fontWeight: FontWeight.bold,
+                          // decoration: isExpired ? TextDecoration.lineThrough : null,
+                        ),
+                      ),
+                    )
+                  : Container(),
               Row(
                 children: [
                   // Booked Badge - Changed from "Expired" to "Booked"
@@ -786,7 +819,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: _actionButton(
                     Icons.share_rounded,
-                    () => controller.shareBooking(itemType == "booking", booking),
+                    () =>
+                        controller.shareBooking(itemType == "booking", booking),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -795,7 +829,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _actionButton(
                       FontAwesomeIcons.whatsapp,
-                      () => controller.openWhatsApp(itemType == "booking", booking['mobile'], booking),
+                      () => controller.openWhatsApp(
+                          itemType == "booking", booking['mobile'], booking),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -805,7 +840,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _actionButton(
                       Icons.call,
-                      () => controller.makePhoneCall(booking['mobile']),
+                      () => controller.makePhoneCall(
+                          booking['mobile'], bookingid),
                     ),
                   ),
               ],

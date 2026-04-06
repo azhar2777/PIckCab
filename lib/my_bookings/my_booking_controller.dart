@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/const.dart';
 import '../const/custom_notification.dart';
+import '../dashboard/DashboardScreen.dart';
 import '../freebooking/freebooking_new.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
@@ -436,6 +437,7 @@ class MyBookingController extends GetxController {
               'isTwoWay': item["trip_type"] == "two_way",
               'isPast': isPast,
               'isBooked': isBooked,
+              'mark_booked': item["mark_booked"].toString() == "0",
               'avatarUrl':
                   carImages[carType] ?? "$imageurlstatic/hatchback.png",
               'carrier': item["carrier"]?.toString() ?? "0",
@@ -645,7 +647,8 @@ class MyBookingController extends GetxController {
       clearForm();
       await Future.delayed(const Duration(milliseconds: 1000));
       Get.find<MyBookingController>().fetchMyBookings();
-      Get.offAll(() => const MyBookingScreen());
+      // Get.offAll(() => const MyBookingScreen());
+      Get.offAll(() => const DashboardScreen(selectedTab: 1));
     }
   }
 
@@ -701,6 +704,59 @@ class MyBookingController extends GetxController {
       }
     } catch (e) {
       return false;
+    } finally {
+      isSubmitting.value = false;
+    }
+  }
+
+  void markAsBookedByOwner(String bookingId, bool markBooked, int currentIndex) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString("user_id") ?? "0";
+
+    print("user idss $userId ,  bookingId $bookingId , markBooked $markBooked");
+
+    // print("Index_______: $currentIndex");
+    // print(bookings);
+
+
+    try {
+
+      final response = await http.post(
+        Uri.parse("$appurl/mark_booked"),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: {
+          "user_id": userId,
+          "booking_id": bookingId,
+        },
+      );
+
+      final json = jsonDecode(response.body);
+      print(json);
+
+      if (json["status"] == true) {
+        CustomNotification.show(
+          title: "Success",
+          message: json["message"],
+          isSuccess: true,
+        );
+        // fetchMyBookings(); // refresh list
+
+        bookings[currentIndex] = {
+          ...bookings[currentIndex],
+          'mark_booked': markBooked,
+        };
+        bookings.refresh(); // 👈 required
+
+        // print("Index: $currentIndex");
+        // print(bookings);
+
+
+
+      } else {
+
+      }
+    } catch (e) {
+
     } finally {
       isSubmitting.value = false;
     }

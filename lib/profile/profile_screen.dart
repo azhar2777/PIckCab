@@ -844,26 +844,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                InkWell(
-                  onTap: controller.navigateToEditProfile,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Edit Profile',
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF6A1B9A),
+                Center(
+                  child: InkWell(
+                    onTap: controller.navigateToEditProfile,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Edit Profile',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF6A1B9A),
 
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 6,),
-                      Image.asset("assets/images/editing.png",
-                        width: 28,
-                        height: 28,
-                        fit: BoxFit.contain,)
-                    ],
+                        SizedBox(width: 6,),
+                        Image.asset("assets/images/editing.png",
+                          width: 18,
+                          height: 18,
+                          fit: BoxFit.contain,)
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),

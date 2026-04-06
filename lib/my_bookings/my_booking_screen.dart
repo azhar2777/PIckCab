@@ -203,19 +203,21 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
         await c.fetchBookedByMe();
       },
       color: const Color(0xFF6A1B9A),
-      child: ListView.builder(
+      child: Obx(() => ListView.builder(
         padding: const EdgeInsets.all(5),
         itemCount: bookings.length,
         itemBuilder: (_, i) => BookingCard(
+          currentIndex: i,
           booking: bookings[i],
           isMyBookingTab: true, // This is the My Bookings tab
           onEdit: () => c.onEditBooking(bookings[i]['id'].toString()),
+          onBookedByOwner: (bookingId, value, i) => c.markAsBookedByOwner(bookings[i]['id'].toString(), value, i),
           onDelete: () =>
               _showDeleteConfirmation(context, bookings[i]['id'].toString()),
           onMarkAsBooked: (bookingId, unqId) async {
             await c.markAsBooked(bookingId, unqId);
           },
-        ),
+        ),),
       ),
     );
   }

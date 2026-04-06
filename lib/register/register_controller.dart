@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 // import 'package:otp_autofill/otp_autofill.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -367,7 +368,7 @@ class RegisterController extends GetxController {
         await prefs.setBool("is_logged_in", true);
         Get.put(HomeController(), permanent: true);
         NotificationService.updateTokenAfterLogin(); // Token updated
-        Get.offAll(() => const HomeScreen());
+        Get.offAll(() => DashboardScreen(selectedTab: 0,));
       } else {
         otpError.value = data["message"] ?? "Invalid OTP";
       }

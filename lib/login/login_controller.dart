@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import '../const/const.dart';
@@ -261,7 +262,7 @@ class LoginController extends GetxController {
 
                 await _sendLoginNotification();
 
-                Get.offAll(() => HomeScreen());
+                Get.offAll(() => DashboardScreen(selectedTab: 0,));
               },
               onCancel: () {
                 Get.back();

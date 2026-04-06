@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../const/const.dart';
+import '../const/custom_notification.dart';
 
 class SmartBookingController extends GetxController {
   static SmartBookingController get to => Get.find();
@@ -52,17 +53,27 @@ class SmartBookingController extends GetxController {
 
       final json = jsonDecode(response.body);
       print(json);
-      if (json["status"] == true || json["status"] == "true") {
+      if (json["status"] == true) {
         showBookingForm.value = true;
         var gemin_data = json['gemin_data'];
 
+        pickupLocationController.text = gemin_data['vehicle'];
         pickupLocationController.text = gemin_data['pickup_location'];
         dropLocationController.text = gemin_data['drop_location'];
         mobileController.text = gemin_data['mobile_number'];
         priceController.text = gemin_data['amount'];
         remarkController.text = gemin_data['remark'];
         selectedDate.value = DateTime.parse(gemin_data['pickup_date']);
-        selectedTime.value = parseTime(gemin_data['pickup_date']);
+        selectedTime.value = parseTime(gemin_data['pickup_time']);
+
+        print("selectedTime.value ${selectedTime.value}");
+
+        if(!gemin_data['trip_type']){
+          tripType.value = "one_way";
+        }
+        else{
+          tripType.value = gemin_data['trip_type'];
+        }
 
       }
       isSubmitting.value = false;
@@ -72,8 +83,170 @@ class SmartBookingController extends GetxController {
     }
   }
 
+  bool validateInputs() {
+    if(mobileController.text.trim().isEmpty){
+      CustomNotification.show(
+        title: "Required",
+        message: "Enter a valid mobile number",
+        isSuccess: false,
+      );
+      return false;
+    }
+    if (pickupLocationController.text.trim().isEmpty ||
+        dropLocationController.text.trim().isEmpty) {
+      CustomNotification.show(
+        title: "Required",
+        message: "Select Pickup and Drop cities",
+        isSuccess: false,
+      );
+      return false;
+    }
+
+    if (selectedDate.value == null || selectedTime.value == null) {
+      CustomNotification.show(
+        title: "Required",
+        message: "Select date and time",
+        isSuccess: false,
+      );
+      return false;
+    }
+
+
+    validateDateTime(selectedDate.value, selectedTime.value);
+
+    return true;
+  }
+
+  bool validateDateTime(DateTime? date, TimeOfDay? time) {
+    if (date == null || time == null) {
+      CustomNotification.show(
+        title: "Required",
+        message: "Select date and time",
+        isSuccess: false,
+      );
+      return false;
+    }
+
+    // Combine date + time
+    final selected = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+
+    final now = DateTime.now();
+
+    if (selected.isBefore(now)) {
+      CustomNotification.show(
+        title: "Required",
+        message: "Past date/time not allowed",
+        isSuccess: false,
+      );
+      return false;
+    }
+    return true;
+  }
+
+  void clearForm() {
+    pickupLocationController.clear();
+    priceController.clear();
+    dropLocationController.clear();
+    mobileController.clear();
+    priceController.clear();
+    vehicleController.clear();
+    remarkController.clear();
+    selectedTime.value = null;
+    selectedDate.value = null;
+    tripType.value = "one_way";
+    messageController.clear();
+
+
+  }
+
   void submitBooking() async {
     // showBookingForm.value = true;
+    if (!validateInputs()) return;
+    isSubmitting.value = true;
+
+    // try {
+    //   var postData = {
+    //     'mobile_number' : mobileController.text.trim().isEmpty ? '' : mobileController.text.trim(),
+    //     'vehicle' : vehicleController.text.trim().isEmpty ? 'Car' : vehicleController.text.trim(),
+    //     'pickup_location' : pickupLocationController.text.trim().isEmpty ? '' : pickupLocationController.text.trim(),
+    //     'drop_location' : dropLocationController.text.trim().isEmpty ? '' : dropLocationController.text.trim(),
+    //     'trip_type' : tripType.value,
+    //     "pickup_date": selectedDate.value!.toIso8601String().substring(0, 10),
+    //     "pickup_time": selectedTime.value !=null ? selectedTime.value!.format(Get.context!):'',
+    //     'remark' : remarkController.text.trim().isEmpty ? '' : remarkController.text.trim(),
+    //     'price' : priceController.text.trim().isEmpty ? '' : priceController.text.trim(),
+    //
+    //   };
+    //   print("$appurl/addNewBookingFromMessage");
+    //   print("postData $postData ");
+    //   final response = await http.post(
+    //     Uri.parse("$appurl/addNewBookingFromMessage"),
+    //     headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    //     body: postData,
+    //   );
+    //
+    //   final json = jsonDecode(response.body);
+    //   print(json);
+    //   if (json["status"] == true || json["status"] == "true") {
+    //     sendBookingNotification(json['booking_id'].toString());
+    //     showBookingForm.value = false;
+    //     clearForm();
+    //     CustomNotification.show(
+    //       title: "Success",
+    //       message: json['message'],
+    //       isSuccess: true,
+    //     );
+    //   }
+    //   else{
+    //     CustomNotification.show(
+    //       title: "Failed",
+    //       message: json['message'],
+    //       isSuccess: false,
+    //     );
+    //   }
+    //   isSubmitting.value = false;
+    // } catch (e) {
+    //   debugPrint("error while getting booking details : $e");
+    //   isSubmitting.value = false;
+    // }
+
+
+  }
+
+  Future<void> sendBookingNotification(String bookingId) async {
+
+    try {
+      print(bookingId);
+      final request = http.MultipartRequest(
+        "POST",
+        Uri.parse("$appurl/send_booking_notification"),
+      );
+      request.fields.addAll({
+        "booking_id": bookingId
+      });
+
+      final response = await request.send();
+      final resp = await response.stream.bytesToString();
+      final json = jsonDecode(resp);
+      // debugPrint(json);
+
+    } catch (e) {
+      print("Error in sendBookingNotification");
+      print(e);
+      // CustomNotification.show(
+      //   title: "Error",
+      //   message: "Check internet",
+      //   isSuccess: false,
+      // );
+    } finally {
+      isSubmitting.value = false;
+    }
   }
 
   // Date Time
@@ -156,14 +329,5 @@ class SmartBookingController extends GetxController {
     }
   }
 
-  bool canPop() {
-    if(showBookingForm.value){
-      showBookingForm.value = false;
-      return false;
-    }
-    else{
-      return true;
-    }
 
-  }
 }
