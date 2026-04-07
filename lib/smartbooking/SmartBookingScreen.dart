@@ -63,70 +63,70 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Obx(
-                                () => Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () => controller.tripType.value = 'one_way',
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: controller.tripType.value == 'one_way'
-                                          ? const Color(0xFF6A1B9A)
-                                          : Colors.grey.shade200,
-                                      foregroundColor: controller.tripType.value == 'one_way'
-                                          ? Colors.white
-                                          : Colors.black87,
-                                      elevation: controller.tripType.value == 'one_way' ? 6 : 0,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(16),
-                                          bottomLeft: Radius.circular(16),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(vertical: 16),
-                                    ),
-                                    child: Text(
-                                      'One Way',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () => controller.tripType.value = 'two_way',
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: controller.tripType.value == 'two_way'
-                                          ? const Color(0xFF6A1B9A)
-                                          : Colors.grey.shade200,
-                                      foregroundColor: controller.tripType.value == 'two_way'
-                                          ? Colors.white
-                                          : Colors.black87,
-                                      elevation: controller.tripType.value == 'two_way' ? 6 : 0,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(16),
-                                          bottomRight: Radius.circular(16),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(vertical: 16),
-                                    ),
-                                    child: Text(
-                                      'Round Trip',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const SizedBox(height: 6.0,),
+                          // Obx(
+                          //       () => Row(
+                          //     children: [
+                          //       Expanded(
+                          //         child: ElevatedButton(
+                          //           onPressed: () => controller.tripType.value = 'one_way',
+                          //           style: ElevatedButton.styleFrom(
+                          //             backgroundColor: controller.tripType.value == 'one_way'
+                          //                 ? const Color(0xFF6A1B9A)
+                          //                 : Colors.grey.shade200,
+                          //             foregroundColor: controller.tripType.value == 'one_way'
+                          //                 ? Colors.white
+                          //                 : Colors.black87,
+                          //             elevation: controller.tripType.value == 'one_way' ? 6 : 0,
+                          //             shape: const RoundedRectangleBorder(
+                          //               borderRadius: BorderRadius.only(
+                          //                 topLeft: Radius.circular(16),
+                          //                 bottomLeft: Radius.circular(16),
+                          //               ),
+                          //             ),
+                          //             padding: const EdgeInsets.symmetric(vertical: 16),
+                          //           ),
+                          //           child: Text(
+                          //             'One Way',
+                          //             style: GoogleFonts.poppins(
+                          //               fontSize: 15,
+                          //               fontWeight: FontWeight.w600,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         child: ElevatedButton(
+                          //           onPressed: () => controller.tripType.value = 'two_way',
+                          //           style: ElevatedButton.styleFrom(
+                          //             backgroundColor: controller.tripType.value == 'two_way'
+                          //                 ? const Color(0xFF6A1B9A)
+                          //                 : Colors.grey.shade200,
+                          //             foregroundColor: controller.tripType.value == 'two_way'
+                          //                 ? Colors.white
+                          //                 : Colors.black87,
+                          //             elevation: controller.tripType.value == 'two_way' ? 6 : 0,
+                          //             shape: const RoundedRectangleBorder(
+                          //               borderRadius: BorderRadius.only(
+                          //                 topRight: Radius.circular(16),
+                          //                 bottomRight: Radius.circular(16),
+                          //               ),
+                          //             ),
+                          //             padding: const EdgeInsets.symmetric(vertical: 16),
+                          //           ),
+                          //           child: Text(
+                          //             'Round Trip',
+                          //             style: GoogleFonts.poppins(
+                          //               fontSize: 15,
+                          //               fontWeight: FontWeight.w600,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          //
+                          // const SizedBox(height: 6.0,),
                           // Date & Time
                           Row(
                             // mainAxisAlignment: MainAxisAlignment.center,
@@ -143,16 +143,30 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           ),
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
+                            controller.tripTypeController,
+                            Icons.mode_of_travel,
+                            "Trip Type",
+                            hintText:
+                            "Trip Type",
+                            keyboard: TextInputType.name,
+                            expands: false,
+
+                          ),
+                          const SizedBox(height: 10.0,),
+                          buildInputTextFiels(
                             controller.pickupLocationController,
+                            Icons.location_on,
                             "Pickup Location",
                             hintText:
                             "Pickup Location",
                             keyboard: TextInputType.name,
                             expands: false,
+
                           ),
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.dropLocationController,
+                            Icons.location_on,
                             "Drop Location",
                             hintText:
                             "Drop Location",
@@ -163,6 +177,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
 
                           buildInputTextFiels(
                             controller.mobileController,
+                            Icons.call,
                             "Mobile Number",
                             hintText:
                             "Mobile Number",
@@ -172,6 +187,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.priceController,
+                            Icons.currency_rupee,
                             "Price",
                             hintText:
                             "Price",
@@ -181,6 +197,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.vehicleController,
+                            Icons.car_rental,
                             "Vehicle",
                             hintText:
                             "Vehicle",
@@ -190,6 +207,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.remarkController,
+                            Icons.message,
                             "Message",
                             hintText:
                             "remark",
@@ -261,16 +279,24 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                               Expanded(
                                 child: Container(
                                   margin: const EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.all(8.0),
                                   child: buildInputTextFiels(
                                     controller.messageController,
+                                    Icons.message,
                                     "",
                                     hintText:
                                         "Write or Paste your booking details...",
                                     keyboard: TextInputType.multiline,
-                                    expands: true,
+                                    expands: false,
+                                    showIcon: false,
+                                    maxLines: 5,
+                                    focusNode: controller.focusNode
                                   ),
                                 ),
+
                               ),
+
+
 
                               /// 👇 Button
                               SizedBox(
@@ -315,18 +341,109 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                             ),
                                           ],
                                         )
-                                      : const Text(
-                                          "Extract Booking Details",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                      : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                                "Get Booking Details",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                           ),
-                                        )),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15.0),
+                                            child: Transform.rotate(
+                                              angle: -0.6,
+                                              child: Image.asset(
+                                                "assets/images/ic_extract.png",
+                                                fit: BoxFit.contain,
+                                                width: 30,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )),
                                 ),
                               ),
+                              SizedBox(height: 50,),
+                              Container(
+                                margin: EdgeInsets.all(8.0),
+                                // height: MediaQuery.of(context).size.height*0.2,
+                                // color: Color(0xFF6A1B9A),
+                                decoration: BoxDecoration(
+                                  // color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Color(0xFF6A1B9A).withOpacity(0.2),),
+                                ),
+                                // color: Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    children: [
+                                      Text("!! USE TEXT FORMAT",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF6A1B9A),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text(" Patna Tu Ranchi drop date 6 March time 10:00 AM ka type Sedan Call : 8888888888  ",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xFF6A1B9A),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
 
-                              const SizedBox(height: 20),
+
+                                    ],
+                                  ),
+                                ),
+
+                              ),
+
+                              SizedBox(height: 10,),
+                              // Container(
+                              //   width: double.infinity,
+                              //   height: 60,
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.white,
+                              //     borderRadius: BorderRadius.circular(6),
+                              //     border: Border.all(
+                              //       color: Color(0xFF6A1B9A).withOpacity(0.5),
+                              //       width: 0.5,
+                              //     ),
+                              //   ),
+                              //   child:
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text("Check Video",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF6A1B9A),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        "assets/images/ic_youtube.png",
+                                        fit: BoxFit.contain,
+                                        width: 50,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              // ),
+
+                              const SizedBox(height: 10),
                             ],
                           ),
                   ),
@@ -338,6 +455,8 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
 
   Widget buildInputTextFiels(
       TextEditingController controller,
+
+      IconData icon,
       String label, { // this will be the floating label
         String hintText = "",
         TextInputType keyboard = TextInputType.text,
@@ -347,9 +466,12 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
         int? maxLines = 1,
         int? minLines,
         bool expands = false,
+        bool showIcon = true,
+        FocusNode? focusNode, // ✅ nullable optional
       }) {
     return TextField(
       controller: controller,
+      focusNode: focusNode,
       keyboardType: keyboard,
       inputFormatters: inputFormatters,
       maxLines: expands ? null : maxLines,
@@ -375,19 +497,24 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
         errorStyle: const TextStyle(color: Colors.red),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
-          borderSide: const BorderSide(
-            color: Color(0xFF6A1B9A),
-            width: 1.5,
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.4), // 👈 light color
+            width: 0.5,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.4), // 👈 light color
+            width: 0.5,
+          ),
+
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
-          borderSide: const BorderSide(
-            color: Color(0xFF6A1B9A),
-            width: 1.5,
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.4), // 👈 light color
+            width: 0.5,
           ),
         ),
         errorBorder: OutlineInputBorder(
@@ -398,6 +525,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
           borderRadius: BorderRadius.circular(7),
           borderSide: const BorderSide(color: Colors.red),
         ),
+        prefixIcon:  !showIcon ? null : Container(child: Icon(icon, color: Color(0xFF6A1B9A), size: 18,), )
       ),
     );
   }
@@ -470,7 +598,11 @@ class _DateField extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(
+                  // color: Colors.grey.shade300,
+                color: Colors.grey.withOpacity(0.3), // 👈 light color
+                width: 0.5,
+              ),
             ),
             child: Row(
               children: [
@@ -536,7 +668,11 @@ class _TimeField extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(
+                  // color: Colors.grey.shade300,
+                color: Colors.grey.withOpacity(0.3), // 👈 light color
+                width: 0.5,
+              ),
             ),
             child: Row(
               children: [

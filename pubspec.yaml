@@ -98,6 +98,8 @@ flutter:
     - assets/images/ic_booked.png
     - assets/images/editing.png
     - assets/images/ic_logo.jpeg
+    - assets/images/ic_youtube.png
+    - assets/images/ic_extract.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -26,6 +26,7 @@ class SmartBookingController extends GetxController {
   final priceController = TextEditingController();
   final remarkController = TextEditingController();
   final messageController = TextEditingController();
+  final tripTypeController = TextEditingController();
 
   final RxBool isLoading = false.obs;
   final RxBool isSubmitting = false.obs;
@@ -34,6 +35,21 @@ class SmartBookingController extends GetxController {
 
   final selectedDate = Rxn<DateTime>();
   final selectedTime = Rxn<TimeOfDay>();
+
+  final focusNode = FocusNode();
+
+
+  @override
+  void onInit() {
+
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    focusNode.requestFocus();
+    super.onReady();
+  }
 
   void getBookingData() async {
     // selectedDate.value = DateTime.parse("2026-04-03");
@@ -67,7 +83,7 @@ class SmartBookingController extends GetxController {
         selectedTime.value = parseTime(gemin_data['pickup_time']);
 
         print("selectedTime.value ${selectedTime.value}");
-
+        tripTypeController.text = gemin_data['trip_type'];
         if(!gemin_data['trip_type']){
           tripType.value = "one_way";
         }

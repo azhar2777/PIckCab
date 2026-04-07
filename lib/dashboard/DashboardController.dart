@@ -29,7 +29,7 @@ class DashboardController  extends GetxController {
   // Show Smart booking
   final RxBool showSmartBooking = false.obs;
   final List<String> allowedMobiles = <String>[
-    "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210"
+    "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
   ];
 
   void changeTab(int index) {
