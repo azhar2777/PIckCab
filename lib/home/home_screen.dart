@@ -174,22 +174,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Center(
                         child: Stack(
                           children: [
-                            Center(
-                              child: Image.asset(
-                                "assets/images/ic_logo.jpeg",
-                                fit: BoxFit.contain,
-                                // width: MediaQuery.of(context).size.width*0.95,
-                                height: 100,
-                              ),
-                            ),
+                            // Center(
+                            //   child: Image.asset(
+                            //     "assets/images/ic_logo.jpeg",
+                            //     fit: BoxFit.contain,
+                            //     // width: MediaQuery.of(context).size.width*0.95,
+                            //     height: 100,
+                            //   ),
+                            // ),
                             Center(
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
-                                  child: CircularProgressIndicator(
-                                color: Color(0xFF6A1B9A),
-                              ),
-
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 1.5,
+                                  color: Color(0xFF6A1B9A),
+                                ),
                               ),
                             ),
                           ],

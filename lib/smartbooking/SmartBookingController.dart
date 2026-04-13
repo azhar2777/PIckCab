@@ -43,11 +43,19 @@ class SmartBookingController extends GetxController {
   void onInit() {
 
     super.onInit();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        focusNode.requestFocus();
+      });
+    });
   }
+
+
 
   @override
   void onReady() {
-    focusNode.requestFocus();
+    // focusNode.requestFocus();
+
     super.onReady();
   }
 
@@ -77,14 +85,35 @@ class SmartBookingController extends GetxController {
         pickupLocationController.text = gemin_data['pickup_location'];
         dropLocationController.text = gemin_data['drop_location'];
         mobileController.text = gemin_data['mobile_number'];
-        priceController.text = gemin_data['amount'];
-        remarkController.text = gemin_data['remark'];
+        // priceController.text = gemin_data['amount'];
+        // remarkController.text = gemin_data['remark'];
+        print(gemin_data['vehicle']);
+        vehicleController.text = 'Sedan';
+        if(gemin_data['vehicle'].toString().isNotEmpty){
+          vehicleController.text = gemin_data['vehicle'];
+        }
+
+        if(gemin_data['amount'].toString().isNotEmpty){
+          priceController.text = gemin_data['amount'];
+        }
+        else{
+          priceController.text = '';
+        }
+
+        if(gemin_data['remark'].toString().isNotEmpty){
+          remarkController.text = gemin_data['remark'];
+        }
+        else{
+          remarkController.text = '';
+        }
+
+
         selectedDate.value = DateTime.parse(gemin_data['pickup_date']);
         selectedTime.value = parseTime(gemin_data['pickup_time']);
 
         print("selectedTime.value ${selectedTime.value}");
         tripTypeController.text = gemin_data['trip_type'];
-        if(!gemin_data['trip_type']){
+        if(!gemin_data['trip_type'].toString().isNotEmpty){
           tripType.value = "one_way";
         }
         else{
@@ -186,51 +215,55 @@ class SmartBookingController extends GetxController {
     if (!validateInputs()) return;
     isSubmitting.value = true;
 
-    // try {
-    //   var postData = {
-    //     'mobile_number' : mobileController.text.trim().isEmpty ? '' : mobileController.text.trim(),
-    //     'vehicle' : vehicleController.text.trim().isEmpty ? 'Car' : vehicleController.text.trim(),
-    //     'pickup_location' : pickupLocationController.text.trim().isEmpty ? '' : pickupLocationController.text.trim(),
-    //     'drop_location' : dropLocationController.text.trim().isEmpty ? '' : dropLocationController.text.trim(),
-    //     'trip_type' : tripType.value,
-    //     "pickup_date": selectedDate.value!.toIso8601String().substring(0, 10),
-    //     "pickup_time": selectedTime.value !=null ? selectedTime.value!.format(Get.context!):'',
-    //     'remark' : remarkController.text.trim().isEmpty ? '' : remarkController.text.trim(),
-    //     'price' : priceController.text.trim().isEmpty ? '' : priceController.text.trim(),
-    //
-    //   };
-    //   print("$appurl/addNewBookingFromMessage");
-    //   print("postData $postData ");
-    //   final response = await http.post(
-    //     Uri.parse("$appurl/addNewBookingFromMessage"),
-    //     headers: {"Content-Type": "application/x-www-form-urlencoded"},
-    //     body: postData,
-    //   );
-    //
-    //   final json = jsonDecode(response.body);
-    //   print(json);
-    //   if (json["status"] == true || json["status"] == "true") {
-    //     sendBookingNotification(json['booking_id'].toString());
-    //     showBookingForm.value = false;
-    //     clearForm();
-    //     CustomNotification.show(
-    //       title: "Success",
-    //       message: json['message'],
-    //       isSuccess: true,
-    //     );
-    //   }
-    //   else{
-    //     CustomNotification.show(
-    //       title: "Failed",
-    //       message: json['message'],
-    //       isSuccess: false,
-    //     );
-    //   }
-    //   isSubmitting.value = false;
-    // } catch (e) {
-    //   debugPrint("error while getting booking details : $e");
-    //   isSubmitting.value = false;
-    // }
+    try {
+      var postData = {
+        'mobile_number' : mobileController.text.trim().isEmpty ? '' : mobileController.text.trim(),
+        'vehicle' : vehicleController.text.trim().isEmpty ? 'Sedan' : vehicleController.text.trim(),
+        'pickup_location' : pickupLocationController.text.trim().isEmpty ? '' : pickupLocationController.text.trim(),
+        'drop_location' : dropLocationController.text.trim().isEmpty ? '' : dropLocationController.text.trim(),
+        'trip_type' : tripType.value,
+        "pickup_date": selectedDate.value!.toIso8601String().substring(0, 10),
+        "pickup_time": selectedTime.value !=null ? selectedTime.value!.format(Get.context!):'',
+        'remark' : remarkController.text.trim().isEmpty ? '' : remarkController.text.trim(),
+        'price' : priceController.text.trim().isEmpty ? '' : priceController.text.trim(),
+
+      };
+      print("$appurl/addNewBookingFromMessage");
+      print("postData $postData ");
+      final response = await http.post(
+        Uri.parse("$appurl/addNewBookingFromMessage"),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: postData,
+      );
+
+      final json = jsonDecode(response.body);
+      print(json);
+      if (json["status"] == true || json["status"] == "true") {
+
+        Future.delayed(Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        showBookingForm.value = false;
+        sendBookingNotification(json['booking_id'].toString());
+        clearForm();
+        CustomNotification.show(
+          title: "Success",
+          message: json['message'],
+          isSuccess: true,
+        );
+      }
+      else{
+        CustomNotification.show(
+          title: "Failed",
+          message: json['message'],
+          isSuccess: false,
+        );
+      }
+      isSubmitting.value = false;
+    } catch (e) {
+      debugPrint("error while getting booking details : $e");
+      isSubmitting.value = false;
+    }
 
 
   }

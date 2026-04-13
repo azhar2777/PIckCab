@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -7,12 +9,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pickcab_partner/alerts/alerts_screen.dart';
 import 'package:pickcab_partner/my_bookings/my_booking_screen.dart';
 import 'package:pickcab_partner/profile/profile_screen.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:pickcab_partner/smartbooking/SmartBookingController.dart';
 
 import '../home/home_screen.dart';
 import 'DashboardController.dart';
 
 class DashboardScreen extends StatefulWidget {
   final int selectedTab;
+
   const DashboardScreen({super.key, required this.selectedTab});
 
   @override
@@ -29,11 +34,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const ProfileScreen(),
   ];
 
+  var bottomheight = 60.0;
+
   @override
   void initState() {
 
     super.initState();
     controller.selectedIndex.value =  widget.selectedTab !=null ? widget.selectedTab : 0 ;
+    _checkAndroidVersion(); // 👈 call async method
+
+
+  }
+
+  void _checkAndroidVersion() async {
+    if (Platform.isAndroid) {
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+
+      if (androidInfo.version.sdkInt >= 35) {
+        setState(() {
+          bottomheight = 75.0;
+        });
+      }
+    }
   }
 
 
@@ -48,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
 
       bottomNavigationBar: SizedBox(
-        height: 60,
+        height: bottomheight,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -117,6 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             Positioned(
+              bottom: bottomheight == 60 ? 0 : 10,
               child: GestureDetector(
                 onTap: () => _showPostBottomSheet(context),
                 child: Container(
@@ -172,9 +196,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(height: controller.showSmartBooking.value ? 20: 0),
               controller.showSmartBooking.value ?
               _buildPostOption(
-                icon: Icons.add_road,
-                title: 'Smart Booking',
-                onTap: () => {Get.back(), controller.navigateToSmartBooking()},
+                icon: Icons.auto_awesome,
+                title: 'Quick Booking with AI',
+                onTap: () {
+                  Get.delete<SmartBookingController>();
+                  Get.put(SmartBookingController());
+
+                  Get.back();
+                  controller.navigateToSmartBooking();
+                },
               ):Container(),
               const SizedBox(height: 20),
 
@@ -208,9 +238,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        // decoration: BoxDecoration(
+        //   border: Border.all(color: Colors.grey.shade300),
+        //   borderRadius: BorderRadius.circular(12),
+        // ),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          color: Colors.white, // required for shadow visibility
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+          boxShadow: title == 'Quick Booking with AI' ? [
+            BoxShadow(
+              color: Color(0xFF6A1B9A),
+              blurRadius: 8,
+              spreadRadius: 1,
+              offset: const Offset(0, 3), // shadow position
+            ),
+          ]:[],
         ),
         child: Row(
           children: [

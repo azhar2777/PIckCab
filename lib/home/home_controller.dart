@@ -71,7 +71,7 @@ class HomeController extends GetxController {
     try{
       isApiCalled.value = false;
       await fetchAvailableBookings();
-      await fetchAvailablefreeBookings();
+      fetchAvailablefreeBookings();
     }
     catch (e) {
       debugPrint("callAllFunctions error: $e");
@@ -723,6 +723,7 @@ class HomeController extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        isApiCalled.value = true;
         final data = jsonDecode(response.body);
         print(data);
         if (data["status"] == true && data["available_bookings"] != null) {
@@ -755,7 +756,7 @@ class HomeController extends GetxController {
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
                   ? b["remarks"]
                   : "No remarks",
-              'verified': u["aadhar_verified"]?.toString() == "1",
+              'verified': u["aadhar_verified"]?.toString() == "0",
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
             };

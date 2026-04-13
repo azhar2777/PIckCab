@@ -166,6 +166,7 @@ class ProfileController extends GetxController {
         final json = jsonDecode(response.body);
         final bool status = json["status"] ?? false;
         final String message = json["message"] ?? "";
+        print(response.body);
 
         if (status) {
           CustomNotification.show(

@@ -26,11 +26,13 @@ Future<void> main() async {
     NotificationServiceNew().handleInitialMessage(initialMessage);
   }
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

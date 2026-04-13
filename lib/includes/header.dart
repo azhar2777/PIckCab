@@ -330,7 +330,7 @@ class _AppHeaderState extends State<AppHeader> {
 
     if (mounted) {
       print("navigateToHome");
-      Get.offAll(() => const DashboardScreen(selectedTab: 1));
+      Get.offAll(() => const DashboardScreen(selectedTab: 0));
       // Get.to(() => DashboardScreen(selectedTab: 0), transition: Transition.fadeIn);
 
     }

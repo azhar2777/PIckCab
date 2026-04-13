@@ -27,6 +27,9 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
       canPop: !controller.showBookingForm.value, // only allow pop if form is hidden
       onPopInvokedWithResult: (bool didPop, Object? result) {
         if (controller.showBookingForm.value) {
+          Future.delayed(Duration(milliseconds: 100), () {
+            controller.focusNode.requestFocus();
+          });
           // Hide the form instead of popping
           controller.showBookingForm.value = false;
           print("Booking form hidden, back blocked");
@@ -54,6 +57,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                     child: controller.showBookingForm.value
                         ? Container(
                       margin: EdgeInsets.symmetric(horizontal: 6,),
+                      color: Color(0xFFF3EDF7),
                       child: ListView(
                         children: [
                           const SizedBox(height: 6),
@@ -274,23 +278,30 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                         ],
                       ),
                     )
-                        : Column(
+                        : SingleChildScrollView(
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: MediaQuery.of(context).size.height-100,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
                             children: [
+
                               Expanded(
                                 child: Container(
                                   margin: const EdgeInsets.only(bottom: 10),
                                   padding: EdgeInsets.all(8.0),
                                   child: buildInputTextFiels(
-                                    controller.messageController,
-                                    Icons.message,
-                                    "",
-                                    hintText:
-                                        "Write or Paste your booking details...",
-                                    keyboard: TextInputType.multiline,
-                                    expands: false,
-                                    showIcon: false,
-                                    maxLines: 5,
-                                    focusNode: controller.focusNode
+                                      controller.messageController,
+                                      Icons.message,
+                                      "",
+                                      hintText:
+                                      "Write or Paste your booking details...",
+                                      keyboard: TextInputType.multiline,
+                                      expands: true,
+                                      showIcon: false,
+                                      focusNode: controller.focusNode
                                   ),
                                 ),
 
@@ -300,20 +311,20 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
 
                               /// 👇 Button
                               SizedBox(
-                                width: double.infinity,
+                                width: double.infinity - 20,
                                 child: ElevatedButton(
                                   onPressed: controller.isSubmitting.value
                                       ? null
                                       : () {
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
 
-                                          controller.getBookingData();
-                                        },
+                                    controller.getBookingData();
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF6A1B9A),
                                     padding:
-                                        const EdgeInsets.symmetric(vertical: 18),
+                                    const EdgeInsets.symmetric(vertical: 18),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
                                     ),
@@ -321,62 +332,67 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                   ),
                                   child: Obx(() => controller.isSubmitting.value
                                       ? const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: 24,
-                                              height: 24,
-                                              child: CircularProgressIndicator(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(width: 16),
-                                            Text(
-                                              "Extracting...",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                      Text(
+                                        "Extracting...",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                       : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Center(
-                                            child: Text(
-                                                "Get Booking Details",
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10.0),
+                                        child: Icon(Icons.rocket_launch_sharp, size: 30, color: Colors.white,),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          "Get Booking Details",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15.0),
-                                            child: Transform.rotate(
-                                              angle: -0.6,
-                                              child: Image.asset(
-                                                "assets/images/ic_extract.png",
-                                                fit: BoxFit.contain,
-                                                width: 30,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10.0),
+                                        child: Transform.rotate(
+                                          angle: -0.6,
+                                          child: Image.asset(
+                                            "assets/images/ic_extract.png",
+                                            fit: BoxFit.contain,
+                                            width: 30,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                                 ),
                               ),
-                              SizedBox(height: 50,),
+                              SizedBox(height: 10,),
                               Container(
+                                width: double.infinity,
                                 margin: EdgeInsets.all(8.0),
                                 // height: MediaQuery.of(context).size.height*0.2,
                                 // color: Color(0xFF6A1B9A),
                                 decoration: BoxDecoration(
-                                  // color: Colors.white,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(color: Color(0xFF6A1B9A).withOpacity(0.2),),
                                 ),
@@ -384,24 +400,106 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("!! USE TEXT FORMAT",
+                                      Text("Demo Content",
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           color: Color(0xFF6A1B9A),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 10,),
-                                      Text(" Patna Tu Ranchi drop date 6 March time 10:00 AM ka type Sedan Call : 8888888888  ",
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Color(0xFF6A1B9A),
-                                          fontWeight: FontWeight.bold,
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(6.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0X73D7BBDA),
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(color: Color(
+                                              0xFFD7BBDA).withOpacity(0.2),),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+
+                                              //
+                                              // Text("Patna To Ranchi",
+                                              //   style: TextStyle(
+                                              //     fontSize: 14,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+                                              // SizedBox(height: 2,),
+                                              // Text("6 March | 10:00 AM",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+                                              // Text("Sedan",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+                                              // Text("8888888888",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+                                              // SizedBox(height: 5,),
+                                              // Container(
+                                              //   height: 0.3,
+                                              //   width: double.infinity,
+                                              //   color: Color(0x406A1B9A),
+                                              // ),
+                                              SizedBox(height: 5,),
+
+                                              Text("वाराणसी से कोलकाता 6 मार्च 10:00 AM",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xCC6A1B9A),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+
+                                              SizedBox(height: 2,),
+                                              // Text("6 मार्च | 10:00 AM",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+                                              Text("Dzire Call 8888888888",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xCC6A1B9A),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              // Text("8888888888",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
+
+
+
+
+                                            ],
+                                          ),
                                         ),
                                       ),
-
-
                                     ],
                                   ),
                                 ),
@@ -409,43 +507,43 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                               ),
 
                               SizedBox(height: 10,),
-                              // Container(
-                              //   width: double.infinity,
-                              //   height: 60,
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.white,
-                              //     borderRadius: BorderRadius.circular(6),
-                              //     border: Border.all(
-                              //       color: Color(0xFF6A1B9A).withOpacity(0.5),
-                              //       width: 0.5,
-                              //     ),
-                              //   ),
-                              //   child:
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text("Check Video",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFF6A1B9A),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Image.asset(
-                                        "assets/images/ic_youtube.png",
-                                        fit: BoxFit.contain,
-                                        width: 50,
-                                      ),
-                                    ],
-                                  ),
+
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Color(0xFF6A1B9A).withOpacity(0.2),),
                                 ),
-                              // ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/ic_youtube.png",
+                                      fit: BoxFit.contain,
+                                      width: 50,
+                                    ),
+                                    SizedBox(width: 10,),
+                                    const Text("डेमो वीडियो देखें",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF6A1B9A),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+
 
                               const SizedBox(height: 10),
                             ],
                           ),
+                        ),
+                      ),
+                    ),
                   ),
           ),
         ),
