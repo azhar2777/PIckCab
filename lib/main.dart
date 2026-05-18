@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,7 +26,9 @@ Future<void> main() async {
   if (initialMessage != null) {
     NotificationServiceNew().handleInitialMessage(initialMessage);
   }
-
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+  );
   runApp(MyApp());
 }
 

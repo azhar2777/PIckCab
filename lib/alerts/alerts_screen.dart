@@ -26,8 +26,10 @@ class _AlertsScreenState extends State<AlertsScreen> {
       Get.put(AlertsController(), permanent: true);
     }
     controller = Get.find<AlertsController>();
-    controller.fetchCities();
+    // controller.fetchCities();
   }
+
+
 
   // ───────────────────────────────────────────────
   //   Helper: extract clean city name from description

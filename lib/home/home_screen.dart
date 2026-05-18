@@ -377,13 +377,24 @@ class _HomeScreenState extends State<HomeScreen> {
     const double lineHeight = 1.8;
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          from,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-        ),
-        const SizedBox(width: 8),
         Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Flexible(
+                child: Text(
+                  from,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 4),
+        Container(
+          width: MediaQuery.of(context).size.width *0.4,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -459,11 +470,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        const SizedBox(width: 8),
-        Text(
-          to,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                child: Text(
+                  to,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
       ],
     );
   }
@@ -621,28 +642,71 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF3E5F5),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            color: const Color.fromARGB(166, 29, 178, 3)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                      // decoration: BoxDecoration(
+                      //   // color: const Color(0xFFF3E5F5),
+                      //   // color: Colors.red,
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   border: Border.all(
+                      //       color: const Color.fromARGB(166, 29, 178, 3)),
+                      // ),
+                      child: Stack(
                         children: [
-                          const Icon(Icons.shield,
-                              color: Color.fromARGB(213, 4, 156, 19), size: 15),
-                          const SizedBox(width: 4),
-                          Text(
-                            "Verified",
-                            style: TextStyle(
-                              color: const Color.fromARGB(208, 3, 191, 21),
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Image.asset(
+                            "assets/images/ic_aadhar.png",
+                            width: 70,
+                            height: 40,
+                            fit: BoxFit.contain,
                           ),
+                          Positioned(
+                              bottom: 5,
+                              right: 0,
+                              child: Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  // color: const Color(0xFFF3E5F5),
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          166, 29, 178, 3)),
+                                ),
+                                child: Center(
+                                  child:
+                                      Text(
+                                        "Verified",
+                                        style: TextStyle(
+                                          color:  Colors.white,
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                  // Icon(
+                                  //   Icons.check,
+                                  //   color: Colors.white,
+                                  //   size: 30,
+                                  // ),
+                                ),
+                              )),
                         ],
                       ),
+
+                      // Row(
+                      //   mainAxisSize: MainAxisSize.min,
+                      //   children: [
+                      //     const Icon(Icons.shield,
+                      //         color: Color.fromARGB(213, 4, 156, 19), size: 15),
+                      //     const SizedBox(width: 4),
+                      //     Text(
+                      //       "Verified",
+                      //       style: TextStyle(
+                      //         color: const Color.fromARGB(208, 3, 191, 21),
+                      //         fontSize: 11,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                 ],
               ),

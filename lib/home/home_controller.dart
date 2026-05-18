@@ -716,7 +716,7 @@ class HomeController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "0";
 
-      final url = Uri.parse("$appurl/available_bookings?user_id=$userId");
+      final url = Uri.parse("$appurl/available_bookings_new?user_id=$userId");
       final response = await http.get(
         url,
         headers: {'Accept': 'application/json'},
@@ -809,7 +809,8 @@ class HomeController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "0";
 
-      final url = Uri.parse("$appurl/free-booking/all?user_id=$userId");
+      // final url = Uri.parse("$appurl/free-booking/all?user_id=$userId");
+      final url = Uri.parse("$appurl/free-booking/allBookings?user_id=$userId");
       final response = await http.get(
         url,
         headers: {'Accept': 'application/json'},
@@ -1138,8 +1139,11 @@ ${booking['isTwoWay'] ? 'Round Trip' : 'One Way'}
 RATE       : ${booking['price']}
 Date       : ${formatTripDate(booking['date'])} @ ${booking['time']}
 Car Type   : ${booking['carType']}
-*Call      : *
+*Call      : 
 
+!! IMPORTANT 
+पहले बुकिंग प्राप्त करने के लिए, अभी मोबाइल📱 एप्लीकेशन डाउनलोड करें
+👇
 PICKCAB PARTNER AAP download link
 $appLink
     """

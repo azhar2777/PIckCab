@@ -238,6 +238,7 @@ class BookingDetailsController extends GetxController {
   }
   Future<void> shareBooking() async {
     final booking = bookingDetails.value;
+    final userDetails = userData.value;
     final from = booking['start_location'] ?? 'Unknown';
     final to = booking['end_location'] ?? 'Unknown';
     final date = formatTripDate(booking['trip_date']);
@@ -277,6 +278,7 @@ class BookingDetailsController extends GetxController {
     text += "\nVehicle:- " + carType;
     text += "\nPickup Time:- " + pickupTime;
     text += "\nRate :- " + price;
+    text += "\nCall :- " + userDetails['user_mobile'];
 
     if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
       text += "\n\n\nMessage:- " + booking['remarks'];

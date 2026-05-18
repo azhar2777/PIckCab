@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -8,6 +9,7 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_app_update/in_app_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../alerts/alerts_screen.dart';
@@ -27,7 +29,7 @@ class DashboardController  extends GetxController {
 
   var selectedIndex = 0.obs;
   // Show Smart booking
-  final RxBool showSmartBooking = false.obs;
+  final RxBool showSmartBooking = true.obs;
   final List<String> allowedMobiles = <String>[
     "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
   ];
@@ -45,7 +47,45 @@ class DashboardController  extends GetxController {
   void onInit() {
     fetchUserProfile();
     super.onInit();
+
+    /// Run after dashboard is loaded
+    /// Run after dashboard fully renders
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(seconds: 10));
+
+      if (!isClosed) {
+        checkForUpdateSafely();
+      }
+    });
+
   }
+
+
+  Future<void> checkForUpdateSafely() async {
+    try {
+
+      final info = await InAppUpdate.checkForUpdate()
+          .timeout(const Duration(seconds: 5));
+
+      final updateAvailable =
+          info.updateAvailability ==
+              UpdateAvailability.updateAvailable;
+
+      final immediateAllowed =
+          info.immediateUpdateAllowed;
+
+      if (updateAvailable && immediateAllowed) {
+
+        // await InAppUpdate.performImmediateUpdate();
+        await InAppUpdate.startFlexibleUpdate();
+        await InAppUpdate.completeFlexibleUpdate();
+      }
+
+    } catch (e) {
+      debugPrint("Update check error: $e");
+    }
+  }
+
 
   // ==================== NAVIGATION ====================
 
@@ -106,6 +146,9 @@ class DashboardController  extends GetxController {
           await prefs.setString("mobile_number", data['user_mobile']);
 
           if(allowedMobiles.contains("${data['user_mobile']}")){
+            showSmartBooking.value = true;
+          }
+          else{
             showSmartBooking.value = true;
           }
 

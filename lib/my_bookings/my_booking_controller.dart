@@ -377,8 +377,8 @@ class MyBookingController extends GetxController {
           .timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
-        print("response_my_bookings");
-        print(""+response.body);
+        // print("response_my_bookings");
+        // print(""+response.body);
         final json = jsonDecode(response.body);
 
         if (json["status"] == true && json["bookings"] != null) {
@@ -457,6 +457,8 @@ class MyBookingController extends GetxController {
               'pp_id': item["user_unq_id"],
               'user_image': item["user_image"],
               'user_city': item["city"],
+              'booking_name': item["booking_name"],
+              'booking_mobile': item["booking_mobile"]
             };
           }).toList();
 
@@ -707,6 +709,10 @@ class MyBookingController extends GetxController {
     } finally {
       isSubmitting.value = false;
     }
+  }
+
+  void shareBooking(){
+
   }
 
   void markAsBookedByOwner(String bookingId, bool markBooked, int currentIndex) async {

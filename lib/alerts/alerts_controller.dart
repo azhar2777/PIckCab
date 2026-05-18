@@ -36,6 +36,12 @@ class AlertsController extends GetxController {
     fetchIndianCities(); // Load once
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    fetchCities();
+  }
+
   void searchCities(String query) {
     if (query.trim().isEmpty) {
       filteredCities.assignAll(allCities);

@@ -336,7 +336,16 @@ class NewBookingScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: const AppHeader(showBackButton: false),
+      // appBar: const AppHeader(showBackButton: false),
+      appBar: AppBar(
+        title: Text(
+          "Post New Booking",
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(0xFF6A1B9A),
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
       backgroundColor: Colors.grey.shade50,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -348,13 +357,13 @@ class NewBookingScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Create New Booking',
-              style: GoogleFonts.montserrat(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            // Text(
+            //   'Create New Booking',
+            //   style: GoogleFonts.montserrat(
+            //     fontSize: 24,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
             const SizedBox(height: 30),
 
             // Trip Type

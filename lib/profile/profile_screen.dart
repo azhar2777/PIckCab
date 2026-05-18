@@ -886,72 +886,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 32),
 
                 // Unique ID Card
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF6A1B9A).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: const Color(0xFF6A1B9A),
-                      width: 1.5,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.tag, color: Color(0xFF6A1B9A), size: 32),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Your PP ID",
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                color: Colors.grey.shade700,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            SelectableText(
-                              user['user_unq_id']?.toString() ?? 'N/A',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF6A1B9A),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          final id = user['user_unq_id']?.toString() ?? '';
-                          if (id.isNotEmpty && id != 'N/A') {
-                            Clipboard.setData(ClipboardData(text: id));
-                            Get.snackbar(
-                              "Copied!",
-                              "ID: $id",
-                              backgroundColor: Colors.green.shade600,
-                              colorText: Colors.white,
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF6A1B9A),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.copy,
-                            color: Colors.white,
-                            size: 22,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.all(20),
+                //   decoration: BoxDecoration(
+                //     color: const Color(0xFF6A1B9A).withOpacity(0.1),
+                //     borderRadius: BorderRadius.circular(16),
+                //     border: Border.all(
+                //       color: const Color(0xFF6A1B9A),
+                //       width: 1.5,
+                //     ),
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       const Icon(Icons.tag, color: Color(0xFF6A1B9A), size: 32),
+                //       const SizedBox(width: 16),
+                //       Expanded(
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               "Your PP ID",
+                //               style: GoogleFonts.poppins(
+                //                 fontSize: 13,
+                //                 color: Colors.grey.shade700,
+                //               ),
+                //             ),
+                //             const SizedBox(height: 4),
+                //             SelectableText(
+                //               user['user_unq_id']?.toString() ?? 'N/A',
+                //               style: GoogleFonts.montserrat(
+                //                 fontSize: 24,
+                //                 fontWeight: FontWeight.bold,
+                //                 color: const Color(0xFF6A1B9A),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () {
+                //           final id = user['user_unq_id']?.toString() ?? '';
+                //           if (id.isNotEmpty && id != 'N/A') {
+                //             Clipboard.setData(ClipboardData(text: id));
+                //             Get.snackbar(
+                //               "Copied!",
+                //               "ID: $id",
+                //               backgroundColor: Colors.green.shade600,
+                //               colorText: Colors.white,
+                //             );
+                //           }
+                //         },
+                //         child: Container(
+                //           padding: const EdgeInsets.all(12),
+                //           decoration: BoxDecoration(
+                //             color: const Color(0xFF6A1B9A),
+                //             borderRadius: BorderRadius.circular(12),
+                //           ),
+                //           child: const Icon(
+                //             Icons.copy,
+                //             color: Colors.white,
+                //             size: 22,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () => _launchUrl(

@@ -44,7 +44,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: Text(
-            "Create Booking",
+            controller.showBookingForm.value ? "Booking Details" : "Create Booking",
             style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
           ),
           backgroundColor: const Color(0xFF6A1B9A),
@@ -57,16 +57,16 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                     child: controller.showBookingForm.value
                         ? Container(
                       margin: EdgeInsets.symmetric(horizontal: 6,),
-                      color: Color(0xFFF3EDF7),
+                      // color: Color(0xFFF3EDF7),
                       child: ListView(
                         children: [
-                          const SizedBox(height: 6),
-                          Center(
-                            child: Text("Booking Details",
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF6A1B9A),),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                          // const SizedBox(height: 6),
+                          // Center(
+                          //   child: Text("Booking Details",
+                          //     style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF6A1B9A),),
+                          //   ),
+                          // ),
+                          const SizedBox(height: 20),
                           // Obx(
                           //       () => Row(
                           //     children: [
@@ -131,21 +131,6 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                           // ),
                           //
                           // const SizedBox(height: 6.0,),
-                          // Date & Time
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: _DateField(controller: controller, context: context, label: "Pickup Date",),
-                              ),
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: _TimeField(controller: controller, label: "Pickup Time",),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.tripTypeController,
                             Icons.mode_of_travel,
@@ -156,7 +141,8 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             expands: false,
 
                           ),
-                          const SizedBox(height: 10.0,),
+                          const SizedBox(height: 13.0,),
+
                           buildInputTextFiels(
                             controller.pickupLocationController,
                             Icons.location_on,
@@ -178,7 +164,28 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             expands: false,
                           ),
                           const SizedBox(height: 10.0,),
+                          // Date & Time
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: _DateField(controller: controller, context: context, label: "Pickup Date",),
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: _TimeField(controller: controller, label: "Pickup Time",),
+                              ),
+                            ],
+                          ),
 
+
+
+                          // const SizedBox(height: 10.0,),
+
+                          SizedBox(height: controller.showSmartBooking.value ? 10.0:0,),
+
+                          controller.showSmartBooking.value ?
                           buildInputTextFiels(
                             controller.mobileController,
                             Icons.call,
@@ -187,7 +194,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                             "Mobile Number",
                             keyboard: TextInputType.name,
                             expands: false,
-                          ),
+                          ):Container(),
                           const SizedBox(height: 10.0,),
                           buildInputTextFiels(
                             controller.priceController,
@@ -462,7 +469,7 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                               // ),
                                               SizedBox(height: 5,),
 
-                                              Text("वाराणसी से कोलकाता 6 मार्च 10:00 AM",
+                                              Text("वाराणसी से कोलकाता ONE WAY 6 मार्च सुबह 10:00 बजे",
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xCC6A1B9A),
@@ -478,13 +485,13 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                               //     fontWeight: FontWeight.bold,
                                               //   ),
                                               // ),
-                                              Text("Dzire Call 8888888888",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xCC6A1B9A),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                              // Text("Dzire Call 8888888888",
+                                              //   style: TextStyle(
+                                              //     fontSize: 12,
+                                              //     color: Color(0xCC6A1B9A),
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
                                               // Text("8888888888",
                                               //   style: TextStyle(
                                               //     fontSize: 12,
@@ -516,24 +523,27 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(color: Color(0xFF6A1B9A).withOpacity(0.2),),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/ic_youtube.png",
-                                      fit: BoxFit.contain,
-                                      width: 50,
-                                    ),
-                                    SizedBox(width: 10,),
-                                    const Text("डेमो वीडियो देखें",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xFF6A1B9A),
-                                        fontWeight: FontWeight.bold,
+                                child: InkWell(
+                                  onTap: controller.openVideo,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/ic_youtube.png",
+                                        fit: BoxFit.contain,
+                                        width: 50,
                                       ),
-                                    ),
+                                      SizedBox(width: 10,),
+                                      const Text("डेमो वीडियो देखें",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF6A1B9A),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -577,7 +587,8 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
       expands: expands,
       textAlignVertical: TextAlignVertical.top,
       style: GoogleFonts.poppins(
-        fontSize: 15,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
         color: const Color(0xFF333333),
       ),
       decoration: InputDecoration(
@@ -587,10 +598,12 @@ class _SmartBookingScreenState extends State<SmartBookingScreen> {
         ),
         filled: true,
         fillColor: Colors.white,
-        labelText: label, // 🔹 Floating label
+        labelStyle: TextStyle(color: controller.text.isEmpty ?  Colors.black54: Colors.purple ),
+        labelText: label, // Floating label
         floatingLabelBehavior: FloatingLabelBehavior.auto, // default behavior
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.black54),
+        // hintStyle: const TextStyle(color: Colors.black54),
+        hintStyle: const TextStyle(color: Colors.purple ),
         errorText: error?.isNotEmpty == true ? error : null,
         errorStyle: const TextStyle(color: Colors.red),
         border: OutlineInputBorder(
@@ -679,12 +692,15 @@ class _DateField extends StatelessWidget {
 // Floating label
         Obx(() {
           final hasValue = controller.selectedTime.value != null;
-          return Text(
-            label,
-            style: TextStyle(
-              fontSize: hasValue ? 12 : 12,
-              color: hasValue ? Colors.purple : Colors.grey.shade600,
-              fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
+          return Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: hasValue ? 12 : 12,
+                color: hasValue ? Colors.purple : Colors.grey.shade600,
+                fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
+              ),
             ),
           );
         }),
@@ -720,8 +736,9 @@ class _DateField extends StatelessWidget {
                       ).format(controller.selectedDate.value!)
                           : 'Select pickup date',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         color: Colors.black87,
+                        fontWeight: FontWeight.w600 ,
                       ),
                     ),
                   ),
@@ -749,12 +766,15 @@ class _TimeField extends StatelessWidget {
         // Floating label
         Obx(() {
           final hasValue = controller.selectedTime.value != null;
-          return Text(
-            label,
-            style: TextStyle(
-              fontSize: hasValue ? 12 : 12,
-              color: hasValue ? Colors.purple : Colors.grey.shade600,
-              fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
+          return Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: hasValue ? 12 : 12,
+                color: hasValue ? Colors.purple : Colors.grey.shade600,
+                fontWeight: hasValue ? FontWeight.w500 : FontWeight.normal,
+              ),
             ),
           );
         }),
@@ -784,7 +804,7 @@ class _TimeField extends StatelessWidget {
                       () => Text(
                     controller.selectedTime.value?.format(context) ??
                         'Select pickup time',
-                    style: const TextStyle(fontSize: 12, color: Colors.black87),
+                    style: const TextStyle(fontSize: 14, color: Colors.black87, fontWeight:  FontWeight.w600,),
                   ),
                 ),
               ],

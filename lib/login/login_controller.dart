@@ -170,9 +170,10 @@ class LoginController extends GetxController {
           "device_model": deviceModel,
         },
       );
-      print("phone $phone");
+      print("phone $phone otp $otp");
 
       final json = jsonDecode(response.body);
+      print("phone $json");
       var msg = json["message"];
 
       if (json["status"] == true) {
@@ -180,8 +181,19 @@ class LoginController extends GetxController {
         String message =
             "<#> $otp is your one-time Login/Signup verification code for PickCab Partner \n$appHash";
 
+
+        // "http://gitysoft.io/rest/services/sendSMS/sendGroupSms
+        // ?AUTH_KEY=YourAuthKey
+        // &message=message
+        // &senderId=DEMOOS
+        // &routeId=1
+        // &mobileNos=9999999999
+        // &smsContentType=english
+        // &entityid=NoneedIfAddedInPanel&tmid=140200000022&templateid=NoneedIfAddedInPanel&concentFailoverId=30"
+
+
         final smsUrl =
-            "http://sms.gitysoft.com/rest/services/sendSMS/sendGroupSms"
+            "http://gitysoft.io/rest/services/sendSMS/sendGroupSms"
             "?AUTH_KEY=20e676ce315bed4a3955fb13e131631d"
             "&message=${Uri.encodeComponent(message)}"
             "&senderId=PPCAB8"
@@ -191,11 +203,14 @@ class LoginController extends GetxController {
 
         final smsResponse = await http.get(Uri.parse(smsUrl));
 
+        print("smsResponse $smsResponse");
+
         if (smsResponse.statusCode == 200) {
           userId.value = json["user_id"].toString();
           showOTP.value = true;
           startResendTimer();
         } else {
+          print(smsResponse.body);
           Get.snackbar("SMS Error", "Failed to send OTP message");
         }
       } else {
@@ -203,6 +218,9 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       phoneError.value = "Failed to send OTP";
+
+      print("error in sms api");
+      print(e);
     }
 
     isLoading.value = false;

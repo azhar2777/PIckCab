@@ -248,22 +248,31 @@ class _FreebookingNewState extends State<FreebookingNew> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back, color: Colors.black),
+      //     onPressed: () => Navigator.pop(context),
+      //   ),
+      //   title: Text(
+      //     'Post Free Vehicle',
+      //     style: GoogleFonts.montserrat(
+      //       fontWeight: FontWeight.bold,
+      //       color: Colors.black,
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      // ),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Text(
           'Post Free Vehicle',
-          style: GoogleFonts.montserrat(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            fontSize: 20,
-          ),
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
+        backgroundColor: const Color(0xFF6A1B9A),
+        foregroundColor: Colors.white,
+        elevation: 0,
       ),
       backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(

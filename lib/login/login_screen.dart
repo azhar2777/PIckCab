@@ -448,10 +448,10 @@ class _LoginScreenState extends State<LoginScreen>
                                       ),
                                     ),
                                     child: Text(
-                                      "New partner? Sign Up",
+                                      "NEW PARTNER? Sign Up",
                                       style: GoogleFonts.poppins(
                                         color: Color(0xFFBA68C8),
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                         // decoration: TextDecoration.underline,
                                         // decorationColor: Colors.white70,

@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../alerts/alerts_screen.dart';
 import '../const/const.dart';
 import '../const/custom_notification.dart';
+import '../dashboard/DashboardController.dart';
+import '../dashboard/DashboardScreen.dart';
 import '../freebooking/freebooking_new.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
@@ -55,8 +57,21 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // fetchUserProfile();
+    // checkAadhaarStatus();
+  }
+
+  void loadData() {
     fetchUserProfile();
     checkAadhaarStatus();
+  }
+
+
+  @override
+  void onReady() {
+
+    super.onReady();
+    loadData();
   }
 
   @override
@@ -133,7 +148,8 @@ class ProfileController extends GetxController {
 
   // ────────────────────────────── Aadhaar OTP Request ──────────────────────────────
   Future<bool> requestAadhaarOtp({required String aadhaarNumber}) async {
-    isOtpSending.value = true;
+
+    // isOtpSending.value = true;
     refId.value = DateTime.now().millisecondsSinceEpoch.toString();
 
     try {
@@ -261,7 +277,8 @@ class ProfileController extends GetxController {
           isSuccess: true,
         );
 
-        Get.offAll(() => const ProfileScreen());
+        // Get.offAll(() => const ProfileScreen());
+        Get.offAll(() => const DashboardScreen(selectedTab: 3), transition: Transition.fadeIn);
         return true;
       } else {
         CustomNotification.show(
@@ -271,7 +288,9 @@ class ProfileController extends GetxController {
           isSuccess: false,
         );
 
-        Get.offAll(() => const ProfileScreen());
+        // Get.offAll(() => const ProfileScreen());
+        // Get.offAll(() => const DashboardScreen(selectedTab: 3), transition: Transition.fadeIn);
+        loadData();
         return false;
       }
     } catch (e) {
@@ -285,7 +304,9 @@ class ProfileController extends GetxController {
         isSuccess: false,
       );
 
-      Get.offAll(() => const ProfileScreen());
+      // Get.offAll(() => const ProfileScreen());
+      // Get.offAll(() => const DashboardScreen(selectedTab: 3), transition: Transition.fadeIn);
+      loadData();
       return false;
     } finally {
       isOtpVerifying.value = false;
@@ -294,6 +315,7 @@ class ProfileController extends GetxController {
 
   // ────────────────────────────── Check Aadhaar Status ──────────────────────────────
   Future<bool> checkAadhaarStatus() async {
+
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "";

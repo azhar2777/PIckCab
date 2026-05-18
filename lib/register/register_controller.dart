@@ -294,7 +294,7 @@ class RegisterController extends GetxController {
             "<#> $otp is your one-time Login/Signup verification code for PickCab Partner $appHash";
 
         final smsUrl =
-            "http://sms.gitysoft.com/rest/services/sendSMS/sendGroupSms"
+            "http://gitysoft.io/rest/services/sendSMS/sendGroupSms"
             "?AUTH_KEY=20e676ce315bed4a3955fb13e131631d"
             "&message=${Uri.encodeComponent(message)}"
             "&senderId=PPCAB8"

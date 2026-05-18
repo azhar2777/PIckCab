@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pickcab_partner/utils/Utils.dart';
 import '../includes/header.dart';
 import 'items/booked_card.dart';
 import 'items/booking_card.dart';
@@ -214,6 +215,9 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
           onBookedByOwner: (bookingId, value, i) => c.markAsBookedByOwner(bookings[i]['id'].toString(), value, i),
           onDelete: () =>
               _showDeleteConfirmation(context, bookings[i]['id'].toString()),
+          onShare: ()=>{
+            Utils.getShareMessage(true, bookings[i])
+            },
           onMarkAsBooked: (bookingId, unqId) async {
             await c.markAsBooked(bookingId, unqId);
           },

@@ -10,9 +10,12 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../const/const.dart';
 import '../const/custom_notification.dart';
+import '../login/login_screen.dart';
 
 class SmartBookingController extends GetxController {
   static SmartBookingController get to => Get.find();
@@ -38,17 +41,101 @@ class SmartBookingController extends GetxController {
 
   final focusNode = FocusNode();
 
+  final RxBool showSmartBooking = false.obs;
+  final List<String> allowedMobiles = <String>[
+    "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
+  ];
+
 
   @override
   void onInit() {
 
     super.onInit();
+    fetchUserProfile();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(Duration(milliseconds: 100), () {
         focusNode.requestFocus();
       });
     });
   }
+
+  void openVideo() async {
+
+
+    final Uri uri = Uri.parse("https://www.youtube.com/watch?v=PGz-Ra570Yk");
+
+    if (!await launchUrl(
+    uri,
+    mode: LaunchMode.inAppWebView, // ← this opens inside the app
+    webOnlyWindowName: '_self', // optional: helps on web platform
+    )) {
+    Get.snackbar("Error", "Could not open video");
+    }
+  }
+
+
+  // ==================== Fetch User Details ====================
+  Future<void> fetchUserProfile() async {
+
+
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString("user_id");
+
+      print(userId);
+
+      if (userId == null || userId == "0") {
+        Get.offAll(() => LoginScreen());
+        return;
+      }
+
+      final url = Uri.parse("$appurl/user_details?user_id=$userId");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final data = json["user_data"];
+          // print("UserData");
+          // print(data);
+
+          final prefs = await SharedPreferences.getInstance();
+
+          await prefs.setString("mobile_number", data['user_mobile']);
+
+          if(allowedMobiles.contains("${data['user_mobile']}")){
+            showSmartBooking.value = true;
+          }
+          else{
+            showSmartBooking.value = false;
+          }
+
+
+          // print("Prefs${prefs.getString("mobile_number")}");
+
+
+
+
+        } else {
+          throw Exception(json["message"] ?? "Failed to load profile");
+        }
+      } else {
+        throw Exception("Server error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Profile fetch error: $e");
+      CustomNotification.show(
+        title: "Connection Error",
+        message: "Failed to load profile. Pull to refresh.",
+        isSuccess: false,
+      );
+    } finally {
+
+    }
+  }
+
+
 
 
 
@@ -60,6 +147,8 @@ class SmartBookingController extends GetxController {
   }
 
   void getBookingData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String mobileNumber = prefs.getString("mobile_number").toString();
     // selectedDate.value = DateTime.parse("2026-04-03");
     // selectedTime.value = parseTime("11:50 AM");
     isSubmitting.value = true;
@@ -82,9 +171,19 @@ class SmartBookingController extends GetxController {
         var gemin_data = json['gemin_data'];
 
         pickupLocationController.text = gemin_data['vehicle'];
-        pickupLocationController.text = gemin_data['pickup_location'];
-        dropLocationController.text = gemin_data['drop_location'];
-        mobileController.text = gemin_data['mobile_number'];
+        pickupLocationController.text = gemin_data['pickup_location'].toString().toUpperCase();
+        dropLocationController.text = gemin_data['drop_location'].toString().toUpperCase();
+
+
+
+        if(allowedMobiles.contains(mobileNumber)){
+          mobileController.text = gemin_data['mobile_number'];
+        }
+        else{
+          mobileController.text = mobileNumber;
+        }
+
+
         // priceController.text = gemin_data['amount'];
         // remarkController.text = gemin_data['remark'];
         print(gemin_data['vehicle']);
@@ -112,7 +211,7 @@ class SmartBookingController extends GetxController {
         selectedTime.value = parseTime(gemin_data['pickup_time']);
 
         print("selectedTime.value ${selectedTime.value}");
-        tripTypeController.text = gemin_data['trip_type'];
+        tripTypeController.text = gemin_data['trip_type'].toString().toUpperCase();
         if(!gemin_data['trip_type'].toString().isNotEmpty){
           tripType.value = "one_way";
         }
@@ -204,7 +303,7 @@ class SmartBookingController extends GetxController {
     remarkController.clear();
     selectedTime.value = null;
     selectedDate.value = null;
-    tripType.value = "one_way";
+    tripType.value = "one_way".toUpperCase();
     messageController.clear();
 
 

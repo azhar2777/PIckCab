@@ -142,7 +142,7 @@ class LoginController_backup extends GetxController {
       if (json["status"] == true) {
         // Step 2: Send SMS via SMS gateway
         final smsUrl =
-            "http://sms.gitysoft.com/rest/services/sendSMS/sendGroupSms"
+            "http://gitysoft.io/rest/services/sendSMS/sendGroupSms"
             "?AUTH_KEY=20e676ce315bed4a3955fb13e131631d"
             "&message=${Uri.encodeComponent('$otp is Your One Time Verification Code - PickCab Partner')}"
             "&senderId=PPCAB8"

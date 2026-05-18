@@ -21,6 +21,16 @@ class Utils {
     final String rate =
     booking['price'] != null ? "₹ ${booking['price']}" : "N/A";
 
+    String mobileNumber = "N/A";
+    if(booking['mobile'] != null){
+      mobileNumber = booking['mobile'];
+    }
+    if(booking['booking_mobile'] != null){
+      mobileNumber = booking['booking_mobile'];
+    }
+
+
+
     const String appLink =
         "https://play.google.com/store/apps/details?id=com.pickcab.partner";
     String text = "";
@@ -33,6 +43,7 @@ class Utils {
       text += "\nVehicle:- " + (booking['carType']?.toString() ?? 'Sedan');
       text += "\nPickup Time:- " + pickupTime;
       text += "\nRate :- " + rate;
+      text += "\nCall :- " + mobileNumber;
 
       if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
         text += "\n\n\nMessage:- " + booking['remarks'];
@@ -48,7 +59,11 @@ class Utils {
 
     }
 
-    text += "\n\nPickCab Partner AAP 📱 download link ";
+    text += "\n\n!! IMPORTANT";
+    text += "\nपहले बुकिंग प्राप्त करने के लिए, अभी मोबाइल📱 एप्लीकेशन डाउनलोड करें";
+
+
+    // text += "\n\nPickCab Partner AAP 📱 download link ";
     text += "\n👇🏼";
     text += "\n" + appLink;
 
@@ -56,7 +71,7 @@ class Utils {
 
 
 
-    // print(text);
+    print(text);
 
     try {
       await Share.share(text, subject: "Ride from ${booking['from']}");
