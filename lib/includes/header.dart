@@ -230,6 +230,8 @@ class _AppHeaderState extends State<AppHeader> {
           await prefs.setBool(_cachedAlertStatus, newAlertStatus);
           await prefs.setInt(
               _lastFetchTime, DateTime.now().millisecondsSinceEpoch);
+          
+          // print("Helloooooooo ${userData["is_active"].toString()}");
 
           // Update UI if still mounted
           if (mounted) {

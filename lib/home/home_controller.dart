@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -67,9 +68,65 @@ class HomeController extends GetxController {
     callAllFunctions();
   }
 
+
+  Future<void> fetchUserProfile() async {
+
+
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString("user_id");
+
+      print(userId);
+
+      if (userId == null || userId == "0") {
+        Get.offAll(() => LoginScreen());
+        return;
+      }
+
+
+
+      final url = Uri.parse("$appurl/user_details?user_id=$userId");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final data = json["user_data"];
+
+
+        print("Helloooooooo ${data["is_active"].toString()}");
+
+          if(data["is_active"].toString() == "0"){
+            Utils.showAlertDialog(title: "Pickcab", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
+              Get.offAll(() => LoginScreen())
+            });
+
+          }
+
+
+
+
+
+
+        } else {
+          throw Exception(json["message"] ?? "Failed to load profile");
+        }
+      } else {
+        throw Exception("Server error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Profile fetch error: $e");
+
+    } finally {
+
+    }
+  }
+
   void callAllFunctions() async {
     try{
       isApiCalled.value = false;
+      await fetchUserProfile();
       await fetchAvailableBookings();
       fetchAvailablefreeBookings();
     }
@@ -911,6 +968,8 @@ class HomeController extends GetxController {
               'date': dateDisplay,
               'time': timeDisplay,
               'endTimeStr': b["end_time"]?.toString() ?? "N/A",
+              'startTimeparsed': b["start_time"]?.toString() != null ? '${formatEndtDateTime(b["start_time"])}':'N/A',
+              'endTimeparsed': b["end_time"]?.toString() != null ? '${formatEndtDateTime(b["end_time"])}':'N/A',
               'status': b["status"]?.toString() ?? "1",
               'isTwoWay': isTwoWay,
               'carType': b["car_type"] ?? "Sedan",
@@ -1207,4 +1266,43 @@ $appLink
       return "Just now";
     }
   }
+
+
+  String formatEndtDateTime(String dateString) {
+    final dateTime = DateTime.parse(dateString);
+    final now = DateTime.now();
+
+    final today = DateTime(now.year, now.month, now.day);
+    final targetDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    final difference = targetDate.difference(today).inDays;
+
+    final time = DateFormat('h:mm a').format(dateTime);
+
+    if (difference == 0) {
+      return 'Today @ $time';
+    }
+
+    if (difference == 1) {
+      return 'Tomorrow @ $time';
+    }
+
+    String getOrdinal(int day) {
+      if (day >= 11 && day <= 13) return '${day}th';
+
+      switch (day % 10) {
+        case 1:
+          return '${day}st';
+        case 2:
+          return '${day}nd';
+        case 3:
+          return '${day}rd';
+        default:
+          return '${day}th';
+      }
+    }
+
+    return '${getOrdinal(dateTime.day)} ${DateFormat('MMMM').format(dateTime)} @ $time';
+  }
+
+
 }

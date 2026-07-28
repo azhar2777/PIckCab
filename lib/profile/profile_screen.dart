@@ -667,7 +667,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _shareApp() {
     // Customize your share text and app link
     const String shareText =
-        "PP (PICKCAB PARTNER) app download link https://play.google.com/store/apps/details?id=com.taxi_app";
+        "PP (PICKCAB PARTNER) app download link https://play.google.com/store/apps/details?id=com.pickcab.partner";
     Share.share(shareText);
   }
 
@@ -1137,6 +1137,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: Icons.description_outlined,
                         title: "YOUR DIGITAL SOLUTION ",
                         onTap: () => _launchUrl("https://canaryinn.in/"),
+                      ),
+                      const Divider(height: 1, indent: 56),
+                      ListTile(
+                        leading: Image.asset(
+                            "assets/images/ic_whatsapp.png",
+                            width: 26,
+                            height: 26,
+                            fit: BoxFit.contain,
+                            color: Color(0xFF6A1B9A),
+                        ),
+                        title: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "For Latest offers and updates join our  ",
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Theme.of(context).textTheme.titleMedium?.color
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Whatsapp Channel",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  color: Theme.of(context).textTheme.titleMedium?.color,
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  decoration: TextDecoration
+                                      .underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
+                        onTap: () => _launchUrl(
+                        "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       ),
                     ],
                   ),

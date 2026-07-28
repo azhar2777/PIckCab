@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -10,6 +11,8 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 import 'package:in_app_update/in_app_update.dart';
+import 'package:pickcab_partner/alerts/alerts_controller.dart';
+import 'package:pickcab_partner/utils/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../alerts/alerts_screen.dart';
@@ -39,9 +42,11 @@ class DashboardController  extends GetxController {
 
     if (index == 0) {
       Get.find<HomeController>().callAllFunctions();
+      Get.find<AlertsController>().fetchCities();
     } else if (index == 1) {
       Get.find<MyBookingController>().fetchMyBookings();
     }
+
   }
   @override
   void onInit() {
@@ -131,6 +136,8 @@ class DashboardController  extends GetxController {
         return;
       }
 
+
+
       final url = Uri.parse("$appurl/user_details?user_id=$userId");
       final response = await http.get(url);
 
@@ -151,6 +158,15 @@ class DashboardController  extends GetxController {
           else{
             showSmartBooking.value = true;
           }
+
+          // print("Helloooooooo ${data["is_active"].toString()}");
+
+          // if(data["is_active"].toString() == "0"){
+          //   Utils.showAlertDialog(title: "", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
+          //     Get.offAll(() => LoginScreen())
+          //   });
+          //
+          // }
 
 
           // print("Prefs${prefs.getString("mobile_number")}");
@@ -175,6 +191,10 @@ class DashboardController  extends GetxController {
 
     }
   }
+
+
+
+
 
 
 }

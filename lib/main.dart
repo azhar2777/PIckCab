@@ -12,7 +12,10 @@ import 'notificationservice/notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  // Set Edge yto Edge support
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+  );
   // Initialize Firebase
   await Firebase.initializeApp();
 
@@ -26,9 +29,7 @@ Future<void> main() async {
   if (initialMessage != null) {
     NotificationServiceNew().handleInitialMessage(initialMessage);
   }
-  await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge,
-  );
+
   runApp(MyApp());
 }
 

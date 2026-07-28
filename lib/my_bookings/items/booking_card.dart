@@ -370,7 +370,7 @@ class _BookingCardState extends State<BookingCard> {
                                             padding:
                                                 const EdgeInsets.symmetric(vertical: 14, horizontal: 7),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(14),
+                                              borderRadius: BorderRadius.circular(1),
                                             ),
                                             elevation: 3,
                                           ),
@@ -389,7 +389,7 @@ class _BookingCardState extends State<BookingCard> {
                                             padding:
                                             const EdgeInsets.symmetric(vertical: 14, horizontal: 7),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(14),
+                                              borderRadius: BorderRadius.circular(1),
                                             ),
                                             elevation: 3,
                                           ),

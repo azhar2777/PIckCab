@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,7 @@ class AlertsController extends GetxController {
     super.onInit();
     fetchIndianCities(); // Load once
   }
+
 
   @override
   void onReady() {
@@ -98,6 +100,21 @@ class AlertsController extends GetxController {
               )
               .toList();
           cities.assignAll(cityList);
+
+          for (final city in cityList) {
+            try {
+              await FirebaseMessaging.instance.subscribeToTopic(
+                "city_${city.city.toLowerCase()}",
+              );
+
+              print("Subscribed: ${city.city}");
+            } catch (e) {
+              print("Failed to subscribe ${city.city}: $e");
+            }
+          }
+
+
+
         } else {
           cities.clear();
         }
@@ -152,6 +169,9 @@ class AlertsController extends GetxController {
           message: "City added!",
           isSuccess: true,
         );
+
+
+
       } else {
         CustomNotification.show(
           title: "Failed",
@@ -168,7 +188,7 @@ class AlertsController extends GetxController {
     }
   }
 
-  Future<void> deleteCityById(String id) async {
+  Future<void> deleteCityById(String id, String name) async {
     if (id.isEmpty) return;
 
     try {
@@ -189,6 +209,16 @@ class AlertsController extends GetxController {
           message: "City removed",
           isSuccess: true,
         );
+        try {
+          await FirebaseMessaging.instance.unsubscribeFromTopic(
+            "city_${name.toLowerCase()}",
+          );
+
+          print("unsubscribed: $name");
+        } catch (e) {
+          print("Failed to unsubscribe $name: $e");
+        }
+
       } else {
         CustomNotification.show(
           title: "Failed",
@@ -208,7 +238,7 @@ class AlertsController extends GetxController {
 
   void deleteCity(String cityName) {
     final city = cities.firstWhereOrNull((c) => c.city == cityName);
-    if (city != null) deleteCityById(city.id);
+    if (city != null) deleteCityById(city.id, city.city);
   }
 
   // Navigation

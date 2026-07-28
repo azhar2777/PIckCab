@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -170,5 +171,59 @@ class Utils {
     }
   }
 
+
+  static void showCustomAlertDialog({
+    required String title,
+    required String message,
+    DialogType dialogType = DialogType.error,
+    VoidCallback? onOk,
+  }) {
+    final context = Get.overlayContext ?? Get.context;
+
+    if (context == null) return;
+
+    AwesomeDialog(
+      context: context,
+      dialogType: dialogType,
+      animType: AnimType.scale,
+      title: title,
+      desc: message,
+      btnOkOnPress: onOk ?? () {},
+    ).show();
+  }
+
+
+  static void showAlertDialog({
+    required String title,
+    required String message,
+    DialogType dialogType = DialogType.error,
+    VoidCallback? onOk,
+  }) {
+    final context = Get.overlayContext ?? Get.context;
+
+    if (context == null) return;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pop(context); // Close dialog
+            //   },
+            //   child: const Text('Cancel'),
+            // ),
+            ElevatedButton(
+              onPressed: onOk,
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 }

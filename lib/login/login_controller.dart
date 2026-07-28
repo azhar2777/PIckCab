@@ -6,9 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../const/const.dart';
 import '../home/home_screen.dart';
 import '../register/resgister_screen.dart';
@@ -30,6 +32,7 @@ class LoginController extends GetxController {
   String deviceId = '';
   String deviceName = '';
   String deviceModel = '';
+  String versionName = '';
 
   // App hash for SMS auto-read
   // String? appHash;
@@ -44,6 +47,7 @@ class LoginController extends GetxController {
   void onInit() async {
     super.onInit();
     await _getDeviceInfo();
+    await getAppVersion();
 
     appHash = await getAppHash() ?? '';
 
@@ -56,6 +60,16 @@ class LoginController extends GetxController {
     });
 
     debugPrint('📱 Using App Hash: $appHash');
+  }
+
+  Future<void> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    versionName = packageInfo.version;      // e.g. 1.2.3
+    String versionCode = packageInfo.buildNumber; // e.g. 45
+
+    print('Version Name: $versionName');
+    print('Version Code: $versionCode');
   }
 
   Future<String?> getAppHash() async {
@@ -132,6 +146,20 @@ class LoginController extends GetxController {
     } catch (e) {
       phoneError.value = "Something went wrong!";
       isLoading.value = false;
+    }
+  }
+
+  void openhelp() async {
+
+
+    final Uri uri = Uri.parse("https://pickcab-partner.pickcab.in/video-tutorial/");
+
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.inAppWebView, // ← this opens inside the app
+      webOnlyWindowName: '_self', // optional: helps on web platform
+    )) {
+      Get.snackbar("Error", "Could not open video");
     }
   }
 

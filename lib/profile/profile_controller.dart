@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pickcab_partner/edit_profile/EditProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../alerts/alerts_controller.dart';
 import '../alerts/alerts_screen.dart';
 import '../const/const.dart';
 import '../const/custom_notification.dart';
@@ -429,6 +431,7 @@ class ProfileController extends GetxController {
     final json = jsonDecode(response.body);
     var msg = json["message"];
     if (json["status"] == true) {
+      await unsubscribedToCities();
       await prefs.setBool("is_logged_in", true);
 
       await prefs.remove('is_logged_in');
@@ -446,4 +449,54 @@ class ProfileController extends GetxController {
       );
     }
   }
+
+  Future<void> unsubscribedToCities() async {
+    try {
+      isLoading.value = true;
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString("user_id") ?? "0";
+
+      final response = await http.get(
+        Uri.parse("$appurl/get_alert_cities?user_id=$userId"),
+      );
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final List<dynamic> data = json["cities"];
+          final cityList = data
+              .map(
+                (item) => AlertCity(
+              id: item["id"].toString(),
+              city: item["city"].toString().trim(),
+            ),
+          )
+              .toList();
+
+
+          for (final city in cityList) {
+            try {
+              await FirebaseMessaging.instance.unsubscribeFromTopic(
+                "city_${city.city.toLowerCase()}",
+              );
+
+              print("unsubscribed: ${city.city}");
+            } catch (e) {
+              print("Failed to unsubscribe ${city.city}: $e");
+            }
+          }
+
+
+
+        } else {
+
+        }
+      }
+    } catch (e) {
+
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }

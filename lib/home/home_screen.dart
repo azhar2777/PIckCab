@@ -386,7 +386,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Flexible(
                 child: Text(
                   from,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 13),
                 ),
               ),
             ],
@@ -394,7 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(width: 4),
         Container(
-          width: MediaQuery.of(context).size.width *0.4,
+          width: MediaQuery.of(context).size.width * 0.4,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -478,7 +479,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Flexible(
                 child: Text(
                   to,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 13),
                 ),
               ),
             ],
@@ -672,15 +674,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           166, 29, 178, 3)),
                                 ),
                                 child: Center(
-                                  child:
-                                      Text(
-                                        "Verified",
-                                        style: TextStyle(
-                                          color:  Colors.white,
-                                          fontSize: 7,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                  child: Text(
+                                    "Verified",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 7,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   // Icon(
                                   //   Icons.check,
                                   //   color: Colors.white,
@@ -722,15 +723,47 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: isExpired ? Colors.grey : Colors.redAccent,
-                  // decoration: isExpired ? TextDecoration.lineThrough : null,
-                ),
-              ),
+              itemType == "booking"
+                  ? Text(
+                      '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isExpired ? Colors.grey : Colors.redAccent,
+                        // decoration: isExpired ? TextDecoration.lineThrough : null,
+                      ),
+                    )
+                  : Text(
+                '${booking["startTimeparsed"]}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isExpired ? Colors.grey : Colors.redAccent,
+                        // decoration: isExpired ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+              itemType == "booking"
+                  ? Container()
+                  : Text(
+                      'To',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isExpired ? Colors.grey : Colors.black,
+                        // decoration: isExpired ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+              itemType == "booking"
+                  ? Container()
+                  : Text(
+                      '${booking["endTimeparsed"]}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isExpired ? Colors.grey : Colors.redAccent,
+                        // decoration: isExpired ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
             ],
           ),
 

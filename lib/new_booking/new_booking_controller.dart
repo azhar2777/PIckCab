@@ -160,6 +160,7 @@ class NewBookingController extends GetxController {
       final response = await request.send();
       final resp = await response.stream.bytesToString();
       final json = jsonDecode(resp);
+      print(json);
 
       if (json["status"] == true || json["status"] == "true") {
         sendBookingNotification(json['booking_id'].toString());

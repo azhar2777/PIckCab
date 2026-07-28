@@ -64,6 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
     return Obx(() => Scaffold(
       body: IndexedStack(
         index: controller.selectedIndex.value,
@@ -71,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
 
       bottomNavigationBar: SizedBox(
-        height: bottomheight,
+        height: bottomheight + bottomInset,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -80,67 +81,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 254, 237, 255),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    offset: Offset(0, -3),
-                  ),
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black12,
+                //     blurRadius: 10,
+                //     offset: Offset(0, -3),
+                //   ),
+                // ],
               ),
               child: SafeArea(
                 top: false,
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeBottom: true,
-                  child:
-                  BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    selectedItemColor: Color(0xFF6A1B9A),
-                    unselectedItemColor: Colors.grey,
-                    selectedFontSize: 10,
-                    unselectedFontSize: 10,
-                    showUnselectedLabels: true,
-                    currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
-                    onTap: (index) {
-                      if (index == 2) return; // 👈 ignore center item
+                child:
+                BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  selectedItemColor: Color(0xFF6A1B9A),
+                  unselectedItemColor: Colors.grey,
+                  selectedFontSize: 10,
+                  unselectedFontSize: 10,
+                  showUnselectedLabels: true,
 
-                      if (index > 2) {
-                        controller.changeTab(index - 1); // shift index
-                      } else {
-                        controller.changeTab(index);
-                      }
-                    },
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.bookmark_border),
-                        label: 'My Bookings',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SizedBox.shrink(),
-                        label: '',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.notifications_outlined),
-                        label: 'My Alerts',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person_outline),
-                        label: 'Profile',
-                      ),
-                    ],
-                  ),
+                  currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
+                  onTap: (index) {
+                    if (index == 2) return; // 👈 ignore center item
+
+                    if (index > 2) {
+                      controller.changeTab(index - 1); // shift index
+                    } else {
+                      controller.changeTab(index);
+                    }
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home, size: 22,),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.bookmark_border, size: 22,),
+                      label: 'My Bookings',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SizedBox.shrink(),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.notifications_outlined, size: 22,),
+                      label: 'My Alerts',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.person_outline, size: 22,),
+                      label: 'Profile',
+                    ),
+                  ],
                 ),
               ),
             ),
             Positioned(
-              bottom: bottomheight == 60 ? 0 : 10,
+              // bottom: bottomheight == 60 ? 0 : 10,
+              top: -6,
               child: GestureDetector(
                 onTap: () => _showPostBottomSheet(context),
                 child: Container(

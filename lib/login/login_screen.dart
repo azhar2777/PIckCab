@@ -125,16 +125,64 @@ class _LoginScreenState extends State<LoginScreen>
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: EdgeInsets.fromLTRB(
                     24,
-                    20,
+                    0,
                     24,
                     MediaQuery.of(context).viewInsets.bottom + 20,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 20),
+
 
                       // Logo with animation
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            // height: 100,
+                            // width: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.2),
+                                width: 1.5,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 15,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 4.0,),
+                              child: GestureDetector(
+                                onTap: controller.openhelp,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+
+                                    Icon(Icons.help, size: 18, color: Colors.white,),
+                                    // SizedBox(height: 2,),
+                                    Text(
+                                      'HELP',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 11,
+                                        color: Colors.white,
+                                        letterSpacing: 0.3,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Container(
@@ -494,7 +542,7 @@ class _LoginScreenState extends State<LoginScreen>
 
                       // Version Text
                       Text(
-                        'Version 1.0.0',
+                        controller.versionName != '' ? 'Version ${controller.versionName}': '',
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: Colors.white38,

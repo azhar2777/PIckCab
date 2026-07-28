@@ -662,7 +662,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             horizontal: 14, vertical: 12),
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                          BorderRadius.circular(12),
                                           color: Colors.white.withOpacity(0.12),
                                           border: Border.all(
                                               color: Colors.white
@@ -691,7 +691,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                       fontSize: 15,
                                                       color: Colors.white,
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                      FontWeight.bold,
                                                       decoration: TextDecoration
                                                           .underline,
                                                     ),
@@ -703,6 +703,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                       ),
                                     ),
+
+                                    const SizedBox(height: 30),
+                                    InkWell(
+                                      borderRadius: BorderRadius.circular(12),
+                                      onTap: () => _launchUrl(
+                                          "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 14, vertical: 12),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(12),
+                                          color: Colors.white.withOpacity(0.12),
+                                          border: Border.all(
+                                              color: Colors.white
+                                                  .withOpacity(0.25)),
+                                        ),
+                                        child: Row(
+                                          // mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Image.asset(
+                                                "assets/images/ic_whatsapp.png",
+                                                width: 30,
+                                                height: 30,
+                                                fit: BoxFit.contain,
+                                                color: Colors.green
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Expanded(
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: "For Latest offers and updates join our  ",
+                                                      style: GoogleFonts.exo2(
+                                                          fontSize: 14,
+                                                          color: Colors.white70),
+                                                    ),
+                                                    TextSpan(
+                                                      text: "Whatsapp Channel",
+                                                      style: GoogleFonts.exo2(
+                                                        fontSize: 15,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        decoration: TextDecoration
+                                                            .underline,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+
                                   ],
                                 ),
                               ),
