@@ -201,7 +201,8 @@ class EditBookingScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Obx(
               () => DropdownButtonFormField2<String>(
-                value: c.selectedCar.value,
+                // value: c.selectedCar.value,
+                valueListenable: ValueNotifier(c.selectedCar.value),
                 isExpanded: true,
                 decoration: _inputDecoration(hint: 'Choose car type'),
                 items: [
@@ -214,7 +215,7 @@ class EditBookingScreen extends StatelessWidget {
                   'FORCE Traveller'
                 ]
                     .map(
-                        (car) => DropdownMenuItem(value: car, child: Text(car)))
+                        (car) => DropdownItem(value: car, child: Text(car)))
                     .toList(),
                 onChanged: (v) => c.selectedCar.value = v!,
               ),
@@ -309,7 +310,7 @@ class EditBookingScreen extends StatelessWidget {
                         visualDensity: VisualDensity.compact,
                       ),
                       const SizedBox(width: 8),
-                      const Icon(
+                      const FaIcon(
                         FontAwesomeIcons.whatsapp,
                         color: Color(0xFF6A1B9A),
                         size: 36,
@@ -326,7 +327,7 @@ class EditBookingScreen extends StatelessWidget {
                         visualDensity: VisualDensity.compact,
                       ),
                       const SizedBox(width: 8),
-                      const Icon(
+                      const FaIcon(
                         FontAwesomeIcons.phone,
                         color: Color(0xFF6A1B9A),
                         size: 32,

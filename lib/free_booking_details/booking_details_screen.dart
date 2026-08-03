@@ -930,7 +930,7 @@ class FreeBookingDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _actionButton(
-                    icon: FontAwesomeIcons.whatsapp,
+                    icon: FontAwesomeIcons.whatsapp.data,
                     label: 'WhatsApp',
                     color: Colors.green,
                     onTap: () async {

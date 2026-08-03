@@ -738,7 +738,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           const SizedBox(width: 12),
           Expanded(
             child: _actionButtonCompact(
-              icon: FontAwesomeIcons.whatsapp,
+              icon: FontAwesomeIcons.whatsapp.data,
               label: 'WhatsApp',
               color: Colors.green,
               onTap: controller.openWhatsApp,

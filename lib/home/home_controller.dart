@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:pickcab_partner/model/PPUser.dart';
 import 'package:pickcab_partner/smartbooking/SmartBookingScreen.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
+import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
@@ -94,6 +96,8 @@ class HomeController extends GetxController {
         if (json["status"] == true) {
           final data = json["user_data"];
 
+          print(data);
+
 
         print("Helloooooooo ${data["is_active"].toString()}");
 
@@ -101,7 +105,13 @@ class HomeController extends GetxController {
             Utils.showAlertDialog(title: "Pickcab", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
               Get.offAll(() => LoginScreen())
             });
-
+            FirebaseUtil.updateUserState(data["user_unq_id"], 0);
+          }
+          else{
+            print("user_unq_id ${data["user_unq_id"]}");
+            // FirebaseUtil.updateUserState(data["user_unq_id"], 1);
+            PPUser user = PPUser.fromJson(data);
+            FirebaseUtil.updateUserData(user);
           }
 
 

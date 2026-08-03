@@ -84,7 +84,7 @@ class NotificationServiceNew {
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification: _onDidReceiveLocalNotification,
+      // onDidReceiveLocalNotification: _onDidReceiveLocalNotification,
     );
 
     InitializationSettings initSettings = InitializationSettings(
@@ -93,7 +93,7 @@ class NotificationServiceNew {
     );
 
     await _localNotifications.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
         _handleNotificationTap(response.payload);
       },
@@ -250,10 +250,10 @@ class NotificationServiceNew {
     );
 
     await _localNotifications.show(
-      int.parse(data['booking_id'] ?? DateTime.now().millisecond.toString()),
-      message.notification?.title ?? data['title'] ?? 'New Ride Available',
-      message.notification?.body ?? data['body'] ?? 'New ride notification',
-      platformDetails,
+      id: int.parse(data['booking_id'] ?? DateTime.now().millisecond.toString()),
+      title: message.notification?.title ?? data['title'] ?? 'New Ride Available',
+      body: message.notification?.body ?? data['body'] ?? 'New ride notification',
+      notificationDetails: platformDetails,
       payload: payload,
     );
   }

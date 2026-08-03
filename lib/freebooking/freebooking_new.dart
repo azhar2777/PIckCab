@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart' ;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -284,8 +284,8 @@ class _FreebookingNewState extends State<FreebookingNew> {
             _buildLabel('Select Vehicle Type'),
             const SizedBox(height: 8),
             Obx(
-              () => DropdownButtonFormField2<String>(
-                value: c.vehicleType.value,
+                  () => DropdownButtonFormField2<String>(
+                valueListenable: ValueNotifier(c.vehicleType.value),
                 isExpanded: true,
                 decoration: _inputDecoration(),
                 items: [
@@ -295,12 +295,18 @@ class _FreebookingNewState extends State<FreebookingNew> {
                   'SUV',
                   'INNOVA',
                   'INNOVA CRYSTA',
-                  'FORCE Traveller'
+                  'FORCE Traveller',
                 ]
-                    .map((type) =>
-                        DropdownMenuItem(value: type, child: Text(type)))
+                    .map(
+                      (type) => DropdownItem<String>(
+                    value: type,
+                    child: Text(type),
+                  ),
+                )
                     .toList(),
-                onChanged: (v) => c.vehicleType.value = v!,
+                onChanged: (value) {
+                  c.vehicleType.value = value!;
+                },
               ),
             ),
             const SizedBox(height: 24),

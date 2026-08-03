@@ -21,7 +21,7 @@ class NotificationServices {
 
     var initializationSettings = InitializationSettings(
         android: androidnitializationSettings, iOS: iosnitializationSettings);
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    await _flutterLocalNotificationsPlugin.initialize(settings:  initializationSettings,
         onDidReceiveNotificationResponse: (payload) {});
   }
 
@@ -101,10 +101,10 @@ class NotificationServices {
 
     Future.delayed(Duration.zero, () {
       _flutterLocalNotificationsPlugin.show(
-          0,
-          message.notification!.title.toString(),
-          message.notification!.body.toString(),
-          notificationDetails);
+          id : 0,
+          title: message.notification!.title.toString(),
+          body: message.notification!.body.toString(),
+          notificationDetails: notificationDetails, );
     });
 
     // errorController.error(

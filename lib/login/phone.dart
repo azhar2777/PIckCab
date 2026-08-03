@@ -14,7 +14,7 @@ class _OTPScreenState extends State<OTPScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController otpController = TextEditingController();
+  final PinInputController otpController = PinInputController();
 
   String verificationId = '';
   bool isOTPSent = false;
@@ -139,12 +139,24 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
             ],
             if (isOTPSent) ...[
-              PinCodeTextField(
-                appContext: context,
+              // PinCodeTextField(
+              //   appContext: context,
+              //   length: 6,
+              //   controller: otpController,
+              //   keyboardType: TextInputType.number,
+              //   onChanged: (_) {},
+              // ),
+              MaterialPinField(
+                pinController: otpController,
                 length: 6,
-                controller: otpController,
                 keyboardType: TextInputType.number,
-                onChanged: (_) {},
+                onCompleted: (pin) => print('PIN: $pin'),
+                onChanged: (value) => print('Changed: $value'),
+                theme: MaterialPinTheme(
+                  shape: MaterialPinShape.outlined,
+                  cellSize: Size(56, 64),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               const SizedBox(height: 10),
               ElevatedButton(

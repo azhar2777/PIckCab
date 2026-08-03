@@ -128,12 +128,16 @@ class _FreebookingNewbackupState extends State<FreebookingNewbackup> {
             const SizedBox(height: 8),
             Obx(
               () => DropdownButtonFormField2<String>(
-                value: c.vehicleType.value,
+                valueListenable: ValueNotifier(c.vehicleType.value),
                 isExpanded: true,
                 decoration: _inputDecoration(),
                 items: ['Hatchback', 'Sedan', 'SUV', 'Mini Van', 'Truck']
-                    .map((type) =>
-                        DropdownMenuItem(value: type, child: Text(type)))
+                    .map(
+                      (type) => DropdownItem<String>(
+                    value: type,
+                    child: Text(type),
+                  ),
+                )
                     .toList(),
                 onChanged: (v) => c.vehicleType.value = v!,
               ),

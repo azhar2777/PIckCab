@@ -17,6 +17,7 @@ class FreeNewBookingController extends GetxController {
   final toController = TextEditingController();
   final remarksController = TextEditingController();
   var vehicleType = 'Sedan'.obs;
+  // final vehicleType = ValueNotifier<String?>('Sedan');
   var startTime = DateTime.now().obs;
   var endTime = DateTime.now().obs;
   var anyLocation = false.obs;

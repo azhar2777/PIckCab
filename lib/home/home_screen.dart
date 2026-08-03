@@ -925,7 +925,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (canSendWhatsApp) ...[
                   Expanded(
                     child: _actionButton(
-                      FontAwesomeIcons.whatsapp,
+                      FontAwesomeIcons.whatsapp.data,
                       () => controller.openWhatsApp(
                           itemType == "booking", booking['mobile'], booking),
                     ),

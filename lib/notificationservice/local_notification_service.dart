@@ -12,7 +12,7 @@ class LocalNotificationService {
             iOS: DarwinInitializationSettings());
 
     _notificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       // onSelectNotification: (String? id) async {
       //   print("onSelectNotification");
       //   if (id!.isNotEmpty) {

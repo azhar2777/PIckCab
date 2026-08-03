@@ -831,8 +831,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 length: 6,
                 keyboardType: TextInputType.number,
                 autofocus: true,
-                androidSmsAutofillMethod:
-                    AndroidSmsAutofillMethod.smsRetrieverApi,
+                // androidSmsAutofillMethod:
+                //     AndroidSmsAutofillMethod.smsRetrieverApi,
+
                 defaultPinTheme: PinTheme(
                   width: 50,
                   height: 56,
