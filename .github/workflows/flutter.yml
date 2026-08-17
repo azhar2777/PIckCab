@@ -1,7 +1,10 @@
-name: Flutter CI
+name: Flutter CI/CD
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,23 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.35.0"
+          flutter-version: '3.47.0'
+          channel: 'stable'
+          cache: true
 
-      - run: flutter pub get
+      - name: Flutter version
+        run: flutter --version
 
-      - run: flutter analyze
+      - name: Install dependencies
+        run: flutter pub get
 
-      - run: flutter test
-
-      - run: flutter build apk --release
-
-      - run: flutter build appbundle --release
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: android-build
-          path: build/app/outputs/flutter-apk/*.apk
+      - name: Build APK
+        run: flutter build apk --release
