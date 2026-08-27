@@ -29,6 +29,9 @@ class HomeController extends GetxController {
   final RxList<Map<String, dynamic>> freebookings =
       <Map<String, dynamic>>[].obs;
 
+  // Header Notification
+  RxBool enableNotification = false.obs;
+
   // UI States
   final RxBool isApiCalled = true.obs;
   final RxBool isLoading = true.obs;
@@ -100,6 +103,8 @@ class HomeController extends GetxController {
 
 
         print("Helloooooooo ${data["is_active"].toString()}");
+          final newAlertStatus = data["alert_status"].toString() == "1";
+          enableNotification.value = newAlertStatus;
 
           if(data["is_active"].toString() == "0"){
             Utils.showAlertDialog(title: "Pickcab", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
@@ -112,6 +117,7 @@ class HomeController extends GetxController {
             // FirebaseUtil.updateUserState(data["user_unq_id"], 1);
             PPUser user = PPUser.fromJson(data);
             FirebaseUtil.updateUserData(user);
+
           }
 
 

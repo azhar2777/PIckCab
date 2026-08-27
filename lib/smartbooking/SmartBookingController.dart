@@ -170,10 +170,10 @@ class SmartBookingController extends GetxController {
         showBookingForm.value = true;
         var gemin_data = json['gemin_data'];
 
-        pickupLocationController.text = gemin_data['vehicle'];
-        pickupLocationController.text = gemin_data['pickup_location'].toString().toUpperCase();
-        dropLocationController.text = gemin_data['drop_location'].toString().toUpperCase();
-
+        // pickupLocationController.text = gemin_data['vehicle'];
+        // pickupLocationController.text = gemin_data['pickup_location'].toString().toUpperCase();
+        // dropLocationController.text = gemin_data['drop_location'].toString().toUpperCase();
+        //
 
 
         if(allowedMobiles.contains(mobileNumber)){
@@ -186,20 +186,26 @@ class SmartBookingController extends GetxController {
 
         // priceController.text = gemin_data['amount'];
         // remarkController.text = gemin_data['remark'];
-        print(gemin_data['vehicle']);
+        // print(gemin_data['vehicle']);
         vehicleController.text = 'Sedan';
-        if(gemin_data['vehicle'].toString().isNotEmpty){
+        if(gemin_data['vehicle'] != null && gemin_data['vehicle'].toString().isNotEmpty){
           vehicleController.text = gemin_data['vehicle'];
         }
+        if(gemin_data['pickup_location'] != null && gemin_data['pickup_location'].toString().isNotEmpty){
+          pickupLocationController.text = gemin_data['pickup_location'].toString().toUpperCase();
+        }
+        if(gemin_data['drop_location'] != null && gemin_data['drop_location'].toString().isNotEmpty){
+          dropLocationController.text = gemin_data['drop_location'].toString().toUpperCase();
+        }
 
-        if(gemin_data['amount'].toString().isNotEmpty){
+        if(gemin_data['amount'] != null && gemin_data['amount'].toString().isNotEmpty){
           priceController.text = gemin_data['amount'];
         }
         else{
           priceController.text = '';
         }
 
-        if(gemin_data['remark'].toString().isNotEmpty){
+        if(gemin_data['remark'] != null && gemin_data['remark'].toString().isNotEmpty){
           remarkController.text = gemin_data['remark'];
         }
         else{
@@ -207,8 +213,32 @@ class SmartBookingController extends GetxController {
         }
 
 
-        selectedDate.value = DateTime.parse(gemin_data['pickup_date']);
-        selectedTime.value = parseTime(gemin_data['pickup_time']);
+        // if(gemin_data['pickup_date']) {
+        //   selectedDate.value = DateTime.parse(gemin_data['pickup_date']);
+        // }
+        // if(gemin_data['pickup_time']){
+        //   selectedTime.value = parseTime(gemin_data['pickup_time']);
+        // }
+        if (gemin_data['pickup_date'] != null &&
+            gemin_data['pickup_date'].toString().isNotEmpty) {
+          final dateString = gemin_data['pickup_date'].toString().trim();
+
+          selectedDate.value = DateTime.parse(dateString);
+
+          print("Selected date: ${selectedDate.value}");
+        }
+
+        if (gemin_data['pickup_time'] != null &&
+            gemin_data['pickup_time'].toString().isNotEmpty) {
+          final timeString = gemin_data['pickup_time'].toString().trim();
+
+          selectedTime.value = parseTime(timeString);
+
+          print("Selected time: ${selectedTime.value}");
+        }
+        else{
+          print("Selected time not found");
+        }
 
         print("selectedTime.value ${selectedTime.value}");
         tripTypeController.text = gemin_data['trip_type'].toString().toUpperCase();
@@ -221,7 +251,8 @@ class SmartBookingController extends GetxController {
 
       }
       isSubmitting.value = false;
-    } catch (e) {
+    }
+    catch (e) {
       debugPrint("error while getting booking details : $e");
       isSubmitting.value = false;
     }

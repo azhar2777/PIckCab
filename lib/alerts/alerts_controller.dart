@@ -163,13 +163,12 @@ class AlertsController extends GetxController {
       final json = jsonDecode(resp);
 
       if (json["status"] == true) {
-        await fetchCities();
         CustomNotification.show(
           title: "Success",
           message: "City added!",
           isSuccess: true,
         );
-
+        await fetchCities();
 
 
       } else {

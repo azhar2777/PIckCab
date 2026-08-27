@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../const/const.dart';
 import '../const/custom_notification.dart';
 import '../dashboard/DashboardController.dart';
+import '../home/home_controller.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
 import '../profile/profile_screen.dart';
@@ -36,6 +38,7 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppHeaderState extends State<AppHeader> {
+  final controller = Get.put(HomeController(), permanent: true);
   bool alertEnabled = false;
   String userImage = "";
   String userId = "";
@@ -57,9 +60,13 @@ class _AppHeaderState extends State<AppHeader> {
   @override
   void initState() {
     super.initState();
-
+    print("initState Header $alertEnabled");
     _getDeviceInfo();
     _initializeHeader();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("initState Header $alertEnabled");
+    });
+
   }
 
   @override
@@ -115,6 +122,7 @@ class _AppHeaderState extends State<AppHeader> {
         alertEnabled = prefs.getBool(_cachedAlertStatus) ?? false;
         isLoading = false;
       });
+
     }
   }
 
@@ -225,6 +233,8 @@ class _AppHeaderState extends State<AppHeader> {
               : "";
 
           // Save to cache
+          print("newAlertStatus $newAlertStatus");
+          controller.enableNotification.value = newAlertStatus;
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString(_cachedUserImage, newUserImage);
           await prefs.setBool(_cachedAlertStatus, newAlertStatus);
@@ -248,6 +258,50 @@ class _AppHeaderState extends State<AppHeader> {
   }
 
   // ======================= UPDATE ALERT =======================
+Future<void> _setNotoification(bool newValue) async {
+
+
+  final response = await http.get(
+    Uri.parse("$appurl/get_alert_cities?user_id=$userId"),
+  );
+if (response.statusCode == 200) {
+  final json = jsonDecode(response.body);
+  print(json);
+  if(json['status']){
+    final cityNames = (json['cities'] as List)
+        .map((city) => city['city'].toString())
+        .toList();
+
+    print(cityNames);
+
+
+    for (final city in cityNames) {
+      try {
+        if(alertEnabled){
+          await FirebaseMessaging.instance.subscribeToTopic(
+            "city_${city.toLowerCase()}",
+          );
+          print("Subscribed: ${city}");
+        }
+        else{
+          await FirebaseMessaging.instance.unsubscribeFromTopic(
+            "city_${city.toLowerCase()}",
+          );
+          print("Unsubscribed: ${city}");
+        }
+
+
+      } catch (e) {
+        print("Failed to unsubscribe ${city}: $e");
+      }
+    }
+
+  }
+
+}
+
+
+}
   Future<void> _updateAlertStatus(bool newValue) async {
     if (!mounted) return;
 
@@ -264,11 +318,20 @@ class _AppHeaderState extends State<AppHeader> {
         "alert_status": newValue ? "1" : "0",
       });
 
-      await request.send();
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      final data = jsonDecode(responseBody);
+
+      print("response ${data}" );
+      if(data['status']){
+        _setNotoification(newValue);
+        controller.enableNotification.value = newValue;
+      }
 
       // Update cache
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_cachedAlertStatus, newValue);
+
 
       if (mounted) {
         CustomNotification.show(
@@ -374,12 +437,13 @@ class _AppHeaderState extends State<AppHeader> {
         Row(
           children: [
             const Icon(Icons.notifications_outlined, color: Color(0xFF6A1B9A)),
-            Switch(
-              value: alertEnabled,
+            Obx(() => Switch(
+              value: controller.enableNotification.value,
               onChanged:
-                  isLoading ? null : (value) => _updateAlertStatus(value),
+              isLoading ? null : (value) => _updateAlertStatus(value),
               activeColor: const Color(0xFF6A1B9A),
-            ),
+            )),
+
             GestureDetector(
               onTap: navigateToSupport,
               child: const Icon(Icons.support_agent,

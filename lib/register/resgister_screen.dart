@@ -245,10 +245,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri, mode: LaunchMode.inAppWebView)) {
+
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.inAppWebView, // ← this opens inside the app
+      webOnlyWindowName: '_self', // optional: helps on web platform
+    )) {
       Get.snackbar("Error", "Could not launch $url");
     }
   }
+
+Future<void> _launchWhatsApp(String url) async {
+  if (url.isEmpty) {
+    Get.snackbar("Error", "URL not configured");
+    return;
+  }
+
+  final Uri uri = Uri.parse(url);
+  if (!await launchUrl(uri)) {
+    Get.snackbar("Error", "Could not launch $url");
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -707,7 +725,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     const SizedBox(height: 30),
                                     InkWell(
                                       borderRadius: BorderRadius.circular(12),
-                                      onTap: () => _launchUrl(
+                                      onTap: () => _launchWhatsApp(
                                           "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
@@ -940,6 +958,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white70),
         prefixText: prefix,
+        prefixStyle: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
         errorText: error?.isNotEmpty == true ? error : null,
         errorStyle: const TextStyle(color: Colors.orangeAccent),
         filled: true,

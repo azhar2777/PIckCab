@@ -65,6 +65,14 @@ class RegisterController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
+    final args = Get.arguments;
+
+    String mobile = args['mobile'] ?? '';
+    if(mobile.trim().isNotEmpty){
+      phoneController.text = mobile;
+    }
+
+
     appHash = await getAppHash() ?? '';
 
     fetchIndianCities();

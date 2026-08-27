@@ -12,6 +12,7 @@ import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../const/const.dart';
+import '../const/custom_notification.dart';
 import '../home/home_screen.dart';
 import '../register/resgister_screen.dart';
 
@@ -242,7 +243,26 @@ class LoginController extends GetxController {
           Get.snackbar("SMS Error", "Failed to send OTP message");
         }
       } else {
-        phoneError.value = msg;
+        if(json["code"].toString() == "2"){
+          // CustomNotification.show(
+          //   title: "Error",
+          //   message: msg,
+          //   isSuccess: false,
+          // );
+          // Future.delayed(const Duration(seconds: 1), () {
+            Get.to(
+                  () => const RegisterScreen(),
+              arguments: {
+                'mobile': phone
+              },
+            );
+          // });
+
+        }
+        else{
+          phoneError.value = msg;
+        }
+
       }
     } catch (e) {
       phoneError.value = "Failed to send OTP";

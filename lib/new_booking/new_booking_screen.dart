@@ -443,12 +443,17 @@ class NewBookingScreen extends StatelessWidget {
                 decoration: _inputDecoration(hint: 'Select car type', isFloating: false),
                 items: [
                   'Sedan',
-                  'Hatchback',
-                  'Ertiga',
-                  'SUV',
-                  'INNOVA',
-                  'INNOVA CRYSTA',
-                  'FORCE Traveller'
+                  'Ertiga / SUV',
+                  'Innova / Crysta',
+                  'FORCE Traveller',
+                  'Goods Vehicle',
+                  // 'Sedan',
+                  // 'Hatchback',
+                  // 'Ertiga',
+                  // 'SUV',
+                  // 'INNOVA',
+                  // 'INNOVA CRYSTA',
+                  // 'FORCE Traveller'
                 ]
                     .map(
                       (car) => DropdownItem(value: car, child: Text(car)),

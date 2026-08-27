@@ -664,6 +664,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _launchWhatsApp(String url) async {
+    if (url.isEmpty) {
+      Get.snackbar("Error", "URL not configured");
+      return;
+    }
+
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      Get.snackbar("Error", "Could not launch $url");
+    }
+  }
+
+
   void _shareApp() {
     // Customize your share text and app link
     const String shareText =
@@ -1177,7 +1190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 18,
                           color: Colors.grey,
                         ),
-                        onTap: () => _launchUrl(
+                        onTap: () => _launchWhatsApp(
                         "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       ),

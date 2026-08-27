@@ -473,66 +473,44 @@ class _LoginScreenState extends State<LoginScreen>
                                 ),
                               ],
 
-                              const SizedBox(height: 20),
+                              // const SizedBox(height: 20),
 
-                              Center(
-                                child: Container(
-                                  width: double.infinity,
-
-                                  decoration: BoxDecoration(
-                                      // color: Colors.red,
-                                      border: Border.all(
-                                        color: Color(0xFFBA68C8),
-                                        width: 2,
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  child: TextButton(
-                                    onPressed: controller.navigateToRegister,
-                                    style: TextButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 16,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "NEW PARTNER? Sign Up",
-                                      style: GoogleFonts.poppins(
-                                        color: Color(0xFFBA68C8),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        // decoration: TextDecoration.underline,
-                                        // decorationColor: Colors.white70,
-                                        // decorationThickness: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              // Register Link
                               // Center(
-                              //   child: TextButton(
-                              //     onPressed: controller.navigateToRegister,
-                              //     style: TextButton.styleFrom(
-                              //       padding: const EdgeInsets.symmetric(
-                              //         horizontal: 20,
-                              //         vertical: 12,
+                              //   child: Container(
+                              //     width: double.infinity,
+                              //
+                              //     decoration: BoxDecoration(
+                              //         // color: Colors.red,
+                              //         border: Border.all(
+                              //           color: Color(0xFFBA68C8),
+                              //           width: 2,
+                              //         ),
+                              //         borderRadius: BorderRadius.all(
+                              //             Radius.circular(8.0))),
+                              //     child: TextButton(
+                              //       onPressed: controller.navigateToRegister,
+                              //       style: TextButton.styleFrom(
+                              //         padding: const EdgeInsets.symmetric(
+                              //           horizontal: 20,
+                              //           vertical: 16,
+                              //         ),
                               //       ),
-                              //     ),
-                              //     child: Text(
-                              //       "New partner? Sign Up",
-                              //       style: GoogleFonts.poppins(
-                              //         color: Colors.white,
-                              //         fontWeight: FontWeight.w500,
-                              //         fontSize: 15,
-                              //         decoration: TextDecoration.underline,
-                              //         decorationColor: Colors.white70,
-                              //         decorationThickness: 1.5,
+                              //       child: Text(
+                              //         "NEW PARTNER? Sign Up",
+                              //         style: GoogleFonts.poppins(
+                              //           color: Color(0xFFBA68C8),
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 14,
+                              //           // decoration: TextDecoration.underline,
+                              //           // decorationColor: Colors.white70,
+                              //           // decorationThickness: 1.5,
+                              //         ),
                               //       ),
                               //     ),
                               //   ),
                               // ),
+
+
                             ],
                           );
                         }),
