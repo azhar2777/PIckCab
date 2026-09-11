@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:get/Get.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
