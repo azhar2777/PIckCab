@@ -68,10 +68,8 @@ class ProfileController extends GetxController {
     checkAadhaarStatus();
   }
 
-
   @override
   void onReady() {
-
     super.onReady();
     loadData();
   }
@@ -150,7 +148,6 @@ class ProfileController extends GetxController {
 
   // ────────────────────────────── Aadhaar OTP Request ──────────────────────────────
   Future<bool> requestAadhaarOtp({required String aadhaarNumber}) async {
-
     // isOtpSending.value = true;
     refId.value = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -280,7 +277,8 @@ class ProfileController extends GetxController {
         );
 
         // Get.offAll(() => const ProfileScreen());
-        Get.offAll(() => const DashboardScreen(selectedTab: 3), transition: Transition.fadeIn);
+        Get.offAll(() => const DashboardScreen(selectedTab: 3),
+            transition: Transition.fadeIn);
         return true;
       } else {
         CustomNotification.show(
@@ -317,7 +315,6 @@ class ProfileController extends GetxController {
 
   // ────────────────────────────── Check Aadhaar Status ──────────────────────────────
   Future<bool> checkAadhaarStatus() async {
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "";
@@ -406,16 +403,16 @@ class ProfileController extends GetxController {
   void onFreeVehicle() =>
       Get.to(() => const FreebookingNew(), transition: Transition.downToUp);
 
-
   Future<void> navigateToEditProfile() async {
     await Get.to(
-          () => const Editprofilescreen(),
+      () => const Editprofilescreen(),
       transition: Transition.fadeIn,
     );
 
     // 🔥 This runs when user comes back
     fetchUserProfile(); // or controller.fetchData()
   }
+
   Future<void> navigateToLogout() async {
     final prefs = await SharedPreferences.getInstance();
 // final prefs = await SharedPreferences.getInstance();
@@ -464,39 +461,52 @@ class ProfileController extends GetxController {
         final json = jsonDecode(response.body);
         if (json["status"] == true) {
           final List<dynamic> data = json["cities"];
-          final cityList = data
-              .map(
-                (item) => AlertCity(
-              id: item["id"].toString(),
-              city: item["city"].toString().trim(),
-            ),
-          )
+          final cityNames = (json['cities'] as List)
+              .map((city) => city['city'].toString())
               .toList();
 
+          print(cityNames);
+          isLoading.value = false;
+          unsubscribedToFCM(cityNames);
+          // final cityList = data
+          //     .map(
+          //       (item) => AlertCity(
+          //         id: item["id"].toString(),
+          //         city: item["city"].toString().trim(),
+          //       ),
+          //     )
+          //     .toList();
 
-          for (final city in cityList) {
-            try {
-              await FirebaseMessaging.instance.unsubscribeFromTopic(
-                "city_${city.city.toLowerCase()}",
-              );
-
-              print("unsubscribed: ${city.city}");
-            } catch (e) {
-              print("Failed to unsubscribe ${city.city}: $e");
-            }
-          }
-
-
-
+          // for (final city in cityList) {
+          //   try {
+          //     await FirebaseMessaging.instance.unsubscribeFromTopic(
+          //       "city_${city.city.toLowerCase()}",
+          //     );
+          //
+          //     print("unsubscribed: ${city.city}");
+          //   } catch (e) {
+          //     print("Failed to unsubscribe ${city.city}: $e");
+          //   }
+          // }
         } else {
-
+          
         }
       }
     } catch (e) {
-
     } finally {
       isLoading.value = false;
     }
   }
 
+  void unsubscribedToFCM(List<String> cityNames) {
+    for (final city in cityNames) {
+      final topic = "city_${city.toLowerCase()}";
+
+      FirebaseMessaging.instance.unsubscribeFromTopic(topic).then((_) {
+        print("Unsubscribed: $city");
+      }).catchError((e) {
+        print("Failed to unsubscribe $city: $e");
+      });
+    }
+  }
 }

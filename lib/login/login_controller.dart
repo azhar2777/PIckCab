@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -300,6 +301,8 @@ class LoginController extends GetxController {
       final json = jsonDecode(response.body);
 
       if (json["status"] == true) {
+        // print("json_user ${json}");
+        final userData = json['user_data'];
         final phone = phoneController.text.trim();
         final checkResponse = await http.post(
           Uri.parse("$appurl/checkLoginStatus"),
@@ -317,6 +320,9 @@ class LoginController extends GetxController {
               onContinue: () async {
                 Get.back();
                 // await _proceedWithOTP(phone, otp);
+                final newAlertStatus = userData["alert_status"].toString() == "1";
+                // print("newAlertStatus $newAlertStatus");
+
 
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setBool("is_logged_in", true);
@@ -325,7 +331,9 @@ class LoginController extends GetxController {
                 await prefs.setString("device_id", deviceId);
                 await prefs.setString(
                     "login_time", DateTime.now().toIso8601String());
-
+                if(newAlertStatus){
+                  subscribedToCities(userId.value);
+                }
                 await _sendLoginNotification();
 
                 Get.offAll(() => DashboardScreen(selectedTab: 0,));
@@ -352,6 +360,48 @@ class LoginController extends GetxController {
     }
 
     isVerifying.value = false;
+  }
+
+
+  Future<void> subscribedToCities(userId) async {
+    try {
+
+      final response = await http.get(
+        Uri.parse("$appurl/get_alert_cities?user_id=$userId"),
+      );
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final List<dynamic> data = json["cities"];
+          final cityNames = (json['cities'] as List)
+              .map((city) => city['city'].toString())
+              .toList();
+
+          print(cityNames);
+
+          subscribedToFCM(cityNames);
+
+        } else {
+
+        }
+      }
+    } catch (e) {
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void subscribedToFCM(List<String> cityNames) {
+    for (final city in cityNames) {
+      final topic = "city_${city.toLowerCase()}";
+
+      FirebaseMessaging.instance.subscribeToTopic(topic).then((_) {
+        print("Subscribed: $city");
+      }).catchError((e) {
+        print("Failed to subscribe $city: $e");
+      });
+    }
   }
 
   Future<void> _sendLoginNotification() async {

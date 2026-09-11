@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -26,10 +27,13 @@ import '../my_bookings/my_booking_screen.dart';
 import '../new_booking/new_booking_screen.dart';
 import '../profile/profile_screen.dart';
 import '../smartbooking/SmartBookingScreen.dart';
+import 'HtmlBottomSheet.dart';
 
 class DashboardController  extends GetxController {
   static DashboardController get to => Get.find();
 
+  // Notice
+  final noticeHtml = ''.obs;
   var selectedIndex = 0.obs;
   // Show Smart booking
   final RxBool showSmartBooking = true.obs;
@@ -51,6 +55,7 @@ class DashboardController  extends GetxController {
   @override
   void onInit() {
     fetchUserProfile();
+    fetchNotice();
     super.onInit();
 
     /// Run after dashboard is loaded
@@ -190,6 +195,79 @@ class DashboardController  extends GetxController {
     } finally {
 
     }
+  }
+
+  Future<void> fetchNotice() async {
+    print("fetchNotice");
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final url = Uri.parse("$appurl/getNotice");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        if (json["status"] == true) {
+          final data = json["notice_data"];
+
+          if(data !=null && data.length > 0){
+            // print(data[0]);
+            noticeHtml.value = data[0]['description'];
+            // print(noticeHtml.value);
+            final noticeStamp = prefs.getString("notice_timestamp");
+            if(noticeStamp !=null && noticeStamp.isNotEmpty){
+              // print("noticeStamp $noticeStamp");
+              final timestamp = DateTime.now().millisecondsSinceEpoch;
+              final diff = timestamp - int.parse(noticeStamp);
+
+              print("Diffff >>>> $diff");
+              if (diff >= 24* 60* 60 * 1000) { // for 1 day
+                Get.bottomSheet(
+                  HtmlBottomSheet(html: data[0]['description']),
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  isDismissible: false
+                );
+              } else {
+                print("More than 60 minutes");
+              }
+            }
+            else{
+              Get.bottomSheet(
+                HtmlBottomSheet(html: data[0]['description']),
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  isDismissible: false
+              );
+            }
+
+          }
+        } else {
+          throw Exception(json["message"] ?? "Failed to load html");
+        }
+      } else {
+        throw Exception("Server error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Html fetch error: $e");
+      CustomNotification.show(
+        title: "Connection Error",
+        message: "Failed to load profile. Pull to refresh.",
+        isSuccess: false,
+      );
+    } finally {
+
+    }
+  }
+
+
+  void saveBottomsheetInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    prefs.setString("notice_timestamp", "$timestamp");
+
+
+
   }
 
 

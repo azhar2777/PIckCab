@@ -66,7 +66,6 @@ class _AppHeaderState extends State<AppHeader> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       print("initState Header $alertEnabled");
     });
-
   }
 
   @override
@@ -122,7 +121,6 @@ class _AppHeaderState extends State<AppHeader> {
         alertEnabled = prefs.getBool(_cachedAlertStatus) ?? false;
         isLoading = false;
       });
-
     }
   }
 
@@ -240,7 +238,7 @@ class _AppHeaderState extends State<AppHeader> {
           await prefs.setBool(_cachedAlertStatus, newAlertStatus);
           await prefs.setInt(
               _lastFetchTime, DateTime.now().millisecondsSinceEpoch);
-          
+
           // print("Helloooooooo ${userData["is_active"].toString()}");
 
           // Update UI if still mounted
@@ -258,57 +256,71 @@ class _AppHeaderState extends State<AppHeader> {
   }
 
   // ======================= UPDATE ALERT =======================
-Future<void> _setNotoification(bool newValue) async {
+  Future<void> _setNotoification(bool newValue) async {
+    final response = await http.get(
+      Uri.parse("$appurl/get_alert_cities?user_id=$userId"),
+    );
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      print(json);
+      if (json['status']) {
+        final cityNames = (json['cities'] as List)
+            .map((city) => city['city'].toString())
+            .toList();
 
+        print(cityNames);
 
-  final response = await http.get(
-    Uri.parse("$appurl/get_alert_cities?user_id=$userId"),
-  );
-if (response.statusCode == 200) {
-  final json = jsonDecode(response.body);
-  print(json);
-  if(json['status']){
-    final cityNames = (json['cities'] as List)
-        .map((city) => city['city'].toString())
-        .toList();
-
-    print(cityNames);
-
-
-    for (final city in cityNames) {
-      try {
-        if(alertEnabled){
-          await FirebaseMessaging.instance.subscribeToTopic(
-            "city_${city.toLowerCase()}",
-          );
-          print("Subscribed: ${city}");
-        }
-        else{
-          await FirebaseMessaging.instance.unsubscribeFromTopic(
-            "city_${city.toLowerCase()}",
-          );
-          print("Unsubscribed: ${city}");
-        }
-
-
-      } catch (e) {
-        print("Failed to unsubscribe ${city}: $e");
+        updateCityTopics(cityNames, alertEnabled);
+        // final futures = cityNames.map((city) async {
+        //   final topic = "city_${city.toLowerCase()}";
+        //
+        //   try {
+        //     if (alertEnabled) {
+        //       await FirebaseMessaging.instance.subscribeToTopic(topic);
+        //       print("Subscribed: $city");
+        //     } else {
+        //       await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
+        //       print("Unsubscribed: $city");
+        //     }
+        //   } catch (e) {
+        //     print("Failed to process $city: $e");
+        //   }
+        // }).toList();
+        //
+        // await Future.wait(futures);
       }
     }
-
   }
 
-}
+  // Code for fcm subscribe
 
+  void updateCityTopics(List<String> cityNames, bool alertEnabled) {
+    for (final city in cityNames) {
+      final topic = "city_${city.toLowerCase()}";
 
-}
+      if (alertEnabled) {
+        FirebaseMessaging.instance.subscribeToTopic(topic).then((_) {
+          print("Subscribed: $city");
+        }).catchError((e) {
+          print("Failed to subscribe $city: $e");
+        });
+      } else {
+        FirebaseMessaging.instance.unsubscribeFromTopic(topic).then((_) {
+          print("Unsubscribed: $city");
+        }).catchError((e) {
+          print("Failed to unsubscribe $city: $e");
+        });
+      }
+    }
+  }
+
   Future<void> _updateAlertStatus(bool newValue) async {
     if (!mounted) return;
 
     setState(() {
       alertEnabled = newValue;
     });
-
+    controller.enableNotification.value = newValue;
     final url = Uri.parse("$appurl/update_alert");
 
     try {
@@ -322,16 +334,15 @@ if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
       final data = jsonDecode(responseBody);
 
-      print("response ${data}" );
-      if(data['status']){
+      print("response ${data}");
+      if (data['status']) {
+
         _setNotoification(newValue);
-        controller.enableNotification.value = newValue;
       }
 
       // Update cache
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_cachedAlertStatus, newValue);
-
 
       if (mounted) {
         CustomNotification.show(
@@ -365,6 +376,7 @@ if (response.statusCode == 200) {
     final controller = Get.find<DashboardController>();
     controller.selectedIndex.value = 3;
   }
+
   void navigateToProfile1() async {
     if (!mounted) return;
     print("navigateToProfile");
@@ -375,9 +387,8 @@ if (response.statusCode == 200) {
     //
     // // If profile was updated, refresh data
 
-
     final result = await Get.off(
-          () => const DashboardScreen(selectedTab: 3),
+      () => const DashboardScreen(selectedTab: 3),
       transition: Transition.fadeIn,
     );
     if (result == true && mounted) {
@@ -392,12 +403,10 @@ if (response.statusCode == 200) {
   }
 
   void navigateToHome() {
-
     if (mounted) {
       print("navigateToHome");
       Get.offAll(() => const DashboardScreen(selectedTab: 0));
       // Get.to(() => DashboardScreen(selectedTab: 0), transition: Transition.fadeIn);
-
     }
   }
 
@@ -438,12 +447,11 @@ if (response.statusCode == 200) {
           children: [
             const Icon(Icons.notifications_outlined, color: Color(0xFF6A1B9A)),
             Obx(() => Switch(
-              value: controller.enableNotification.value,
-              onChanged:
-              isLoading ? null : (value) => _updateAlertStatus(value),
-              activeColor: const Color(0xFF6A1B9A),
-            )),
-
+                  value: controller.enableNotification.value,
+                  onChanged:
+                      isLoading ? null : (value) => _updateAlertStatus(value),
+                  activeColor: const Color(0xFF6A1B9A),
+                )),
             GestureDetector(
               onTap: navigateToSupport,
               child: const Icon(Icons.support_agent,

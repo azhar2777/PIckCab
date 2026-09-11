@@ -789,7 +789,7 @@ class HomeController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id") ?? "0";
 
-      final url = Uri.parse("$appurl/available_bookings_new?user_id=$userId");
+      final url = Uri.parse("$appurl/available_bookings?user_id=$userId");
       final response = await http.get(
         url,
         headers: {'Accept': 'application/json'},
@@ -802,10 +802,12 @@ class HomeController extends GetxController {
         if (data["status"] == true && data["available_bookings"] != null) {
           final List items = data["available_bookings"];
 
+          // print("fetchAvailableBookings items ${items.length}");
+
           final parsed = items.map((item) {
 
-            final b = item["booking"] as Map<String, dynamic>;
-            final u = item["user_data"] as Map<String, dynamic>;
+            final b = item as Map<String, dynamic>;
+            // final u = item["user_data"] as Map<String, dynamic>;
             // print(item['booking']);
             return
               {
@@ -813,8 +815,8 @@ class HomeController extends GetxController {
               'trip_id': b["trip_id"]?.toString() ?? "N/A",
               'send_call': b["send_call"]?.toString() ?? "N/A",
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",
-              'driver': u["user_name"] ?? "Unknown Driver",
-              'mobile': u["user_mobile"]?.toString() ?? "",
+              'driver': b["user_name"] ?? "Unknown Driver",
+              'mobile': b["user_mobile"]?.toString() ?? "",
               'from': b["start_location"] ?? "Unknown",
               'to': b["end_location"] ?? "Unknown",
               'date': b["trip_date"] ?? "",
@@ -829,7 +831,7 @@ class HomeController extends GetxController {
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
                   ? b["remarks"]
                   : "No remarks",
-              'verified': u["aadhar_verified"]?.toString() == "0",
+              'verified': b["aadhar_verified"]?.toString() == "0",
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
             };

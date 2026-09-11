@@ -101,17 +101,17 @@ class AlertsController extends GetxController {
               .toList();
           cities.assignAll(cityList);
 
-          for (final city in cityList) {
-            try {
-              await FirebaseMessaging.instance.subscribeToTopic(
-                "city_${city.city.toLowerCase()}",
-              );
-
-              print("Subscribed: ${city.city}");
-            } catch (e) {
-              print("Failed to subscribe ${city.city}: $e");
-            }
-          }
+          // for (final city in cityList) {
+          //   try {
+          //     await FirebaseMessaging.instance.subscribeToTopic(
+          //       "city_${city.city.toLowerCase()}",
+          //     );
+          //
+          //     print("Subscribed: ${city.city}");
+          //   } catch (e) {
+          //     print("Failed to subscribe ${city.city}: $e");
+          //   }
+          // }
 
 
 
@@ -161,13 +161,22 @@ class AlertsController extends GetxController {
       final response = await request.send();
       final resp = await response.stream.bytesToString();
       final json = jsonDecode(resp);
-
+      print(json);
       if (json["status"] == true) {
         CustomNotification.show(
           title: "Success",
           message: "City added!",
           isSuccess: true,
         );
+        try {
+          await FirebaseMessaging.instance.subscribeToTopic(
+            "city_${trimmed.toLowerCase()}",
+          );
+
+          print("Subscribed: ${trimmed}");
+        } catch (e) {
+          print("Failed to subscribe ${trimmed}: $e");
+        }
         await fetchCities();
 
 
@@ -200,6 +209,7 @@ class AlertsController extends GetxController {
       final response = await request.send();
       final resp = await response.stream.bytesToString();
       final json = jsonDecode(resp);
+      print(json);
 
       if (json["status"] == true) {
         cities.removeWhere((c) => c.id == id);

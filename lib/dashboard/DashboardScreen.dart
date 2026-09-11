@@ -11,6 +11,7 @@ import 'package:pickcab_partner/my_bookings/my_booking_screen.dart';
 import 'package:pickcab_partner/profile/profile_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:pickcab_partner/smartbooking/SmartBookingController.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../home/home_screen.dart';
 import 'DashboardController.dart';
@@ -35,6 +36,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   var bottomheight = 60.0;
+  final WebViewController webController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
   @override
   void initState() {
@@ -173,7 +176,102 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   }
 
+  void _showPostBottomSheetNotice(BuildContext context) {
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          height: MediaQuery.of(context).size.height*0.9,
+          width: MediaQuery.of(context).size.width*0.98,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Expanded(
+            child: ListView(
+
+
+              children: [
+                Obx(() {
+
+                  if (controller.noticeHtml.value.isEmpty) {
+                    return const Center(
+                      child: Text('No HTML available'),
+                    );
+                  }
+
+                  webController.loadHtmlString(
+                    controller.noticeHtml.value,
+                  );
+
+                  return WebViewWidget(
+                    controller: webController,
+                  );
+                })
+              ],
+            ),
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
   void _showPostBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Post',
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: controller.showSmartBooking.value ? 20: 0),
+              controller.showSmartBooking.value ?
+              _buildPostOption(
+                icon: Icons.auto_awesome,
+                title: 'Quick Booking with AI',
+                onTap: () {
+                  Get.delete<SmartBookingController>();
+                  Get.put(SmartBookingController());
+
+                  Get.back();
+                  controller.navigateToSmartBooking();
+                },
+              ):Container(),
+              const SizedBox(height: 20),
+
+              _buildPostOption(
+                icon: Icons.add_road,
+                title: 'New Booking',
+                onTap: () => {Get.back(), controller.onNewBooking()},
+              ),
+              const SizedBox(height: 12),
+              _buildPostOption(
+                icon: Icons.directions_car,
+                title: 'Free Vehicle',
+                onTap: () => {Get.back(), controller.onFreeVehicle()},
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void _showNoticeBottomSheet(BuildContext context) {
     Get.bottomSheet(
       SafeArea(
         child: Container(
