@@ -45,4 +45,6 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release -v
+        run: flutter build apk --release
+        env:
+          ORG_GRADLE_PROJECT_android_disableFileWatching: true
