@@ -44,8 +44,5 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Check outdated packages
-        run: flutter pub outdated
-
       - name: Build APK
         run: flutter build apk --release -v
