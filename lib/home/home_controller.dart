@@ -38,6 +38,9 @@ class HomeController extends GetxController {
   final RxBool hasError = false.obs;
   final RxString searchQuery = ''.obs;
   final RxInt selectedTab = 0.obs;
+  final RxString selectedReason = ''.obs;
+  final reportMessage = TextEditingController();
+  final Rx<Map<String, dynamic>?> selectedBooking = Rx<Map<String, dynamic>?>(null);
 
   // Auto-removal timers
   Timer? _cleanupTimer;
@@ -72,6 +75,81 @@ class HomeController extends GetxController {
     NotificationService.updateTokenAfterLogin();
     callAllFunctions();
   }
+
+
+Future<void> submitReport() async {
+  final prefs = await SharedPreferences.getInstance();
+  var userId = prefs.getString("user_id");
+  if (selectedReason.isEmpty) {
+    Get.snackbar('Error', 'Please select a reason',
+        backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+    return;
+  }
+
+
+  print("selected bookings ");
+  print(selectedBooking.value);
+  try{
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$appurl/report_spam_booking'),
+    );
+    request.fields.addAll({
+      'reporter_id': userId.toString(),
+      'booking_id':  selectedBooking?.value?['id'],
+      'booking_user_id': selectedBooking?.value?['user_id'],
+      'report_type': selectedReason.value,
+      'message': reportMessage.text.toString().trim()
+
+    });
+
+    print(request.fields);
+    Get.back();
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final body = await response.stream.bytesToString();
+      final json = jsonDecode(body);
+      print(json);
+
+      if (json['status'] == true) {
+        Get.snackbar('Success', 'Report submitted successfully',
+            backgroundColor: Colors.green.shade100,
+            colorText: Colors.green.shade900,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
+        selectedBooking.value = null;
+        selectedReason.value = "";
+        reportMessage.text = "";
+
+
+      } else {
+        Get.snackbar('Error', json['message'] ?? 'Failed to submit',
+            backgroundColor: Colors.red.shade100,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } else {
+      Get.snackbar('Error', 'Server error: ${response.reasonPhrase}',
+          backgroundColor: Colors.red.shade100,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+  catch (e) {
+    Get.back();
+    Get.snackbar('Error', 'Something went wrong: $e',
+        backgroundColor: Colors.red.shade100,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+
+
+
+
+
+
+}
 
 
   Future<void> fetchUserProfile() async {
@@ -812,6 +890,7 @@ class HomeController extends GetxController {
             return
               {
               'id': b["id"].toString(),
+              'user_id': b["user_id"].toString(),
               'trip_id': b["trip_id"]?.toString() ?? "N/A",
               'send_call': b["send_call"]?.toString() ?? "N/A",
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",

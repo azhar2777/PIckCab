@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:pickcab_partner/dashboard/DashboardScreen.dart';
 import 'package:pickcab_partner/support/support_details.screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../includes/header.dart';
 import '../alerts/alerts_screen.dart';
@@ -116,7 +117,9 @@ class SupportController extends GetxController {
 
     if (commentController.text.trim().isEmpty) {
       Get.snackbar('Error', 'Please describe your issue',
-          backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+          backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
 
@@ -151,30 +154,90 @@ class SupportController extends GetxController {
         if (json['status'] == true) {
           Get.snackbar('Success', 'Ticket submitted successfully',
               backgroundColor: Colors.green.shade100,
-              colorText: Colors.green.shade900);
+              colorText: Colors.green.shade900,
+            snackPosition: SnackPosition.BOTTOM,
+          );
 
           commentController.clear();
           // Refresh list
           fetchTickets();
         } else {
           Get.snackbar('Error', json['message'] ?? 'Failed to submit',
-              backgroundColor: Colors.red.shade100);
+              backgroundColor: Colors.red.shade100,
+            snackPosition: SnackPosition.BOTTOM,
+          );
         }
       } else {
         Get.snackbar('Error', 'Server error: ${response.reasonPhrase}',
-            backgroundColor: Colors.red.shade100);
+            backgroundColor: Colors.red.shade100,
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
       Get.back();
       Get.snackbar('Error', 'Something went wrong: $e',
-          backgroundColor: Colors.red.shade100);
+          backgroundColor: Colors.red.shade100,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future<void> openTelegramUsername(String username) async {
+    final cleanUsername = username.replaceAll('@', '').trim();
+
+    final telegramUri = Uri.parse(
+      'tg://resolve?domain=$cleanUsername',
+    );
+
+    if (await canLaunchUrl(telegramUri)) {
+      await launchUrl(
+        telegramUri,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      final webUri = Uri.parse(
+        'https://t.me/$cleanUsername',
+      );
+
+      await launchUrl(
+        webUri,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
+
+  Future<void> openTelegram(String phone) async {
+    final cleanPhone = phone.replaceAll(RegExp(r'[^0-9+]'), '');
+
+    final telegramUri = Uri.parse(
+      'tg://resolve?phone=$cleanPhone',
+    );
+
+    if (await canLaunchUrl(telegramUri)) {
+      await launchUrl(
+        telegramUri,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      final webUri = Uri.parse('https://t.me/$cleanPhone');
+
+      await launchUrl(
+        webUri,
+        mode: LaunchMode.externalApplication,
+      );
     }
   }
 
   // Navigation methods...
-  void navigateToHome() => Get.offAll(() => DashboardScreen(selectedTab: 0,), transition: Transition.fadeIn);
+  void navigateToHome() => Get.offAll(
+      () => DashboardScreen(
+            selectedTab: 0,
+          ),
+      transition: Transition.fadeIn);
   // ... rest same
 }
+
+
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({super.key});
@@ -360,11 +423,13 @@ class _SupportScreenState extends State<SupportScreen> {
                   "Submit a new support request or view your previous tickets",
                   style: TextStyle(color: Colors.grey.shade600),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 10),
 
                 // Submit form (same as before)
                 Container(
-                  padding: const EdgeInsets.all(20),
+
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
                     borderRadius: BorderRadius.circular(16),
@@ -407,10 +472,10 @@ class _SupportScreenState extends State<SupportScreen> {
                                 controller.selectedType.value = val;
                             },
                           )),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: controller.commentController,
-                        maxLines: 5,
+                        maxLines: 2,
                         decoration: InputDecoration(
                           labelText: "Describe your issue",
                           alignLabelWithHint: true,
@@ -426,7 +491,7 @@ class _SupportScreenState extends State<SupportScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -452,7 +517,132 @@ class _SupportScreenState extends State<SupportScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
+
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 1,),
+                  // color: Colors.red,
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment
+                          .stretch, // Forces second item to match height
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: ()=>{
+                              controller.openTelegramUsername("@Jawedkhan007"),
+                            },
+                            child: Container(
+
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey.shade300),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 15,),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.telegram,
+                                        size: 40,
+                                        color: Color(0XFF31A5DB),
+                                      ),
+                                    ),
+                                    // SizedBox(width: 10,),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Chat on Telegram",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: Colors.grey.shade300),
+                                              ),
+                                            ),
+                                            Text(
+                                              " Reply within 5 minutes.",
+                                              style: TextStyle(
+                                                  color: Colors.grey.shade800,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Container(
+                          height: 60,
+                          width: 80,
+
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: Container(
+
+                            child: InkWell(
+                              onTap: () => {
+                                Get.snackbar(
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    'Success', 'Calling support will be available soon',
+
+                                    backgroundColor: Colors.green.shade100,
+                                    colorText: Colors.green.shade900,
+                                ),
+
+
+
+
+                              },
+
+
+
+                              child: Center(
+                                child: Icon(
+                                  Icons.call_outlined,
+                                  size: 25,
+                                  color: Color(0xFF6A1B9A),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
                 Text(
                   "Your Support Tickets",
                   style: GoogleFonts.montserrat(
@@ -485,17 +675,17 @@ class _SupportScreenState extends State<SupportScreen> {
                     itemBuilder: (context, index) {
                       final ticket = controller.tickets[index];
                       return InkWell(
-                        onTap:  () async =>{
+                        onTap: () async => {
                           // Get.to(() => SupportDetailsScreen(supportTicket: controller.tickets[index],), transition: Transition.fadeIn)
                           await Get.to(
-                                () => SupportDetailsScreen(
+                            () => SupportDetailsScreen(
                               supportTicket: controller.tickets[index],
                             ),
                             transition: Transition.fadeIn,
                           ),
 
                           controller.fetchTickets(),
-                    },
+                        },
                         child: Card(
                           margin: const EdgeInsets.only(bottom: 12),
                           shape: RoundedRectangleBorder(
@@ -508,7 +698,6 @@ class _SupportScreenState extends State<SupportScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-
                                   children: [
                                     Chip(
                                       label: Text(
@@ -520,11 +709,12 @@ class _SupportScreenState extends State<SupportScreen> {
                                       ),
                                       backgroundColor: const Color(0xFF6A1B9A),
                                     ),
-
                                     const Spacer(),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Text(
                                           _formatDate(ticket.submittedAt),
@@ -533,11 +723,11 @@ class _SupportScreenState extends State<SupportScreen> {
                                             fontSize: 12,
                                           ),
                                         ),
-                                        SizedBox(height: 8,),
-
+                                        SizedBox(
+                                          height: 8,
+                                        ),
                                       ],
                                     ),
-
                                   ],
                                 ),
                                 const SizedBox(height: 12),
@@ -546,20 +736,26 @@ class _SupportScreenState extends State<SupportScreen> {
                                   style: const TextStyle(fontSize: 15),
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    ticket.status == "1" ?
-                                    Text(
-                                      "Status: ${ticket.status == "1" ? "Resolved" : "In Progress"}",
-                                      style: TextStyle(
-                                        color: ticket.status == "1"
-                                            ? Colors.green.shade700
-                                            : Colors.orange.shade700,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ):Container(),
-                                    Icon(Icons.open_in_new, size: 30, color: const Color(0xFF6A1B9A),),
+                                    ticket.status == "1"
+                                        ? Text(
+                                            "Status: ${ticket.status == "1" ? "Resolved" : "In Progress"}",
+                                            style: TextStyle(
+                                              color: ticket.status == "1"
+                                                  ? Colors.green.shade700
+                                                  : Colors.orange.shade700,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        : Container(),
+                                    Icon(
+                                      Icons.open_in_new,
+                                      size: 30,
+                                      color: const Color(0xFF6A1B9A),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 8),

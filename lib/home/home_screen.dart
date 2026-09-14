@@ -640,75 +640,69 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     ),
                   //   ),
                   // Verified Badge
-                  if (isVerified)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      // decoration: BoxDecoration(
-                      //   // color: const Color(0xFFF3E5F5),
-                      //   // color: Colors.red,
-                      //   borderRadius: BorderRadius.circular(20),
-                      //   border: Border.all(
-                      //       color: const Color.fromARGB(166, 29, 178, 3)),
-                      // ),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            "assets/images/ic_aadhar.png",
-                            width: 70,
-                            height: 40,
-                            fit: BoxFit.contain,
-                          ),
-                          Positioned(
-                              bottom: 5,
-                              right: 0,
-                              child: Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                  // color: const Color(0xFFF3E5F5),
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      color: const Color.fromARGB(
-                                          166, 29, 178, 3)),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Verified",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 7,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  // Icon(
-                                  //   Icons.check,
-                                  //   color: Colors.white,
-                                  //   size: 30,
-                                  // ),
-                                ),
-                              )),
-                        ],
-                      ),
 
-                      // Row(
-                      //   mainAxisSize: MainAxisSize.min,
-                      //   children: [
-                      //     const Icon(Icons.shield,
-                      //         color: Color.fromARGB(213, 4, 156, 19), size: 15),
-                      //     const SizedBox(width: 4),
-                      //     Text(
-                      //       "Verified",
-                      //       style: TextStyle(
-                      //         color: const Color.fromARGB(208, 3, 191, 21),
-                      //         fontSize: 11,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ),
+                    Row(
+                      children: [
+                        if (isVerified)
+                          Container(
+                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2,),
+                          decoration: BoxDecoration(
+
+                            color: Color(0XFFE2F0D9),
+                            borderRadius: BorderRadius.circular(30),
+                            // border: Border.all(
+                            //     color: const Color.fromARGB(166, 29, 178, 3)),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.verified, size: 18, color: Color(0XFF2A6310),),
+                              Text(
+                                "Verified",
+                                style: TextStyle(
+                                  color: Color(0XFF2A6310),
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        if (isVerified)
+                        SizedBox(width: 6,),
+                        Container(
+                          height: 30,
+                          width: 30,
+                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2,),
+                          decoration: BoxDecoration(
+
+                            color: Color(0XFFFCEBEB),
+                            borderRadius: BorderRadius.circular(30),
+                            // border: Border.all(
+                            //     color: const Color.fromARGB(166, 29, 178, 3)),
+                          ),
+                          child: InkWell(
+                            onTap: () => {
+                              controller.selectedBooking.value = booking,
+                              _showRerportBottomSheet(context)
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.flag_outlined, size: 18, color: Color(0XFF9C2A2A),),
+                                // Text(
+                                //   "Report",
+                                //   style: TextStyle(
+                                //     color: Color(0XFFE44344),
+                                //     fontSize: 9,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )
                 ],
               ),
             ],
@@ -734,7 +728,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                   : Text(
-                '${booking["startTimeparsed"]}',
+                      '${booking["startTimeparsed"]}',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -1105,6 +1099,205 @@ class _HomeScreenState extends State<HomeScreen> {
   //     ),
   //   );
   // }
+
+  void _showRerportBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: double.infinity,
+          // height: MediaQuery.of(context).size.height * 0.85,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Report Booking',
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+
+              const SizedBox(height: 20),
+
+              Obx(() =>IntrinsicHeight(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment
+                      .stretch, // Forces second item to match height
+
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.28,
+                        child: InkWell(
+                          onTap: ()=>{
+                            controller.selectedReason.value = "Fake Booking"
+                          },
+                          child: Card(
+                            color: controller.selectedReason == "Fake Booking" ? Color(0XFFFCEBEB) : Colors.white,
+                            // elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  Image.asset(
+                                    "assets/images/fake_booking.png",
+                                    fit: BoxFit.contain,
+                                    width: 30,
+                                    height: 30,
+                                    color: controller.selectedReason == "Fake Booking" ? Color(0XFF9C2A2A): Colors.grey,
+                                  ),
+
+                                  Text("Fake Booking",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: controller.selectedReason == "Fake Booking" ? Color(0XFF9C2A2A): Colors.black, fontSize: 13),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.28,
+
+
+                        child: InkWell(
+                          onTap: ()=>{
+                            controller.selectedReason.value = "Scammer"
+                          },
+                          child: Card(
+                            color: controller.selectedReason == "Scammer" ? Color(0XFFFCEBEB) : Colors.white,
+                            // elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  Image.asset(
+                                    "assets/images/fraud_booking.png",
+                                    fit: BoxFit.contain,
+                                    width: 30,
+                                    height: 30,
+                                    color: controller.selectedReason == "Scammer" ? Color(0XFF9C2A2A): Colors.grey,
+                                  ),
+
+                                  Text("Scammer",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: controller.selectedReason == "Scammer" ? Color(0XFF9C2A2A): Colors.black, fontSize: 13),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.28,
+                        // height: 130,
+
+                        child: InkWell(
+                          onTap: ()=>{
+                            controller.selectedReason.value = "Free Vehicle Post"
+                          },
+                          child: Card(
+                            color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFFFCEBEB) : Colors.white,
+                            // elevation: 2,
+                            child: Container(
+                              padding: const EdgeInsets.only(bottom: 5, top: 5, left: 4, right: 4),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+
+                                  Image.asset(
+                                    "assets/images/wrong_details.png",
+                                    fit: BoxFit.contain,
+                                    width: 30,
+                                    height: 30,
+                                    color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFF9C2A2A): Colors.grey,
+                                  ),
+
+                                  Text("Free Vehicle Post",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFF9C2A2A): Colors.black, fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+              ),
+              ),
+
+              const SizedBox(height: 8),
+              Container(
+                // height: 100,
+                child: TextField(
+                  controller: controller.reportMessage,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: "Write messages",
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF8E24AA),
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF8E24AA),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: controller.submitReport,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF6A1B9A),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    "Submit Report",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+
+
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
 
   void _showCitySearchDialog(BuildContext context, HomeController c) {
     final searchController = TextEditingController();

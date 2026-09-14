@@ -271,59 +271,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _showNoticeBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Post',
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: controller.showSmartBooking.value ? 20: 0),
-              controller.showSmartBooking.value ?
-              _buildPostOption(
-                icon: Icons.auto_awesome,
-                title: 'Quick Booking with AI',
-                onTap: () {
-                  Get.delete<SmartBookingController>();
-                  Get.put(SmartBookingController());
-
-                  Get.back();
-                  controller.navigateToSmartBooking();
-                },
-              ):Container(),
-              const SizedBox(height: 20),
-
-              _buildPostOption(
-                icon: Icons.add_road,
-                title: 'New Booking',
-                onTap: () => {Get.back(), controller.onNewBooking()},
-              ),
-              const SizedBox(height: 12),
-              _buildPostOption(
-                icon: Icons.directions_car,
-                title: 'Free Vehicle',
-                onTap: () => {Get.back(), controller.onFreeVehicle()},
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-      isScrollControlled: true,
-    );
-  }
 
   Widget _buildPostOption({
     required IconData icon,
