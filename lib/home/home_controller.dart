@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:pickcab_partner/chats/ChatScreen.dart';
 import 'package:pickcab_partner/model/PPUser.dart';
 import 'package:pickcab_partner/smartbooking/SmartBookingScreen.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
@@ -192,9 +193,9 @@ Future<void> submitReport() async {
           }
           else{
             print("user_unq_id ${data["user_unq_id"]}");
-            // FirebaseUtil.updateUserState(data["user_unq_id"], 1);
-            PPUser user = PPUser.fromJson(data);
-            FirebaseUtil.updateUserData(user);
+            FirebaseUtil.updateUserState(data["user_unq_id"], 1);
+            // PPUser user = PPUser.fromJson(data);
+            // FirebaseUtil.updateUserData(user);
 
           }
 
@@ -896,6 +897,7 @@ Future<void> submitReport() async {
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",
               'driver': b["user_name"] ?? "Unknown Driver",
               'mobile': b["user_mobile"]?.toString() ?? "",
+              'user_unq_id': b["user_unq_id"]?.toString() ?? "",
               'from': b["start_location"] ?? "Unknown",
               'to': b["end_location"] ?? "Unknown",
               'date': b["trip_date"] ?? "",
@@ -1182,6 +1184,12 @@ Future<void> submitReport() async {
 
   Future<void> openWhatsApp(bool isBooking, String phone, Map<String, dynamic> booking) async {
     Utils.getWhatsappShareMesage(isBooking, phone, booking);
+
+    // Get.to(
+    //       () => ChatScreen(bookingId: booking['id'], tripId: booking['trip_id'],userUniqueId: booking['user_unq_id']),
+    //   transition: Transition.fadeIn,
+    // );
+
   }
 
   Future<void> openWhatsApp2(String phone, Map<String, dynamic> booking) async {

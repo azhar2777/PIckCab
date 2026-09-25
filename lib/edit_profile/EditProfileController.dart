@@ -19,6 +19,7 @@ class Editprofilecontroller extends GetxController {
   final RxBool hasError = false.obs;
   final RxBool isSubmitting = false.obs;
   final RxBool isOtpVerifying = false.obs;
+  final RxBool isProfileCompleted = true.obs;
 
   final RxMap<String, dynamic> user = <String, dynamic>{
     'name': '',
@@ -31,14 +32,17 @@ class Editprofilecontroller extends GetxController {
     'dl_verified': '0',
     'rating': 0.0,
     'avatarUrl': 'https://i.pravatar.cc/300',
+    'is_profile_completed': false,
     'verified': false,
   }.obs;
 
   final nameController = TextEditingController();
   final cityController = TextEditingController();
+  final carController = TextEditingController();
 
   var nameError = "".obs;
   var cityError = "".obs;
+  var carError = "".obs;
   var imageError = "".obs;
 
   var allCities = <String>[].obs;
@@ -50,8 +54,14 @@ class Editprofilecontroller extends GetxController {
 
   @override
   void onInit() {
-    fetchUserProfile();
+    // fetchUserProfile();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    fetchUserProfile();
   }
 
   Future<void> captureImage() async {
@@ -82,8 +92,9 @@ class Editprofilecontroller extends GetxController {
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id");
+      // final userId = "15";
 
-      print(userId);
+      print("userIdcsaddadsd $userId");
 
       if (userId == null || userId == "0") {
         Get.offAll(() => LoginScreen());
@@ -97,7 +108,19 @@ class Editprofilecontroller extends GetxController {
         final json = jsonDecode(response.body);
         if (json["status"] == true) {
           final data = json["user_data"];
-          print(data);
+          // final cartData = json["user_car"];
+          // print("json");
+          print(json);
+
+          // if(json["user_car"] !=null ){
+          //   carController.text = json["user_car"]['reg_number'];
+          // }
+          final userCar = json["user_car"];
+
+          carController.text = userCar is Map
+              ? userCar["reg_number"]?.toString() ?? ''
+              : '';
+          isProfileCompleted.value = data["is_profile_completed"].toString() == "1";
 
           user.assignAll({
             'name': data["user_name"] ?? "Unknown User",
@@ -113,7 +136,8 @@ class Editprofilecontroller extends GetxController {
             'avatarUrl': (data["user_image"] != null &&
                     data["user_image"].toString().isNotEmpty)
                 ? "$imageurl/${data["user_image"]}"
-                : "https://i.pravatar.cc/300?u=$userId",
+                : "",
+            'is_profile_completed': data["is_profile_completed"] == true || data["is_profile_completed"] == "1",
             'verified': data["verified"] == true || data["verified"] == "1",
           });
 
@@ -140,10 +164,21 @@ class Editprofilecontroller extends GetxController {
     }
   }
 
+  bool isValidVehicleNumber(String value) {
+    final vehicleNumber = value.trim().toUpperCase();
+
+    final regex = RegExp(
+      r'^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$',
+    );
+
+    return regex.hasMatch(vehicleNumber);
+  }
+
   void updateProfile() async {
-    isSubmitting.value = true;
+
     nameError.value = "";
     cityError.value = "";
+    carError.value = "";
     print("updateProfile pressed");
     var name = nameController.text.trim();
     final city = selectedCity.value.isNotEmpty
@@ -153,15 +188,37 @@ class Editprofilecontroller extends GetxController {
       nameError.value = "Full name is required";
 
     }
+    if(carController.text.toUpperCase().trim().isEmpty || !isValidVehicleNumber(carController.text.trim())){
+      carError.value = "Please enter a valid car number";
+    }
     if (city.isEmpty) {
       cityError.value = "City is required";
     }
 
-    if(name.isEmpty || city.isEmpty){
+    if(name.isEmpty || city.isEmpty || carError.value.isNotEmpty){
       return;
     }
 
+    final hasAvatar = user['avatarUrl']?.contains('http') ?? false;
+
+    if (!hasAvatar && !isProfileCompleted.value) {
+      if (capturedImage.value == null) {
+        imageError.value = "Profile pic is required";
+
+        CustomNotification.show(
+          title: "Failed",
+          message: "Profile pic is required",
+          isSuccess: false,
+        );
+
+        return;
+      }
+    }
+
+
+
     try {
+      isSubmitting.value = true;
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id");
 
@@ -175,13 +232,19 @@ class Editprofilecontroller extends GetxController {
       postData['user_id'] = userId;
       postData['user_name'] = name;
       postData['city'] = city;
+      postData['car_number'] = carController.text.toUpperCase().trim();
+
+
       if(capturedImage.value != null){
         final bytes = await capturedImage.value!.readAsBytes();
         final base64Image = "data:image/jpeg;base64,${base64Encode(bytes)}";
         postData['user_image'] = base64Image;
       }
+      if(!isProfileCompleted.value){
+        postData['is_completed'] = "1";
+      }
       print(appurl+"updateProfile");
-      print(postData);
+
 
       final response = await http.post(
         Uri.parse(appurl+"updateProfile"),
@@ -200,7 +263,14 @@ class Editprofilecontroller extends GetxController {
           isSuccess: true ,
         );
 
-        Get.off(() => DashboardScreen(selectedTab: 3));
+
+        if(!isProfileCompleted.value) {
+          Get.offAll(() => DashboardScreen(selectedTab: 0,));
+        }
+        else{
+          Get.off(() => DashboardScreen(selectedTab: 3));
+        }
+
 
       } else {
         CustomNotification.show(
@@ -210,6 +280,7 @@ class Editprofilecontroller extends GetxController {
         );
       }
     } catch (e) {
+      print(e);
       CustomNotification.show(
         title: "Error",
         message: "Something went wrong. Check your connection.",

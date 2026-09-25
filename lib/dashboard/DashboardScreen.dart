@@ -13,6 +13,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:pickcab_partner/smartbooking/SmartBookingController.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../chats/ChatScreen.dart';
 import '../home/home_screen.dart';
 import 'DashboardController.dart';
 
@@ -33,6 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     const AlertsScreen(),
     const ProfileScreen(),
+    // const Chats(),
   ];
 
   var bottomheight = 60.0;
@@ -69,13 +71,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewPadding.bottom;
     return Obx(() => Scaffold(
+
       body: IndexedStack(
         index: controller.selectedIndex.value,
         children: screens,
       ),
 
-      bottomNavigationBar: SizedBox(
-        height: bottomheight + bottomInset,
+      bottomNavigationBar: Container(
+        // height: bottomheight + bottomInset,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -83,6 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Container(
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 254, 237, 255),
+                // color: Colors.red,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
                 // boxShadow: [
                 //   BoxShadow(
@@ -95,73 +99,83 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: SafeArea(
                 top: false,
                 child:
-                BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  selectedItemColor: Color(0xFF6A1B9A),
-                  unselectedItemColor: Colors.grey,
-                  selectedFontSize: 10,
-                  unselectedFontSize: 10,
-                  showUnselectedLabels: true,
+                Container(
+                   // color: Colors.blue,
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    selectedItemColor: Color(0xFF6A1B9A),
+                    unselectedItemColor: Colors.grey,
+                    selectedFontSize: 10,
+                    unselectedFontSize: 10,
+                    showUnselectedLabels: true,
 
-                  currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
-                  onTap: (index) {
-                    if (index == 2) return; // 👈 ignore center item
+                    currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
+                    onTap: (index) {
+                      if (index == 2) return; // 👈 ignore center item
 
-                    if (index > 2) {
-                      controller.changeTab(index - 1); // shift index
-                    } else {
-                      controller.changeTab(index);
-                    }
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home, size: 22,),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border, size: 22,),
-                      label: 'My Bookings',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SizedBox.shrink(),
-                      label: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.notifications_outlined, size: 22,),
-                      label: 'My Alerts',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.person_outline, size: 22,),
-                      label: 'Profile',
-                    ),
-                  ],
+                      if (index > 2) {
+                        controller.changeTab(index - 1); // shift index
+                      } else {
+                        controller.changeTab(index);
+                      }
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home, size: 22,),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.bookmark_border, size: 22,),
+                        label: 'My Bookings',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SizedBox.shrink(),
+                        label: '',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.notifications_outlined, size: 22,),
+                        label: 'My Alerts',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.person_outline, size: 22,),
+                        label : 'Profile',
+                        // icon: Icon(Icons.chat, size: 22,),
+                        // label: 'Chats',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             Positioned(
               // bottom: bottomheight == 60 ? 0 : 10,
-              top: -6,
-              child: GestureDetector(
-                onTap: () => _showPostBottomSheet(context),
-                child: Container(
-                  width: 68,
-                  height: 68,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFF6A1B9A).withOpacity(0.6),
-                        blurRadius: 20,
-                        offset: Offset(0, 8),
+              top: -(bottomheight/3),
+              child: Container(
+                color: Colors.transparent,
+                width: MediaQuery.of(context).size.width,
+                child: GestureDetector(
+                  onTap: () => _showPostBottomSheet(context),
+                  child: Container(
+                    width: 55,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
+
                       ),
-                    ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Color(0xFF6A1B9A).withOpacity(0.6),
+                      //     blurRadius: 20,
+                      //     offset: Offset(0, 8),
+                      //   ),
+                      // ],
+                    ),
+                    child: const Icon(Icons.add, color: Colors.white, size: 40),
                   ),
-                  child: const Icon(Icons.add, color: Colors.white, size: 38),
                 ),
               ),
             ),

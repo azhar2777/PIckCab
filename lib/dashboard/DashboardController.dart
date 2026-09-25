@@ -14,14 +14,17 @@ import 'package:http/http.dart' as http;
 import 'package:in_app_update/in_app_update.dart';
 import 'package:pickcab_partner/alerts/alerts_controller.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
+import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../alerts/alerts_screen.dart';
 import '../const/const.dart';
 import '../const/custom_notification.dart';
+import '../edit_profile/EditProfileScreen.dart';
 import '../freebooking/freebooking_new.dart';
 import '../home/home_controller.dart';
 import '../login/login_screen.dart';
+import '../model/PPUser.dart';
 import '../my_bookings/my_booking_controller.dart';
 import '../my_bookings/my_booking_screen.dart';
 import '../new_booking/new_booking_screen.dart';
@@ -55,7 +58,7 @@ class DashboardController  extends GetxController {
   @override
   void onInit() {
     fetchUserProfile();
-    fetchNotice();
+    // fetchNotice();
     super.onInit();
 
     /// Run after dashboard is loaded
@@ -164,19 +167,27 @@ class DashboardController  extends GetxController {
             showSmartBooking.value = true;
           }
 
-          // print("Helloooooooo ${data["is_active"].toString()}");
+          print("is_profile_completed fetch Notice ${data['is_profile_completed']}" );
 
-          // if(data["is_active"].toString() == "0"){
-          //   Utils.showAlertDialog(title: "", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
-          //     Get.offAll(() => LoginScreen())
-          //   });
-          //
-          // }
+          if(data['is_profile_completed'].toString() == "1"){
+            fetchNotice();
+          }
+          else{
+            await Get.to(
+                  () => const Editprofilescreen(),
+              transition: Transition.fadeIn,
+            );
+          }
+          print("updateUserData1 ${data}");
+          // PPUser user = PPUser.fromJson(data);
+          // FirebaseUtil.updateUserData(user);
+          Map<String, dynamic> mapUser = {
+            'id':data['id'],
+            'user_mobile':data['user_mobile'],
+            'aadhar_verified':data['aadhar_verified'],
+          };
 
-
-          // print("Prefs${prefs.getString("mobile_number")}");
-
-
+          FirebaseUtil.updateuser(data['user_unq_id'], mapUser);
 
 
         } else {

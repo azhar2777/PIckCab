@@ -35,6 +35,8 @@ class LoginController extends GetxController {
   String deviceName = '';
   String deviceModel = '';
   String versionName = '';
+  RxString termsError = ''.obs;
+  RxBool isTermsAccepted = false.obs;
 
   // App hash for SMS auto-read
   // String? appHash;
@@ -62,6 +64,13 @@ class LoginController extends GetxController {
     });
 
     debugPrint('📱 Using App Hash: $appHash');
+  }
+
+  void toggleTerms(bool? value) {
+    isTermsAccepted.value = value ?? false;
+    if (isTermsAccepted.value) {
+      termsError.value = '';
+    }
   }
 
   Future<void> getAppVersion() async {
@@ -131,10 +140,16 @@ class LoginController extends GetxController {
   }
 
   Future<void> sendOTP() async {
+
     final phone = phoneController.text.trim();
 
     if (phone.isEmpty || phone.length != 10) {
       phoneError.value = "Enter valid 10-digit number";
+      return;
+    }
+
+    if(!isTermsAccepted.value){
+      termsError.value = "Please accept Terms & Conditions";
       return;
     }
 
@@ -190,7 +205,7 @@ class LoginController extends GetxController {
   Future<void> _proceedWithOTP(String phone, String otp) async {
     try {
       final response = await http.post(
-        Uri.parse("$appurl/login"),
+        Uri.parse("$appurl/loginNew"),
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: {
           "user_mobile": phone,

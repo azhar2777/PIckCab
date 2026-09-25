@@ -160,7 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : "No available bookings yet",
                                 )
                               : ListView.builder(
-                                  padding: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.fromLTRB(5,5,5,10),
+
                                   itemCount: displayList.length,
                                   itemBuilder: (context, index) =>
                                       _buildBookingCard(
@@ -1246,9 +1247,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 // height: 100,
                 child: TextField(
                   controller: controller.reportMessage,
+                  maxLength: 120,
                   maxLines: 2,
+
                   decoration: InputDecoration(
-                    labelText: "Write messages",
+                    labelText: "Write message",
                     alignLabelWithHint: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -1264,6 +1267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 1,
                       ),
                     ),
+                    counter: Text('${controller.reportMessage.text.trim().length}/120')
                   ),
                 ),
               ),
