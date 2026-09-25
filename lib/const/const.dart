@@ -1,7 +1,7 @@
 const appurl = "https://pickcab-partner.pickcab.in/partner/api/";
-const imageurl = "https://pickcab-partner.pickcab.in/partner//public/uploads/";
+const imageurl = "https://pickcab-partner.pickcab.in/partner/public/uploads/";
 const imageurlstatic =
-    "https://pickcab-partner.pickcab.in/partner//public/images/";
+    "https://pickcab-partner.pickcab.in/partner/public/images/";
 
 // const appurl = "http://192.168.29.216/pickcab_partners/api";
 // const imageurl = "http://192.168.29.216/pickcab_partners/public/uploads";
