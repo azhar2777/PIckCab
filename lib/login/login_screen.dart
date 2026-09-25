@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../const/const.dart';
@@ -72,6 +73,23 @@ class _LoginScreenState extends State<LoginScreen>
     _videoController.dispose();
     _fadeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (url.isEmpty) {
+      Get.snackbar("Error", "URL not configured");
+      return;
+    }
+
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.inAppWebView, // ← this opens inside the app
+      webOnlyWindowName: '_self', // optional: helps on web platform
+    )) {
+      Get.snackbar("Error", "Could not launch $url");
+    }
   }
 
   @override
@@ -352,7 +370,89 @@ class _LoginScreenState extends State<LoginScreen>
                               // Phone Field
                               if (!isOtpMode) ...[
                                 _buildPhoneField(),
-                                const SizedBox(height: 28),
+                                const SizedBox(height: 10),
+                                Obx(
+                                      () => Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: [
+                                          Checkbox(
+                                            value: controller.isTermsAccepted.value,
+                                            onChanged: controller.toggleTerms,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith<Color>(
+                                                    (states) {
+                                                  if (states.contains(
+                                                      MaterialState.selected)) {
+                                                    return const Color(
+                                                        0xFF8E24AA);
+                                                  }
+                                                  return const Color.fromARGB(
+                                                      255, 62, 59, 63);
+                                                }),
+                                            checkColor:
+                                            const Color.fromARGB(
+                                                255, 201, 23, 23),
+                                            side: const BorderSide(
+                                                color: Colors.white70,
+                                                width: 1.4),
+                                          ),
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () => _launchUrl(
+                                                  "https://pickcab-partner.pickcab.in/terms-conditions/"),
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text:
+                                                      "I agree to the ",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          fontSize: 14,
+                                                          color: Colors
+                                                              .white70),
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                      "Terms & Conditions",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                        fontSize: 14,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                        decoration:
+                                                        TextDecoration
+                                                            .underline,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      if (controller.termsError.value.isNotEmpty)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 12, top: 0),
+                                          child: Text(
+                                            controller.termsError.value,
+                                            style: const TextStyle(
+                                                color: Colors.orangeAccent,
+                                                fontSize: 13),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
                               ],
 
                               // OTP Field
@@ -431,7 +531,11 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ),
                                 const SizedBox(height: 28),
+
+
                               ],
+
+
 
                               // Action Button
                               _buildActionButton(isOtpMode),
@@ -509,6 +613,60 @@ class _LoginScreenState extends State<LoginScreen>
                               //     ),
                               //   ),
                               // ),
+
+                              const SizedBox(height: 30),
+                              Center(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(12),
+                                  onTap: () => _launchUrl(
+                                      "https://pickcab-partner.pickcab.in/privacy-policy/"),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(12),
+                                      color: Colors.white.withOpacity(0.12),
+                                      border: Border.all(
+                                          color: Colors.white
+                                              .withOpacity(0.25)),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                            Icons.privacy_tip_outlined,
+                                            color: Colors.white,
+                                            size: 20),
+                                        const SizedBox(width: 8),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Click here  ",
+                                                style: GoogleFonts.exo2(
+                                                    fontSize: 14,
+                                                    color: Colors.white70),
+                                              ),
+                                              TextSpan(
+                                                text: "Privacy Policy",
+                                                style: GoogleFonts.exo2(
+                                                  fontSize: 15,
+                                                  color: Colors.white,
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                  decoration: TextDecoration
+                                                      .underline,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
 
 
                             ],
@@ -633,6 +791,7 @@ class _LoginScreenState extends State<LoginScreen>
             ),
           ],
         ),
+
         child: ElevatedButton(
           onPressed: isOtpMode
               ? (controller.isVerifying.value ? null : controller.verifyOTP)

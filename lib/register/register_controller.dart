@@ -36,6 +36,7 @@ class RegisterController extends GetxController {
   var cityError = "".obs;
   var imageError = "".obs;
   var otpError = "".obs;
+  
 
   var isLoading = false.obs;
   var showOtpScreen = false.obs;

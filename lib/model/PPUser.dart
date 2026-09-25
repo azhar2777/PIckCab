@@ -14,10 +14,10 @@ class PPUser {
   String? status;
   String? aadharVerified;
   String? dlVerified;
-  Null? dlNo;
-  Null? aadharNo;
-  Null? aadharDetailsJson;
-  Null? aadharVerifiedOn;
+  String? dlNo;
+  String? aadharNo;
+  String? aadharDetailsJson;
+  String? aadharVerifiedOn;
   String? deviceId;
   String? deviceName;
   String? deviceModel;
