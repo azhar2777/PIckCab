@@ -27,7 +27,9 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Pickcab Partner">
+        android:label="Pickcab Partner"
+        android:allowBackup="false"
+        >
 
         <activity
             android:name=".MainActivity"
