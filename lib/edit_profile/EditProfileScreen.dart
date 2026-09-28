@@ -195,10 +195,10 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                           "",
                           error: controller.carError.value,
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]'),
-                            ),
+                            // LengthLimitingTextInputFormatter(10),
+                            // FilteringTextInputFormatter.allow(
+                            //   RegExp(r'[a-zA-Z0-9 ]'),
+                            // ),
                           ],
 
                         ),
@@ -515,13 +515,13 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
       keyboardType: keyboard,
       inputFormatters: inputFormatters,
       textCapitalization: controller == this.controller.carController ? TextCapitalization.characters : TextCapitalization.words,
-      style: const TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
 
-        prefixIcon: const Icon(
-          Icons.person_sharp,
+        prefixIcon: Icon(
+          controller == this.controller.carController ? Icons.car_rental_sharp : Icons.person_sharp,
           color: Color(0xFF6A1B9A),
         ),
 

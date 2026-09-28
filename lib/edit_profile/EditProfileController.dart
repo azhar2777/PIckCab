@@ -70,6 +70,8 @@ class Editprofilecontroller extends GetxController {
         source: ImageSource.camera,
         preferredCameraDevice: CameraDevice.front,
         imageQuality: 80,
+        maxWidth: 600,
+        maxHeight: 600,
       );
       if (photo != null) {
         capturedImage.value = File(photo.path);
@@ -165,10 +167,13 @@ class Editprofilecontroller extends GetxController {
   }
 
   bool isValidVehicleNumber(String value) {
-    final vehicleNumber = value.trim().toUpperCase();
+    final vehicleNumber = value
+        .trim()
+        .toUpperCase()
+        .replaceAll(RegExp(r'\s+'), '');
 
     final regex = RegExp(
-      r'^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$',
+      r'^[A-Z]{2}[0-9]{2}[A-Z]+[0-9]+$',
     );
 
     return regex.hasMatch(vehicleNumber);
@@ -188,7 +193,7 @@ class Editprofilecontroller extends GetxController {
       nameError.value = "Full name is required";
 
     }
-    if(carController.text.toUpperCase().trim().isEmpty || !isValidVehicleNumber(carController.text.trim())){
+    if(carController.text.toUpperCase().trim().isEmpty){
       carError.value = "Please enter a valid car number";
     }
     if (city.isEmpty) {
@@ -235,8 +240,16 @@ class Editprofilecontroller extends GetxController {
       postData['car_number'] = carController.text.toUpperCase().trim();
 
 
+
       if(capturedImage.value != null){
         final bytes = await capturedImage.value!.readAsBytes();
+        final sizeInBytes = bytes.length;
+        final sizeInKB = sizeInBytes / 1024;
+        final sizeInMB = sizeInKB / 1024;
+
+        debugPrint('Size: ${sizeInBytes} bytes');
+        debugPrint('Size: ${sizeInKB.toStringAsFixed(2)} KB');
+        debugPrint('Size: ${sizeInMB.toStringAsFixed(2)} MB');
         final base64Image = "data:image/jpeg;base64,${base64Encode(bytes)}";
         postData['user_image'] = base64Image;
       }
@@ -244,6 +257,7 @@ class Editprofilecontroller extends GetxController {
         postData['is_completed'] = "1";
       }
       print(appurl+"updateProfile");
+      print(postData);
 
 
       final response = await http.post(
@@ -280,7 +294,7 @@ class Editprofilecontroller extends GetxController {
         );
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       CustomNotification.show(
         title: "Error",
         message: "Something went wrong. Check your connection.",

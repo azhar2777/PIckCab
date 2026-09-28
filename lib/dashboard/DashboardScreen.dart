@@ -100,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 top: false,
                 child:
                 Container(
-                   // color: Colors.blue,
+                   // height: 70,
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     backgroundColor: Colors.transparent,
@@ -131,7 +131,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         label: 'My Bookings',
                       ),
                       BottomNavigationBarItem(
-                        icon: SizedBox.shrink(),
+                        icon: SizedBox(width: 22, height: 22),
                         label: '',
                       ),
                       BottomNavigationBarItem(
@@ -154,25 +154,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               top: -(bottomheight/3),
               child: Container(
                 color: Colors.transparent,
-                width: MediaQuery.of(context).size.width,
+                // width: 60,
                 child: GestureDetector(
                   onTap: () => _showPostBottomSheet(context),
                   child: Container(
-                    width: 55,
-                    height: 55,
+                    width: 65,
+                    height: 65,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-
                       ),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Color(0xFF6A1B9A).withOpacity(0.6),
-                      //     blurRadius: 20,
-                      //     offset: Offset(0, 8),
-                      //   ),
-                      // ],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF6A1B9A).withOpacity(0.8),
+                          blurRadius: 20,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
                     ),
                     child: const Icon(Icons.add, color: Colors.white, size: 40),
                   ),

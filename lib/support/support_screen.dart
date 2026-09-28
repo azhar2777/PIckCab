@@ -730,7 +730,7 @@ class _SupportScreenState extends State<SupportScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
+                                // const SizedBox(height: 12),
                                 Text(
                                   ticket.message,
                                   style: const TextStyle(fontSize: 15),
@@ -753,12 +753,12 @@ class _SupportScreenState extends State<SupportScreen> {
                                         : Container(),
                                     Icon(
                                       Icons.open_in_new,
-                                      size: 30,
+                                      size: 26,
                                       color: const Color(0xFF6A1B9A),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
+                                // const SizedBox(height: 8),
                                 // if (ticket.status == "1") ...[
                                 //   const SizedBox(height: 8),
                                 //

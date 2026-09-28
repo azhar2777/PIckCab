@@ -375,6 +375,8 @@ class _AppHeaderState extends State<AppHeader> {
 
     final controller = Get.find<DashboardController>();
     controller.selectedIndex.value = 3;
+    print("Header fetchUserProfile");
+    controller.fetchUserProfile();
   }
 
   void navigateToProfile1() async {

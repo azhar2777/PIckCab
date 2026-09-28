@@ -210,6 +210,7 @@ class DashboardController  extends GetxController {
 
   Future<void> fetchNotice() async {
     print("fetchNotice");
+    int showAfterEveryHours = 8;
     try {
       final prefs = await SharedPreferences.getInstance();
       final url = Uri.parse("$appurl/getNotice");
@@ -223,6 +224,7 @@ class DashboardController  extends GetxController {
           if(data !=null && data.length > 0){
             // print(data[0]);
             noticeHtml.value = data[0]['description'];
+            // noticeHtml.value = data[0]['description'];
             // print(noticeHtml.value);
             final noticeStamp = prefs.getString("notice_timestamp");
             if(noticeStamp !=null && noticeStamp.isNotEmpty){
@@ -231,7 +233,12 @@ class DashboardController  extends GetxController {
               final diff = timestamp - int.parse(noticeStamp);
 
               print("Diffff >>>> $diff");
-              if (diff >= 24* 60* 60 * 1000) { // for 1 day
+
+              if(data[0]['notice_interval'] !=null && int.parse(data[0]['notice_interval']) > 0){
+                showAfterEveryHours = int.parse(data[0]['notice_interval']);
+              }
+              print("Diffff >>>> $diff showAfterEveryHours $showAfterEveryHours");
+              if (diff >= showAfterEveryHours* 60* 60 * 1000) { // for 1 day
                 Get.bottomSheet(
                   HtmlBottomSheet(html: data[0]['description']),
                   isScrollControlled: true,
