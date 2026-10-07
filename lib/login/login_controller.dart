@@ -238,7 +238,8 @@ class LoginController extends GetxController {
 
 
         final smsUrl =
-            "http://gitysoft.io/rest/services/sendSMS/sendGroupSms"
+            // "http://gitysoft.io/rest/services/sendSMS/sendGroupSms"
+            "http://sms.gitysoft.com/rest/services/sendSMS/sendGroupSms"
             "?AUTH_KEY=20e676ce315bed4a3955fb13e131631d"
             "&message=${Uri.encodeComponent(message)}"
             "&senderId=PPCAB8"
@@ -248,9 +249,11 @@ class LoginController extends GetxController {
 
         final smsResponse = await http.get(Uri.parse(smsUrl));
 
-        print("smsResponse $smsResponse");
+        print("smsResponse ${smsResponse.statusCode} ${smsResponse.body}");
+        print(smsResponse.body);
 
         if (smsResponse.statusCode == 200) {
+
           userId.value = json["user_id"].toString();
           showOTP.value = true;
           startResendTimer();
