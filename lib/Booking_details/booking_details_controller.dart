@@ -202,7 +202,7 @@ class BookingDetailsController extends GetxController {
     text += "\nPickup Time:- " + pickupTime;
     text += "\nRate :- " + price;
 
-    if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
+    if (booking['remarks'] != null && booking['remarks'] != "N/A") {
       text += "\n\n\nMessage:- " + booking['remarks'];
     }
     text += "\n\nPickCab Partner AAP 📱 download link ";
@@ -280,7 +280,7 @@ class BookingDetailsController extends GetxController {
     text += "\nRate :- " + price;
     text += "\nCall :- " + userDetails['user_mobile'];
 
-    if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
+    if (booking['remarks'] != null && booking['remarks'] != "N/A") {
       text += "\n\n\nMessage:- " + booking['remarks'];
     }
 

@@ -164,7 +164,7 @@ To: $to
 Trip Type: $tripType
 Car: $carType
 Rate: $price
-${remarks.isNotEmpty && remarks.toLowerCase() != 'no remarks' ? "\nNote: $remarks" : ''}
+Remark: ${remarks.isNotEmpty && remarks.toLowerCase() != 'no remarks' ? "\nNote: $remarks" : 'N/A'}
 
 Contact: $userName - $userMobile
 

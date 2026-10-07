@@ -46,7 +46,7 @@ class Utils {
       text += "\nRate :- " + rate;
       text += "\nCall :- " + mobileNumber;
 
-      if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
+      if (booking['remarks'] != null && booking['remarks'] != "N/A") {
         text += "\n\n\nMessage:- " + booking['remarks'];
       }
 
@@ -133,7 +133,7 @@ class Utils {
       text += "\nPickup Time:- " + pickupTime;
       text += "\nRate :- " + rate;
 
-      if (booking['remarks'] != null && booking['remarks'] != "No remarks") {
+      if (booking['remarks'] != null && booking['remarks'] != "N/A") {
         text += "\n\n\nMessage:- " + booking['remarks'];
       }
     }
