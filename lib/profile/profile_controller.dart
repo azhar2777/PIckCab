@@ -45,6 +45,7 @@ class ProfileController extends GetxController {
     'rating': 0.0,
     'avatarUrl': 'https://i.pravatar.cc/300',
     'verified': false,
+    'car_number':''
   }.obs;
 
   final RxBool isLoading = true.obs;
@@ -64,6 +65,7 @@ class ProfileController extends GetxController {
   }
 
   void loadData() {
+    print("loadDataProfile");
     fetchUserProfile();
     checkAadhaarStatus();
   }
@@ -73,6 +75,9 @@ class ProfileController extends GetxController {
     super.onReady();
     loadData();
   }
+
+
+
 
   @override
   void onClose() {
@@ -109,6 +114,7 @@ class ProfileController extends GetxController {
         final json = jsonDecode(response.body);
         if (json["status"] == true) {
           final data = json["user_data"];
+          final userCar = json["user_car"];
 
           user.assignAll({
             'name': data["user_name"] ?? "Unknown User",
@@ -125,6 +131,9 @@ class ProfileController extends GetxController {
                 ? "$imageurl/${data["user_image"]}"
                 : "https://i.pravatar.cc/300?u=$userId",
             'verified': data["verified"] == true || data["verified"] == "1",
+            'car_number': userCar is Map
+                ? userCar["reg_number"]?.toString() ?? ''
+                : '',
           });
         } else {
           throw Exception(json["message"] ?? "Failed to load profile");

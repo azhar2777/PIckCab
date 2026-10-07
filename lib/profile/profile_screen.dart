@@ -2,12 +2,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pickcab_partner/profile/ProfileShareCard.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../dashboard/DashboardController.dart';
 import '../includes/header.dart';
 import '../support/support_screen.dart';
 import 'addhardetail.dart';
@@ -20,15 +24,22 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-final controller = Get.put(ProfileController(), permanent: true);
+// final controller = Get.put(ProfileController(), permanent: true);
+final controller = Get.put(DashboardController(), permanent: true);
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
+  final GlobalKey shareKey = GlobalKey();
+
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-
+    print("ProfileScreen fetchUserProfile");
     controller.fetchUserProfile();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   void _showLogoutDialog(BuildContext context) {
@@ -676,12 +687,127 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
   void _shareApp() {
     // Customize your share text and app link
     const String shareText =
         "PP (PICKCAB PARTNER) app download link https://play.google.com/store/apps/details?id=com.pickcab.partner";
     Share.share(shareText);
+  }
+
+  Future<void> shareProfile(String name, String mobile, String carNumber,
+      String profilePic, bool isVerified) async {
+    final bytes =
+        await captureShareCard(name, mobile, carNumber, profilePic, isVerified);
+
+    if (bytes == null) return;
+
+    await SharePlus.instance.share(
+      ShareParams(
+        // text: 'Check MP PP',
+        files: [
+          XFile.fromData(
+            bytes,
+            name: 'profile.png',
+            mimeType: 'image/png',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<Uint8List?> captureShareCardPrevious() async {
+    try {
+      await WidgetsBinding.instance.endOfFrame;
+
+      final boundary =
+          shareKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+      if (boundary == null) {
+        debugPrint('RepaintBoundary not found');
+        return null;
+      }
+
+      final image = await boundary.toImage(
+        pixelRatio: 3.0,
+      );
+
+      final byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      debugPrint('Capture error: $e');
+      return null;
+    }
+  }
+
+  Future<Uint8List?> captureShareCard(
+    String name,
+    String mobile,
+    String carNumber,
+    String profilePic,
+    bool isVerified,
+  ) async {
+    OverlayEntry? entry;
+
+    try {
+      entry = OverlayEntry(
+        builder: (context) {
+          return Positioned(
+            left: -1000,
+            top: -1000,
+            // width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
+            child: Material(
+              child: SizedBox(
+                width: 390,
+                child: IgnorePointer(
+                  child: RepaintBoundary(
+                    key: shareKey,
+                    child: Profilesharecard(
+                      profilePic: profilePic,
+                      name: name,
+                      carNumber: carNumber,
+                      mobileNumber: mobile, // FIXED
+                      isVerified: isVerified,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+
+      Overlay.of(context).insert(entry);
+
+      // Wait for the widget to be laid out and painted.
+      await WidgetsBinding.instance.endOfFrame;
+
+      final renderObject = shareKey.currentContext?.findRenderObject();
+
+      if (renderObject is! RenderRepaintBoundary) {
+        debugPrint('RepaintBoundary not found');
+        return null;
+      }
+
+      final image = await renderObject.toImage(
+        pixelRatio: 3.0,
+      );
+
+      final byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+
+      return byteData?.buffer.asUint8List();
+    } catch (e, stackTrace) {
+      debugPrint('Capture error: $e');
+      debugPrintStack(stackTrace: stackTrace);
+      return null;
+    } finally {
+      entry?.remove();
+    }
   }
 
   Widget _buildDetailRow(IconData icon, String label, String value) {
@@ -820,83 +946,214 @@ class _ProfileScreenState extends State<ProfileScreen> {
               else ...[
                 // Profile Avatar
                 Center(
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage(user['avatarUrl'] ?? ''),
-                        onBackgroundImageError: (_, __) {},
-                      ),
-                      if (user['verified'] == true)
-                        Positioned(
-                          right: 8,
-                          bottom: 8,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.verified,
-                              color: Colors.green,
-                              size: 24,
-                            ),
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10,),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(3), // Border thickness
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: const Color(0xFF6A1B9A),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  radius: 70,
+                                  backgroundImage: NetworkImage(user['avatarUrl'] ?? ''),
+                                  onBackgroundImageError: (_, __) {},
+                                ),
+                              ),
+                              if (user['verified'] == true)
+                                Positioned(
+                                  right: 8,
+                                  bottom: 8,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.verified,
+                                      color: Colors.green,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  user['name'] ?? 'User',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Center(
-                  child: InkWell(
-                    onTap: controller.navigateToEditProfile,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Edit Profile',
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF6A1B9A),
+                          const SizedBox(height: 16),
 
+                          Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 10,),
+                            padding: EdgeInsets.symmetric(vertical: 12,),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: IntrinsicHeight(
+                              child: Row(
+
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Name',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                        Text(
+                                          user['name'] ?? 'User',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: VerticalDivider(
+                                      width: 1,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Vehicle',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                        Text(
+                                          user['car_number'] ?? '',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 6,),
-                        Image.asset("assets/images/editing.png",
-                          width: 18,
-                          height: 18,
-                          fit: BoxFit.contain,)
-                      ],
+
+
+                          const SizedBox(height: 16),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: controller.navigateToEditProfile,
+                                  child: Container(
+                                    padding: EdgeInsets.all(10,),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(9),
+                                      border: Border.all(
+                                        color: const Color(0xFF6A1B9A),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/editing.png",
+                                          width: 18,
+                                          height: 18,
+                                          fit: BoxFit.contain,
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          'Edit Profile',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xFF6A1B9A),
+                                          ),
+                                        ),
+
+                                    ],),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: ()=>{
+                                    shareProfile(user['name'] ?? 'PP User', user['phone']  ?? '', user['car_number'] ?? '', user['avatarUrl'] ?? '', user['verified'] ?? false),
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(10,),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF6A1B9A),
+                                      borderRadius: BorderRadius.circular(9),
+                                      border: Border.all(
+                                        color: const Color(0xFF6A1B9A),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.share, size: 16, color: Colors.white,),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          'Share',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+
+                                      ],),
+                                  ),
+                                ),
+                              )
+
+                            ],
+                          ),
+
+                          const SizedBox(height: 12),
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.star, color: Colors.amber, size: 20),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${user['rating'] ?? '0.0'}',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
+
 
                 // Unique ID Card
                 // Container(
@@ -1154,32 +1411,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const Divider(height: 1, indent: 56),
                       ListTile(
                         leading: Image.asset(
-                            "assets/images/ic_whatsapp.png",
-                            width: 26,
-                            height: 26,
-                            fit: BoxFit.contain,
-                            color: Color(0xFF6A1B9A),
+                          "assets/images/ic_whatsapp.png",
+                          width: 26,
+                          height: 26,
+                          fit: BoxFit.contain,
+                          color: Color(0xFF6A1B9A),
                         ),
                         title: RichText(
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: "For Latest offers and updates join our  ",
+                                text:
+                                    "For Latest offers and updates join our  ",
                                 style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15,
-                                  color: Theme.of(context).textTheme.titleMedium?.color
-                                ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.color),
                               ),
                               TextSpan(
                                 text: "Whatsapp Channel",
                                 style: GoogleFonts.poppins(
                                   fontSize: 15,
-                                  color: Theme.of(context).textTheme.titleMedium?.color,
-                                  fontWeight:
-                                  FontWeight.bold,
-                                  decoration: TextDecoration
-                                      .underline,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.color,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ],
@@ -1191,8 +1452,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.grey,
                         ),
                         onTap: () => _launchWhatsApp(
-                        "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                            "https://whatsapp.com/channel/0029Va9ROYP6BIEhmR7nYk25/"),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 4),
                       ),
                     ],
                   ),
