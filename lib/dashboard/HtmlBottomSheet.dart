@@ -62,57 +62,71 @@ class _HtmlBottomSheetState extends State<HtmlBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height ,
       // margin: EdgeInsets.only(bottom: 50),
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20),
         ),
       ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: WebViewWidget(
-                  controller: webController,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+
+        children: [
+          Material(
+            color: Colors.white.withOpacity(0.5),
+            elevation: 3,
+            shape: const CircleBorder(),
+            child: InkWell(
+
+              onTap: () => {
+                controller.saveBottomsheetInfo(),
+                Navigator.of(context).pop()
+              },
+              customBorder: const CircleBorder(),
+              child: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.close,
+                  size: 24,
+                  color: Color(0xFF6A1B9A),
                 ),
               ),
             ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height*0.4,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Container(
+                    child:
 
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Material(
-                color: Colors.white,
-                elevation: 3,
-                shape: const CircleBorder(),
-                child: InkWell(
-
-                  onTap: () => {
-                    controller.saveBottomsheetInfo(),
-                    Navigator.of(context).pop()
-                  },
-                  customBorder: const CircleBorder(),
-                  child: const SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Icon(
-                      Icons.close,
-                      size: 24,
-                    ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: WebViewWidget(
+                            controller: webController,
+                          ),
+                        ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

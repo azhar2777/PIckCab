@@ -40,12 +40,14 @@ class DashboardController  extends GetxController {
   var selectedIndex = 0.obs;
   // Show Smart booking
   final RxBool showSmartBooking = true.obs;
+  final RxBool isBottomSheetOpen = false.obs;
   final List<String> allowedMobiles = <String>[
     "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
   ];
 
   void changeTab(int index) {
     selectedIndex.value = index;
+    print("changeTabIndex $index");
 
     if (index == 0) {
       Get.find<HomeController>().callAllFunctions();
@@ -53,6 +55,7 @@ class DashboardController  extends GetxController {
     } else if (index == 1) {
       Get.find<MyBookingController>().fetchMyBookings();
     }
+
 
   }
   @override
@@ -170,7 +173,8 @@ class DashboardController  extends GetxController {
           print("is_profile_completed fetch Notice ${data['is_profile_completed']}" );
 
           if(data['is_profile_completed'].toString() == "1"){
-            fetchNotice();
+
+              fetchNotice();
           }
           else{
             await Get.to(
@@ -209,7 +213,7 @@ class DashboardController  extends GetxController {
   }
 
   Future<void> fetchNotice() async {
-    print("fetchNotice");
+    print("fetchNotice called");
     int showAfterEveryHours = 8;
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -238,24 +242,36 @@ class DashboardController  extends GetxController {
                 showAfterEveryHours = int.parse(data[0]['notice_interval']);
               }
               print("Diffff >>>> $diff showAfterEveryHours $showAfterEveryHours");
-              if (diff >= showAfterEveryHours* 60* 60 * 1000) { // for 1 day
-                Get.bottomSheet(
-                  HtmlBottomSheet(html: data[0]['description']),
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  isDismissible: false
-                );
+              // if (diff >= 10) {
+              if (diff >= showAfterEveryHours * 60* 60 * 1000) {
+                if(!isBottomSheetOpen.value){
+                  isBottomSheetOpen.value = true;
+                  Get.bottomSheet(
+                      HtmlBottomSheet(html: data[0]['description']),
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: false
+                  ).whenComplete(() {
+                    isBottomSheetOpen.value = false;
+                  });
+                }
+
               } else {
                 print("More than 60 minutes");
               }
             }
             else{
-              Get.bottomSheet(
-                HtmlBottomSheet(html: data[0]['description']),
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  isDismissible: false
-              );
+              if(!isBottomSheetOpen.value){
+                isBottomSheetOpen.value = true;
+                Get.bottomSheet(
+                    HtmlBottomSheet(html: data[0]['description']),
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    isDismissible: false
+                ).whenComplete(() {
+                  isBottomSheetOpen.value = false;
+                });
+              }
             }
 
           }
@@ -287,10 +303,7 @@ class DashboardController  extends GetxController {
 
 
   }
-
-
-
-
+  
 
 
 }
