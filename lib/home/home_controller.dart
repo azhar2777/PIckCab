@@ -83,14 +83,7 @@ class HomeController extends GetxController {
   
   
   Future<void> getBanners() async {
-    // for(var i = 0; i < 3; i++) {
-    //   Slides mslides = new Slides(
-    //     id: i+1,
-    //     image: i %2 ==0 ? "assets/images/taxi_booking1.jpeg" : "assets/images/taxi_booking2.png",
-    //     link: "https://pickcab-partner.pickcab.in/partner/"
-    //   );
-    //   slides.add(mslides);
-    // }
+
 
     try {
 
