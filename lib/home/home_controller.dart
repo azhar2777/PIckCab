@@ -18,6 +18,7 @@ import '../../const/const.dart';
 import '../../const/custom_notification.dart';
 import '../freebooking/freebooking_new.dart';
 import '../login/login_screen.dart';
+import '../model/Slides.dart';
 import '../my_bookings/my_booking_screen.dart';
 import '../alerts/alerts_screen.dart';
 import '../profile/profile_screen.dart';
@@ -59,6 +60,8 @@ class HomeController extends GetxController {
   final RxList<String> filteredCities = <String>[].obs;
   final RxBool isCitiesLoading = true.obs;
 
+  late RxList<BannerData> slides = <BannerData>[].obs;
+
 
 
   @override
@@ -75,6 +78,42 @@ class HomeController extends GetxController {
     super.onReady();
     NotificationService.updateTokenAfterLogin();
     callAllFunctions();
+    getBanners();
+  }
+  
+  
+  Future<void> getBanners() async {
+    // for(var i = 0; i < 3; i++) {
+    //   Slides mslides = new Slides(
+    //     id: i+1,
+    //     image: i %2 ==0 ? "assets/images/taxi_booking1.jpeg" : "assets/images/taxi_booking2.png",
+    //     link: "https://pickcab-partner.pickcab.in/partner/"
+    //   );
+    //   slides.add(mslides);
+    // }
+
+    try {
+
+      final url = Uri.parse("$appurl/getBanners");
+      final response = await http.get(
+        url,
+        headers: {'Accept': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        isApiCalled.value = true;
+        final data = jsonDecode(response.body);
+
+        if (data["status"] == true) {
+          Slides slideData = Slides.fromJson(data);
+          slides.value = slideData.bannerData!;
+
+        }
+      }
+    } catch (e) {
+      print("error in banner api");
+      print(e);
+    }
   }
 
 
@@ -911,7 +950,7 @@ Future<void> submitReport() async {
               'price_type': b["price_type"]?.toString() ?? "N/A",
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
                   ? b["remarks"]
-                  : "No remarks",
+                  : "N/A",
               'verified': b["aadhar_verified"]?.toString() == "0",
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
@@ -1075,7 +1114,7 @@ Future<void> submitReport() async {
               'carrier': b["carrier"]?.toString() ?? "0",
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
                   ? b["remarks"]
-                  : "No remarks",
+                  : "N/A",
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
               'avatarUrl': "",

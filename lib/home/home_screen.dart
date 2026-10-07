@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:pickcab_partner/home/BannerSlider.dart';
 import '../../includes/header.dart';
 import '../Booking_details/booking_details_screen.dart';
 import 'home_controller.dart';
@@ -40,9 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return Column(
           children: [
+
             // Main Tabs (Bookings/Free Vehicles)
             Container(
-              margin: const EdgeInsets.fromLTRB(10, 2, 16, 8),
+              // margin: const EdgeInsets.fromLTRB(10, 2, 16, 8),
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color(0xFFF8F5FF),
@@ -66,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Search Bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
               child: InkWell(
                 onTap: () => _showCitySearchDialog(context, controller),
                 borderRadius: BorderRadius.circular(14),
@@ -140,6 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // Main Content
+            controller.slides.length > 0 ? Padding(
+              padding: const EdgeInsets.only(left: 3, right: 3),
+              child: BannerSlides(images: controller.slides),
+            ) : Container(),
             Expanded(
               child: controller.isApiCalled.value
                   ? RefreshIndicator(
@@ -900,6 +906,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ],
+
 
           const SizedBox(height: 16),
 
