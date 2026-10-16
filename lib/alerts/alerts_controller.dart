@@ -156,7 +156,7 @@ class AlertsController extends GetxController {
         'POST',
         Uri.parse("$appurl/add_alert_city"),
       );
-      request.fields.addAll({'user_id': userId, 'city': trimmed});
+      request.fields.addAll({'user_id': userId, 'city': trimmed, 'notification_topic':'city_${trimmed.toLowerCase()}'});
 
       final response = await request.send();
       final resp = await response.stream.bytesToString();

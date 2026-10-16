@@ -1096,7 +1096,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                                         Text(
                                           'Edit Profile',
                                           style: GoogleFonts.poppins(
-                                            fontSize: 15,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w600,
                                             color: const Color(0xFF6A1B9A),
                                           ),
@@ -1132,7 +1132,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                                         Text(
                                           'Share',
                                           style: GoogleFonts.poppins(
-                                            fontSize: 15,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w600,
                                             color: Colors.white,
                                           ),
