@@ -97,6 +97,9 @@ class HomeController extends GetxController {
         isApiCalled.value = true;
         final data = jsonDecode(response.body);
 
+        debugPrint('getBanners');
+        debugPrint(response.body);
+
         if (data["status"] == true) {
           Slides slideData = Slides.fromJson(data);
           slides.value = slideData.bannerData!;

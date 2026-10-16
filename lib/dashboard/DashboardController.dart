@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -13,6 +12,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 import 'package:in_app_update/in_app_update.dart';
 import 'package:pickcab_partner/alerts/alerts_controller.dart';
+import 'package:pickcab_partner/dashboard/AddCityBottomSheet.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
 import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +32,7 @@ import '../profile/profile_screen.dart';
 import '../smartbooking/SmartBookingScreen.dart';
 import 'HtmlBottomSheet.dart';
 
-class DashboardController  extends GetxController {
+class DashboardController extends GetxController {
   static DashboardController get to => Get.find();
 
   // Notice
@@ -41,8 +41,15 @@ class DashboardController  extends GetxController {
   // Show Smart booking
   final RxBool showSmartBooking = true.obs;
   final RxBool isBottomSheetOpen = false.obs;
+  final RxBool isCityBottomSheetOpen = false.obs;
   final List<String> allowedMobiles = <String>[
-    "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
+    "8828451293",
+    "9572511011",
+    "9122220415",
+    "7491010771",
+    "9876543220",
+    "9876543210",
+    "9330662777"
   ];
 
   void changeTab(int index) {
@@ -55,9 +62,13 @@ class DashboardController  extends GetxController {
     } else if (index == 1) {
       Get.find<MyBookingController>().fetchMyBookings();
     }
-
-
   }
+
+  void onAddCity() async {
+    Get.back(closeOverlays: true);
+    changeTab(2);
+  }
+
   @override
   void onInit() {
     fetchUserProfile();
@@ -73,35 +84,27 @@ class DashboardController  extends GetxController {
         checkForUpdateSafely();
       }
     });
-
   }
-
 
   Future<void> checkForUpdateSafely() async {
     try {
-
       final info = await InAppUpdate.checkForUpdate()
           .timeout(const Duration(seconds: 5));
 
       final updateAvailable =
-          info.updateAvailability ==
-              UpdateAvailability.updateAvailable;
+          info.updateAvailability == UpdateAvailability.updateAvailable;
 
-      final immediateAllowed =
-          info.immediateUpdateAllowed;
+      final immediateAllowed = info.immediateUpdateAllowed;
 
       if (updateAvailable && immediateAllowed) {
-
         // await InAppUpdate.performImmediateUpdate();
         await InAppUpdate.startFlexibleUpdate();
         await InAppUpdate.completeFlexibleUpdate();
       }
-
     } catch (e) {
       debugPrint("Update check error: $e");
     }
   }
-
 
   // ==================== NAVIGATION ====================
 
@@ -115,7 +118,8 @@ class DashboardController  extends GetxController {
       Get.to(() => const ProfileScreen(), transition: Transition.fadeIn);
 
   void onNewBooking() =>
-      Get.to(() => const NewBookingScreen(), transition: Transition.downToUp)?.then((_) {
+      Get.to(() => const NewBookingScreen(), transition: Transition.downToUp)
+          ?.then((_) {
         Get.find<MyBookingController>().fetchMyBookings();
       });
 
@@ -126,16 +130,13 @@ class DashboardController  extends GetxController {
   // void navigateToSmartBooking() =>
   //     Get.to(() => const SmartBookingScreen(), transition: Transition.fadeIn);
   void navigateToSmartBooking() =>
-    Get.to(() => SmartBookingScreen(), transition: Transition.fadeIn)?.then((_) {
-      Get.find<MyBookingController>().fetchMyBookings();
-    });
-
+      Get.to(() => SmartBookingScreen(), transition: Transition.fadeIn)
+          ?.then((_) {
+        Get.find<MyBookingController>().fetchMyBookings();
+      });
 
   // ==================== Fetch User Details ====================
   Future<void> fetchUserProfile() async {
-
-
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id");
@@ -147,8 +148,6 @@ class DashboardController  extends GetxController {
         return;
       }
 
-
-
       final url = Uri.parse("$appurl/user_details?user_id=$userId");
       final response = await http.get(url);
 
@@ -156,6 +155,7 @@ class DashboardController  extends GetxController {
         final json = jsonDecode(response.body);
         if (json["status"] == true) {
           final data = json["user_data"];
+          final userCity = json["user_city"];
           // print("UserData");
           // print(data);
 
@@ -163,22 +163,35 @@ class DashboardController  extends GetxController {
 
           await prefs.setString("mobile_number", data['user_mobile']);
 
-          if(allowedMobiles.contains("${data['user_mobile']}")){
+          if (allowedMobiles.contains("${data['user_mobile']}")) {
+            showSmartBooking.value = true;
+          } else {
             showSmartBooking.value = true;
           }
-          else{
-            showSmartBooking.value = true;
-          }
 
-          print("is_profile_completed fetch Notice ${data['is_profile_completed']}" );
+          print(
+              "is_profile_completed fetch Notice ${data['is_profile_completed']}");
 
-          if(data['is_profile_completed'].toString() == "1"){
+          var cityName = userCity is Map ? userCity["city"]?.toString() ?? '' : '';
 
-              fetchNotice();
-          }
-          else{
+
+
+          if (data['is_profile_completed'].toString() == "1") {
+
+            if(cityName.isEmpty){
+              fetchNotice(1);
+              print("cityName is Empty");
+
+
+            }
+            else{
+              print("cityName is $cityName");
+              fetchNotice(0);
+            }
+
+          } else {
             await Get.to(
-                  () => const Editprofilescreen(),
+              () => const Editprofilescreen(),
               transition: Transition.fadeIn,
             );
           }
@@ -186,14 +199,12 @@ class DashboardController  extends GetxController {
           // PPUser user = PPUser.fromJson(data);
           // FirebaseUtil.updateUserData(user);
           Map<String, dynamic> mapUser = {
-            'id':data['id'],
-            'user_mobile':data['user_mobile'],
-            'aadhar_verified':data['aadhar_verified'],
+            'id': data['id'],
+            'user_mobile': data['user_mobile'],
+            'aadhar_verified': data['aadhar_verified'],
           };
 
           FirebaseUtil.updateuser(data['user_unq_id'], mapUser);
-
-
         } else {
           throw Exception(json["message"] ?? "Failed to load profile");
         }
@@ -207,12 +218,10 @@ class DashboardController  extends GetxController {
         message: "Failed to load profile. Pull to refresh.",
         isSuccess: false,
       );
-    } finally {
-
-    }
+    } finally {}
   }
 
-  Future<void> fetchNotice() async {
+  Future<void> fetchNotice(int showCity) async {
     print("fetchNotice called");
     int showAfterEveryHours = 8;
     try {
@@ -225,55 +234,88 @@ class DashboardController  extends GetxController {
         if (json["status"] == true) {
           final data = json["notice_data"];
 
-          if(data !=null && data.length > 0){
+          if (data != null && data.length > 0) {
             // print(data[0]);
             noticeHtml.value = data[0]['description'];
             // noticeHtml.value = data[0]['description'];
             // print(noticeHtml.value);
             final noticeStamp = prefs.getString("notice_timestamp");
-            if(noticeStamp !=null && noticeStamp.isNotEmpty){
+            if (noticeStamp != null && noticeStamp.isNotEmpty) {
               // print("noticeStamp $noticeStamp");
               final timestamp = DateTime.now().millisecondsSinceEpoch;
               final diff = timestamp - int.parse(noticeStamp);
 
               print("Diffff >>>> $diff");
 
-              if(data[0]['notice_interval'] !=null && int.parse(data[0]['notice_interval']) > 0){
+              if (data[0]['notice_interval'] != null &&
+                  int.parse(data[0]['notice_interval']) > 0) {
                 showAfterEveryHours = int.parse(data[0]['notice_interval']);
               }
-              print("Diffff >>>> $diff showAfterEveryHours $showAfterEveryHours");
+              print(
+                  "Diffff >>>> $diff showAfterEveryHours $showAfterEveryHours");
               // if (diff >= 10) {
-              if (diff >= showAfterEveryHours * 60* 60 * 1000) {
-                if(!isBottomSheetOpen.value){
+              if (diff >= showAfterEveryHours * 60 * 60 * 1000) {
+                if (!isBottomSheetOpen.value) {
                   isBottomSheetOpen.value = true;
-                  Get.bottomSheet(
-                      HtmlBottomSheet(html: data[0]['description']),
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      isDismissible: false
-                  ).whenComplete(() {
+                  Get.bottomSheet(HtmlBottomSheet(html: data[0]['description']),
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          isDismissible: false)
+                      .whenComplete(() {
                     isBottomSheetOpen.value = false;
+                    if(showCity ==1 && !isCityBottomSheetOpen.value){
+                      isCityBottomSheetOpen.value = true;
+                      Get.bottomSheet(AddCityBottomSheet(),
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          isDismissible: true,
+
+
+                      )
+                          .whenComplete(() {
+                        print("Add City pop up shown");
+                        isCityBottomSheetOpen.value = false;
+                      });
+                    }
                   });
                 }
-
               } else {
                 print("More than 60 minutes");
+                if(showCity ==1 && !isCityBottomSheetOpen.value){
+                  isCityBottomSheetOpen.value = true;
+                  Get.bottomSheet(AddCityBottomSheet(),
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: true)
+                      .whenComplete(() {
+                    print("Add City pop up shown");
+                    isCityBottomSheetOpen.value = false;
+                  });
+                }
               }
-            }
-            else{
-              if(!isBottomSheetOpen.value){
+            } else {
+              if (!isBottomSheetOpen.value) {
                 isBottomSheetOpen.value = true;
-                Get.bottomSheet(
-                    HtmlBottomSheet(html: data[0]['description']),
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    isDismissible: false
-                ).whenComplete(() {
+                Get.bottomSheet(HtmlBottomSheet(html: data[0]['description']),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: false)
+                    .whenComplete(() {
                   isBottomSheetOpen.value = false;
+                  if(showCity ==1 && !isCityBottomSheetOpen.value){
+                    isCityBottomSheetOpen.value = true;
+                    Get.bottomSheet(AddCityBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: true)
+                        .whenComplete(() {
+                      print("Add City pop up shown");
+                      isCityBottomSheetOpen.value = false;
+                    });
+                  }
                 });
               }
             }
-
           }
         } else {
           throw Exception(json["message"] ?? "Failed to load html");
@@ -288,22 +330,13 @@ class DashboardController  extends GetxController {
         message: "Failed to load profile. Pull to refresh.",
         isSuccess: false,
       );
-    } finally {
-
-    }
+    } finally {}
   }
-
 
   void saveBottomsheetInfo() async {
     final prefs = await SharedPreferences.getInstance();
     final timestamp = DateTime.now().millisecondsSinceEpoch;
 
     prefs.setString("notice_timestamp", "$timestamp");
-
-
-
   }
-  
-
-
 }

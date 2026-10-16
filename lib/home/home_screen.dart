@@ -39,172 +39,138 @@ class _HomeScreenState extends State<HomeScreen> {
             ? controller.filteredBookings
             : controller.filteredfreeBookings;
 
-        return Column(
-          children: [
-
-            // Main Tabs (Bookings/Free Vehicles)
-            Container(
-              // margin: const EdgeInsets.fromLTRB(10, 2, 16, 8),
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8F5FF),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  _tabButton(
-                    title: "Bookings",
-                    isActive: isBookingsTab,
-                    onTap: () => controller.switchTab(0),
-                  ),
-                  _tabButton(
-                    title: "Free Vehicles",
-                    isActive: !isBookingsTab,
-                    onTap: () => controller.switchTab(1),
-                  ),
-                ],
-              ),
-            ),
-
-            // Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              child: InkWell(
-                onTap: () => _showCitySearchDialog(context, controller),
-                borderRadius: BorderRadius.circular(14),
+        return RefreshIndicator(
+          color: const Color(0xFF6A1B9A),
+          onRefresh: () async {
+            await controller.refreshBookings();
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              // Tabs
+              SliverToBoxAdapter(
                 child: Container(
-                  height: 48,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: controller.searchQuery.value.isEmpty
-                          ? Colors.grey.shade200
-                          : const Color(0xFF6A1B9A),
-                      width: controller.searchQuery.value.isEmpty ? 1.0 : 1.8,
-                    ),
-                    boxShadow: controller.searchQuery.value.isNotEmpty
-                        ? [
-                            BoxShadow(
-                              color: const Color(0xFF6A1B9A).withOpacity(0.15),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ]
-                        : null,
+                    color: const Color(0xFFF8F5FF),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.search,
-                        size: 20,
-                        color: controller.searchQuery.value.isEmpty
-                            ? Colors.grey.shade500
-                            : const Color(0xFF6A1B9A),
+                      _tabButton(
+                        title: "Bookings",
+                        isActive: isBookingsTab,
+                        onTap: () => controller.switchTab(0),
                       ),
-                      const SizedBox(width: 2),
-                      Expanded(
-                        child: Text(
-                          controller.searchQuery.value.isEmpty
-                              ? "Search by From city..."
-                              : controller.searchQuery.value,
-                          style: TextStyle(
-                            fontSize: 15.5,
-                            color: controller.searchQuery.value.isEmpty
-                                ? Colors.grey.shade600
-                                : Colors.black87,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      _tabButton(
+                        title: "Free Vehicles",
+                        isActive: !isBookingsTab,
+                        onTap: () => controller.switchTab(1),
                       ),
-                      if (controller.searchQuery.value.isNotEmpty)
-                        GestureDetector(
-                          onTap: controller.clearSearch,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.close,
-                              size: 16,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                 ),
               ),
-            ),
 
-            // Main Content
-            controller.slides.length > 0 ? Padding(
-              padding: const EdgeInsets.only(left: 3, right: 3),
-              child: BannerSlides(images: controller.slides),
-            ) : Container(),
-            Expanded(
-              child: controller.isApiCalled.value
-                  ? RefreshIndicator(
-                      onRefresh: () async {
-                        await controller.refreshBookings();
-                      },
-                      color: const Color(0xFF6A1B9A),
-                      child: controller.isLoading.value
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFF6A1B9A),
-                              ),
-                            )
-                          : displayList.isEmpty
-                              ? _buildEmptyState(
-                                  controller.searchQuery.value.isNotEmpty
-                                      ? "No trips from '${controller.searchQuery.value}'"
-                                      : "No available bookings yet",
-                                )
-                              : ListView.builder(
-                                  padding: const EdgeInsets.fromLTRB(5,5,5,10),
-
-                                  itemCount: displayList.length,
-                                  itemBuilder: (context, index) =>
-                                      _buildBookingCard(
-                                    displayList[index],
-                                    controller,
-                                    isBookingsTab ? "booking" : "free",
-                                  ),
-                                ),
-                    )
-                  : Container(
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            // Center(
-                            //   child: Image.asset(
-                            //     "assets/images/ic_logo.jpeg",
-                            //     fit: BoxFit.contain,
-                            //     // width: MediaQuery.of(context).size.width*0.95,
-                            //     height: 100,
-                            //   ),
-                            // ),
-                            Center(
-                              child: SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 1.5,
-                                  color: Color(0xFF6A1B9A),
-                                ),
-                              ),
-                            ),
-                          ],
+              // Search bar
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
+                  child: InkWell(
+                    onTap: () => _showCitySearchDialog(context, controller),
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      height: 48,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: controller.searchQuery.value.isEmpty
+                              ? Colors.grey.shade200
+                              : const Color(0xFF6A1B9A),
                         ),
                       ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.search,
+                            color: Color(0xFF6A1B9A),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              controller.searchQuery.value.isEmpty
+                                  ? "Search by From city..."
+                                  : controller.searchQuery.value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (controller.searchQuery.value.isNotEmpty)
+                            GestureDetector(
+                              onTap: controller.clearSearch,
+                              child: const Icon(Icons.close, size: 18),
+                            ),
+                        ],
+                      ),
                     ),
-            ),
-          ],
+                  ),
+                ),
+              ),
+
+              // Banner scrolls with the page
+              if (controller.slides.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: BannerSlides(images: controller.slides),
+                  ),
+                ),
+
+              // Loading state
+              if (!controller.isApiCalled.value || controller.isLoading.value)
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFF6A1B9A),
+                    ),
+                  ),
+                )
+
+              // Empty state
+              else if (displayList.isEmpty)
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _buildEmptyState(
+                    controller.searchQuery.value.isNotEmpty
+                        ? "No trips from '${controller.searchQuery.value}'"
+                        : "No available bookings yet",
+                  ),
+                )
+
+              // Booking cards
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                          (context, index) => _buildBookingCard(
+                        displayList[index],
+                        controller,
+                        isBookingsTab ? "booking" : "free",
+                      ),
+                      childCount: displayList.length,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         );
       }),
 
@@ -724,25 +690,36 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               itemType == "booking"
-                  ? Text(
-                      '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: isExpired ? Colors.grey : Colors.redAccent,
-                        // decoration: isExpired ? TextDecoration.lineThrough : null,
-                      ),
-                    )
-                  : Text(
-                      '${booking["startTimeparsed"]}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: isExpired ? Colors.grey : Colors.redAccent,
-                        // decoration: isExpired ? TextDecoration.lineThrough : null,
-                      ),
-                    ),
+                  ? Row(
+                    children: [
+                      Icon(Icons.calendar_month_sharp, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
+                      Text(
+                          '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: isExpired ? Colors.grey : Colors.redAccent,
+                            // decoration: isExpired ? TextDecoration.lineThrough : null,
+                          ),
+                        ),
+                    ],
+                  )
+                  : Row(
+                    children: [
+                      Icon(Icons.calendar_today_outlined, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
+                      Text(
+                          '${booking["startTimeparsed"]}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: isExpired ? Colors.grey : Colors.redAccent,
+                            // decoration: isExpired ? TextDecoration.lineThrough : null,
+                          ),
+                        ),
+                    ],
+                  ),
               itemType == "booking"
                   ? Container()
                   : Text(
@@ -756,15 +733,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
               itemType == "booking"
                   ? Container()
-                  : Text(
-                      '${booking["endTimeparsed"]}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: isExpired ? Colors.grey : Colors.redAccent,
-                        // decoration: isExpired ? TextDecoration.lineThrough : null,
-                      ),
-                    ),
+                  : Row(
+                    children: [
+                      Icon(Icons.calendar_month_sharp, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
+                      Text(
+                          '${booking["endTimeparsed"]}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: isExpired ? Colors.grey : Colors.redAccent,
+                            // decoration: isExpired ? TextDecoration.lineThrough : null,
+                          ),
+                        ),
+                    ],
+                  ),
             ],
           ),
 

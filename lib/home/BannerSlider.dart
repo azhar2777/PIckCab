@@ -35,8 +35,8 @@ class BannerSlides extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: const Color.fromARGB(255, 174, 174, 174),
-            // color: Colors.white,
+            // color: const Color.fromARGB(255, 174, 174, 174),
+            color: Colors.transparent,
             width: 1.5,
           ),
         ),
@@ -59,7 +59,7 @@ class BannerSlides extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.white,
+                    color: Colors.transparent,
                     width: 1,
 
                   ),
