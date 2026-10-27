@@ -97,9 +97,9 @@ class DashboardController extends GetxController {
       final immediateAllowed = info.immediateUpdateAllowed;
 
       if (updateAvailable && immediateAllowed) {
-        // await InAppUpdate.performImmediateUpdate();
-        await InAppUpdate.startFlexibleUpdate();
-        await InAppUpdate.completeFlexibleUpdate();
+        await InAppUpdate.performImmediateUpdate();
+        // await InAppUpdate.startFlexibleUpdate();
+        // await InAppUpdate.completeFlexibleUpdate();
       }
     } catch (e) {
       debugPrint("Update check error: $e");
@@ -172,23 +172,17 @@ class DashboardController extends GetxController {
           print(
               "is_profile_completed fetch Notice ${data['is_profile_completed']}");
 
-          var cityName = userCity is Map ? userCity["city"]?.toString() ?? '' : '';
-
-
+          var cityName =
+              userCity is Map ? userCity["city"]?.toString() ?? '' : '';
 
           if (data['is_profile_completed'].toString() == "1") {
-
-            if(cityName.isEmpty){
+            if (cityName.isEmpty) {
               fetchNotice(1);
               print("cityName is Empty");
-
-
-            }
-            else{
+            } else {
               print("cityName is $cityName");
               fetchNotice(0);
             }
-
           } else {
             await Get.to(
               () => const Editprofilescreen(),
@@ -234,7 +228,7 @@ class DashboardController extends GetxController {
         if (json["status"] == true) {
           final data = json["notice_data"];
 
-          if (data != null && data.length > 0) {
+          if (data != null && data.length > 0 && selectedIndex.value == 0) {
             // print(data[0]);
             noticeHtml.value = data[0]['description'];
             // noticeHtml.value = data[0]['description'];
@@ -263,16 +257,14 @@ class DashboardController extends GetxController {
                           isDismissible: false)
                       .whenComplete(() {
                     isBottomSheetOpen.value = false;
-                    if(showCity ==1 && !isCityBottomSheetOpen.value){
+                    if (showCity == 1 && !isCityBottomSheetOpen.value) {
                       isCityBottomSheetOpen.value = true;
-                      Get.bottomSheet(AddCityBottomSheet(),
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          isDismissible: true,
-
-
-                      )
-                          .whenComplete(() {
+                      Get.bottomSheet(
+                        AddCityBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: true,
+                      ).whenComplete(() {
                         print("Add City pop up shown");
                         isCityBottomSheetOpen.value = false;
                       });
@@ -281,12 +273,12 @@ class DashboardController extends GetxController {
                 }
               } else {
                 print("More than 60 minutes");
-                if(showCity ==1 && !isCityBottomSheetOpen.value){
+                if (showCity == 1 && !isCityBottomSheetOpen.value) {
                   isCityBottomSheetOpen.value = true;
                   Get.bottomSheet(AddCityBottomSheet(),
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      isDismissible: true)
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          isDismissible: true)
                       .whenComplete(() {
                     print("Add City pop up shown");
                     isCityBottomSheetOpen.value = false;
@@ -302,12 +294,12 @@ class DashboardController extends GetxController {
                         isDismissible: false)
                     .whenComplete(() {
                   isBottomSheetOpen.value = false;
-                  if(showCity ==1 && !isCityBottomSheetOpen.value){
+                  if (showCity == 1 && !isCityBottomSheetOpen.value) {
                     isCityBottomSheetOpen.value = true;
                     Get.bottomSheet(AddCityBottomSheet(),
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        isDismissible: true)
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            isDismissible: true)
                         .whenComplete(() {
                       print("Add City pop up shown");
                       isCityBottomSheetOpen.value = false;

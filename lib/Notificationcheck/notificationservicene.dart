@@ -8,6 +8,11 @@ import 'package:get/get.dart';
 import 'package:pickcab_partner/splash_screen.dart';
 
 class NotificationServiceNew {
+
+  static const String channelId = 'pickcab_high_priority';
+  static const String channelName = 'PickCab Booking Notifications';
+  static const String soundName = 'notification';
+
   static final NotificationServiceNew _instance =
       NotificationServiceNew._internal();
   factory NotificationServiceNew() => _instance;
@@ -65,13 +70,13 @@ class NotificationServiceNew {
 
     // Create Android notification channel
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'pickcab_high_priority',
-      'High Priority Notifications',
-      description: 'This channel is used for important ride notifications.',
+      channelId,
+      channelName,
+      description: 'Important PickCab ride notifications with sound.',
       importance: Importance.max,
       playSound: true,
       enableVibration: true,
-      sound: RawResourceAndroidNotificationSound('notification'),
+      sound: RawResourceAndroidNotificationSound(soundName),
     );
 
     await _localNotifications
@@ -222,21 +227,18 @@ class NotificationServiceNew {
     String payload = jsonEncode(data);
 
     // Android notification details with correct channel ID
-    AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'pickcab_high_priority',
-      'High Priority Notifications',
-      channelDescription: 'Channel for important ride notifications',
+    AndroidNotificationDetails androidDetails =   AndroidNotificationDetails(
+      channelId,
+      channelName,
+      channelDescription: 'Important PickCab ride notifications',
       importance: Importance.max,
       priority: Priority.high,
-      ticker: 'ticker',
       playSound: true,
+      sound: RawResourceAndroidNotificationSound(soundName),
       enableVibration: true,
-      colorized: true,
-      fullScreenIntent: true,
-      showWhen: true,
       visibility: NotificationVisibility.public,
-      sound: RawResourceAndroidNotificationSound('notification'),
     );
+
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,

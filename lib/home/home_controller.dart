@@ -62,6 +62,8 @@ class HomeController extends GetxController {
 
   late RxList<BannerData> slides = <BannerData>[].obs;
 
+  final RxDouble slideheight = 5.0.obs;
+
 
 
   @override
@@ -103,6 +105,10 @@ class HomeController extends GetxController {
         if (data["status"] == true) {
           Slides slideData = Slides.fromJson(data);
           slides.value = slideData.bannerData!;
+
+          if(slides.value.length > 0){
+            slideheight.value = 150.0;
+          }
 
         }
       }

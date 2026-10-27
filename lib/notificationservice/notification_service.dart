@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  static const String channelId = 'pickcab_high_priority';
 
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -80,9 +81,19 @@ class NotificationServices {
   }
 
   Future<void> showNotification(RemoteMessage message) async {
+    // AndroidNotificationChannel channel = AndroidNotificationChannel(
+    //     Random.secure().nextInt(10000).toString(), 'rollicicecream',
+    //     importance: Importance.max);
+
     AndroidNotificationChannel channel = AndroidNotificationChannel(
-        Random.secure().nextInt(10000).toString(), 'rollicicecream',
-        importance: Importance.max);
+      channelId,
+      'PickCab Booking Notifications',
+      description: 'New booking alerts',
+      importance: Importance.max,
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound('notification'),
+    );
+
 
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(

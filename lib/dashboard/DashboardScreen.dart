@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     const AlertsScreen(),
     const ProfileScreen(),
-    // const Chats(),
+    // const ChatScreen(bookingId: "22896",tripId: "923406", userUniqueId: "49",),
   ];
 
   var bottomheight = 60.0;
@@ -47,8 +47,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     controller.selectedIndex.value =  widget.selectedTab !=null ? widget.selectedTab : 0 ;
     _checkAndroidVersion(); // 👈 call async method
-
-
   }
 
   void _checkAndroidVersion() async {
@@ -78,7 +76,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
 
       bottomNavigationBar: Container(
-        // height: bottomheight + bottomInset,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -88,13 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: Color.fromARGB(255, 254, 237, 255),
                 // color: Colors.red,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black12,
-                //     blurRadius: 10,
-                //     offset: Offset(0, -3),
-                //   ),
-                // ],
+                
               ),
               child: SafeArea(
                 top: false,

@@ -22,12 +22,12 @@ Future<void> main() async {
   await NotificationServiceNew().init();
 
   /// Handle terminated state properly
-  RemoteMessage? initialMessage =
-      await FirebaseMessaging.instance.getInitialMessage();
-
-  if (initialMessage != null) {
-    NotificationServiceNew().handleInitialMessage(initialMessage);
-  }
+  // RemoteMessage? initialMessage =
+  //     await FirebaseMessaging.instance.getInitialMessage();
+  //
+  // if (initialMessage != null) {
+  //   NotificationServiceNew().handleInitialMessage(initialMessage);
+  // }
 
   runApp(MyApp());
 }

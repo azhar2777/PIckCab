@@ -66,7 +66,7 @@
         <!-- Default FCM channel -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="pickcab-partners" />
+            android:value="pickcab_high_priority" />
 
     </application>
 

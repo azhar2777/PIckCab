@@ -19,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.put(HomeController(), permanent: true);
 
+
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
+
+
+    final double tabsHeight = 120.0;
 
     return Scaffold(
       appBar: const AppHeader(),
@@ -47,93 +52,114 @@ class _HomeScreenState extends State<HomeScreen> {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              // Tabs
-              SliverToBoxAdapter(
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF8F5FF),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
+              // Tabs + Banner:
+              // Hide while scrolling down; reappear while scrolling up.
+              SliverPersistentHeader(
+                floating: true,
+                pinned: false,
+                delegate: _TabsBannerHeaderDelegate(
+                  height: tabsHeight ,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      _tabButton(
-                        title: "Bookings",
-                        isActive: isBookingsTab,
-                        onTap: () => controller.switchTab(0),
+                      // Tabs
+                      Container(
+                        margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 0),
+                        padding: const EdgeInsets.all(6),
+                        height: 60,
+                        decoration: BoxDecoration(
+                          // color: Colors.red,
+                          // color: const Color(0xFFF8F5FF),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          children: [
+                            _tabButton(
+                              title: "Bookings",
+                              isActive: isBookingsTab,
+                              onTap: () => controller.switchTab(0),
+                            ),
+                            _tabButton(
+                              title: "Free Vehicles",
+                              isActive: !isBookingsTab,
+                              onTap: () => controller.switchTab(1),
+                            ),
+                          ],
+                        ),
                       ),
-                      _tabButton(
-                        title: "Free Vehicles",
-                        isActive: !isBookingsTab,
-                        onTap: () => controller.switchTab(1),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          // vertical: 4,
+                        ),
+                        child: InkWell(
+                          onTap: () => _showCitySearchDialog(
+                            context,
+                            controller,
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            height: 48,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              // color: Colors.red,
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: controller.searchQuery.value.isEmpty
+                                    ? Colors.grey.shade200
+                                    : const Color(0xFF6A1B9A),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.search,
+                                  color: Color(0xFF6A1B9A),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    controller.searchQuery.value.isEmpty
+                                        ? "Search by From city..."
+                                        : controller.searchQuery.value,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (controller.searchQuery.value.isNotEmpty)
+                                  GestureDetector(
+                                    onTap: controller.clearSearch,
+                                    child: const Icon(Icons.close, size: 18),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
+
                     ],
                   ),
                 ),
               ),
 
-              // Search bar
+              // Search bar scrolls normally
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  child: InkWell(
-                    onTap: () => _showCitySearchDialog(context, controller),
-                    borderRadius: BorderRadius.circular(14),
-                    child: Container(
-                      height: 48,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: controller.searchQuery.value.isEmpty
-                              ? Colors.grey.shade200
-                              : const Color(0xFF6A1B9A),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.search,
-                            color: Color(0xFF6A1B9A),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              controller.searchQuery.value.isEmpty
-                                  ? "Search by From city..."
-                                  : controller.searchQuery.value,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (controller.searchQuery.value.isNotEmpty)
-                            GestureDetector(
-                              onTap: controller.clearSearch,
-                              child: const Icon(Icons.close, size: 18),
-                            ),
-                        ],
+                child: controller.slides.isNotEmpty ?
+                  SizedBox(
+                    // height: controller.slideheight.value,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: BannerSlides(
+                        images: controller.slides,
                       ),
                     ),
-                  ),
-                ),
+                  ) : Container(),
               ),
 
-              // Banner scrolls with the page
-              if (controller.slides.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: BannerSlides(images: controller.slides),
-                  ),
-                ),
-
               // Loading state
-              if (!controller.isApiCalled.value || controller.isLoading.value)
+              if (!controller.isApiCalled.value ||
+                  controller.isLoading.value)
                 const SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
@@ -145,16 +171,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Empty state
               else if (displayList.isEmpty)
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: _buildEmptyState(
-                    controller.searchQuery.value.isNotEmpty
-                        ? "No trips from '${controller.searchQuery.value}'"
-                        : "No available bookings yet",
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: _buildEmptyState(
+                      controller.searchQuery.value.isNotEmpty
+                          ? "No trips from '${controller.searchQuery.value}'"
+                          : "No available bookings yet",
+                    ),
                   ),
                 )
 
-              // Booking cards
+              // Booking cards scroll normally
               else
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
@@ -174,101 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }),
 
-      // // Bottom Navigation + FAB
-      // bottomNavigationBar: SafeArea(
-      //   child: SizedBox(
-      //     height: 60,
-      //     child: Stack(
-      //       clipBehavior: Clip.none,
-      //       alignment: Alignment.bottomCenter,
-      //       children: [
-      //         Container(
-      //           decoration: const BoxDecoration(
-      //             color: Color.fromARGB(255, 254, 237, 255),
-      //             borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-      //             boxShadow: [
-      //               BoxShadow(
-      //                 color: Colors.black12,
-      //                 blurRadius: 10,
-      //                 offset: Offset(0, -3),
-      //               ),
-      //             ],
-      //           ),
-      //           child: SafeArea(
-      //             top: false,
-      //             child: MediaQuery.removePadding(
-      //               context: context,
-      //               removeBottom: true,
-      //               child: BottomNavigationBar(
-      //                 type: BottomNavigationBarType.fixed,
-      //                 backgroundColor: Colors.transparent,
-      //                 elevation: 0,
-      //                 selectedItemColor: Color(0xFF6A1B9A),
-      //                 unselectedItemColor: Colors.grey,
-      //                 selectedFontSize: 10,
-      //                 unselectedFontSize: 10,
-      //                 showUnselectedLabels: true,
-      //                 currentIndex: 0,
-      //                 onTap: (i) {
-      //                   if (i == 1) controller.navigateToMyBooking();
-      //                   if (i == 2) _showPostBottomSheet(context);
-      //                   if (i == 3) controller.navigateToAlerts();
-      //                   if (i == 4) controller.navigateToProfile();
-      //                 },
-      //                 items: const [
-      //                   BottomNavigationBarItem(
-      //                     icon: Icon(Icons.home),
-      //                     label: 'Home',
-      //                   ),
-      //                   BottomNavigationBarItem(
-      //                     icon: Icon(Icons.bookmark_border),
-      //                     label: 'My Bookings',
-      //                   ),
-      //                   BottomNavigationBarItem(
-      //                     icon: SizedBox.shrink(),
-      //                     label: '',
-      //                   ),
-      //                   BottomNavigationBarItem(
-      //                     icon: Icon(Icons.notifications_outlined),
-      //                     label: 'My Alerts',
-      //                   ),
-      //                   BottomNavigationBarItem(
-      //                     icon: Icon(Icons.person_outline),
-      //                     label: 'Profile',
-      //                   ),
-      //                 ],
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //         // Floating center button
-      //         Positioned(
-      //           child: GestureDetector(
-      //             onTap: () => _showPostBottomSheet(context),
-      //             child: Container(
-      //               width: 68,
-      //               height: 68,
-      //               decoration: BoxDecoration(
-      //                 shape: BoxShape.circle,
-      //                 gradient: LinearGradient(
-      //                   colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-      //                 ),
-      //                 boxShadow: [
-      //                   BoxShadow(
-      //                     color: Color(0xFF6A1B9A).withOpacity(0.6),
-      //                     blurRadius: 20,
-      //                     offset: Offset(0, 8),
-      //                   ),
-      //                 ],
-      //               ),
-      //               child: const Icon(Icons.add, color: Colors.white, size: 38),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
+
     );
   }
 
@@ -1419,6 +1353,50 @@ class _HomeScreenState extends State<HomeScreen> {
     return description.trim();
   }
 }
+
+
+
+class _TabsBannerHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
+  final double height;
+  final Widget child;
+
+  _TabsBannerHeaderDelegate({
+    required this.height,
+    required this.child,
+  });
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+      BuildContext context,
+      double shrinkOffset,
+      bool overlapsContent,
+      ) {
+    return Material(
+      color: Colors.white,
+      child: SizedBox(
+        height: height,
+        width: double.infinity,
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(
+      covariant _TabsBannerHeaderDelegate oldDelegate,
+      ) {
+    return oldDelegate.height != height ||
+        oldDelegate.child != child;
+  }
+}
+
 
 class Triangle extends StatelessWidget {
   final Color color;

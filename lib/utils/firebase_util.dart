@@ -98,11 +98,12 @@ class FirebaseUtil{
   }
 
   static DatabaseReference getBookingMessagesRef(
-      String bookingId,
-      String driverId,
+      String senderId,
+      String tripId,
+      String receiverId,
       ) {
     return FirebaseDatabase.instance
-        .ref('$NODE_USER_MESSAGES/$bookingId/$driverId');
+        .ref('$NODE_USER_MESSAGES/$senderId/$tripId/$receiverId');
   }
 
   // static getFirebaseDatabaseRefForUserMessageIds(String? senderUID, String? receiverUID) {

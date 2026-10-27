@@ -18,6 +18,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import java.security.MessageDigest
 import java.util.regex.Pattern
+import com.pickcab.partner.R
 
 class MainActivity : FlutterActivity() {
 
@@ -46,7 +47,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createNotificationChannel()
+        createNotificationChannelNew()
     }
 
     // ==========================
@@ -181,6 +182,39 @@ class MainActivity : FlutterActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.createNotificationChannel(rideChannel)
+        }
+    }
+
+
+    private fun createNotificationChannelNew() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "pickcab_high_priority"
+
+            val soundUri = Uri.parse(
+                "android.resource://$packageName/${R.raw.notification}"
+            )
+
+            val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            val channel = NotificationChannel(
+                channelId,
+                "PickCab Booking Notifications",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Important PickCab ride notifications"
+                setSound(soundUri, audioAttributes)
+                enableVibration(true)
+            }
+
+            val manager = getSystemService(
+                Context.NOTIFICATION_SERVICE
+            ) as NotificationManager
+
+            manager.createNotificationChannel(channel)
         }
     }
 
