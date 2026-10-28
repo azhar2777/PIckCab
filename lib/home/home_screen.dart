@@ -851,7 +851,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 12),
                 ],
                 // Call button
-                if (canSendCall)
+                if (canSendCall) ...[
                   Expanded(
                     child: _actionButton(
                       Icons.call,
@@ -859,6 +859,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           booking['mobile'], bookingid),
                     ),
                   ),
+                const SizedBox(width: 12),
+                ],
+                Expanded(
+                  child: _actionButton(
+                    Icons.chat,
+                        () => controller.openChat(booking),
+                  ),
+                ),
               ],
             ),
 

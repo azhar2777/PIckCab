@@ -91,15 +91,37 @@ class DashboardController extends GetxController {
       final info = await InAppUpdate.checkForUpdate()
           .timeout(const Duration(seconds: 5));
 
+      // final updateAvailable =
+      //     info.updateAvailability == UpdateAvailability.updateAvailable;
+      //
+      // final immediateAllowed = info.immediateUpdateAllowed;
+      // final flexibleUpdateAllowed = info.flexibleUpdateAllowed;
+      //
+      // if (updateAvailable && immediateAllowed) {
+      //   await InAppUpdate.performImmediateUpdate();
+      //   // await InAppUpdate.startFlexibleUpdate();
+      //   // await InAppUpdate.completeFlexibleUpdate();
+      // }
+      // else if(updateAvailable && flexibleUpdateAllowed){
+      //   await InAppUpdate.startFlexibleUpdate();
+      // }
+
       final updateAvailable =
           info.updateAvailability == UpdateAvailability.updateAvailable;
 
-      final immediateAllowed = info.immediateUpdateAllowed;
+      if (!updateAvailable) return;
 
-      if (updateAvailable && immediateAllowed) {
+      if (info.immediateUpdateAllowed) {
         await InAppUpdate.performImmediateUpdate();
-        // await InAppUpdate.startFlexibleUpdate();
-        // await InAppUpdate.completeFlexibleUpdate();
+      } else if (info.flexibleUpdateAllowed) {
+        final result = await InAppUpdate.startFlexibleUpdate();
+
+        if (result == AppUpdateResult.success) {
+          await InAppUpdate.completeFlexibleUpdate();
+          debugPrint('Flexible update completed.');
+        } else {
+          debugPrint('Flexible update did not complete successfully.');
+        }
       }
     } catch (e) {
       debugPrint("Update check error: $e");
@@ -162,6 +184,7 @@ class DashboardController extends GetxController {
           final prefs = await SharedPreferences.getInstance();
 
           await prefs.setString("mobile_number", data['user_mobile']);
+          await prefs.setString("user_name", data['user_name']);
 
           if (allowedMobiles.contains("${data['user_mobile']}")) {
             showSmartBooking.value = true;

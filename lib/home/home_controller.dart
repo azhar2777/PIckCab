@@ -1223,6 +1223,18 @@ Future<void> submitReport() async {
     if (await canLaunchUrl(uri)) await launchUrl(uri);
   }
 
+  void openChat(Map<String, dynamic> booking){
+    // ChatScreen(bookingId: "23507", userUniqueId: "898", userName:'John Cena'),
+    print('openChat');
+    print(booking);
+    Get.to(
+          () => ChatScreen(bookingId: booking['id'], userUniqueId: booking['user_id'], userName: booking['driver'],),
+      transition: Transition.fadeIn,
+    );
+
+
+  }
+
   Future<void> openWhatsApp(bool isBooking, String phone, Map<String, dynamic> booking) async {
     Utils.getWhatsappShareMesage(isBooking, phone, booking);
 

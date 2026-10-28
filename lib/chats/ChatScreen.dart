@@ -3,16 +3,20 @@ import 'package:get/get.dart';
 import 'package:pickcab_partner/chats/ChatController.dart';
 import 'package:pickcab_partner/includes/header.dart';
 
+import '../utils/ChatUtil.dart';
+
 class ChatScreen extends StatefulWidget {
   final String bookingId;
-  final String tripId;
+  // final String tripId;
   final String userUniqueId;
+  final String userName;
 
   const ChatScreen({
     super.key,
     required this.bookingId,
-    required this.tripId,
+    // required this.tripId,
     required this.userUniqueId,
+    required this.userName,
   });
 
   @override
@@ -31,8 +35,9 @@ class _ChatScreenState extends State<ChatScreen> {
     controller = Get.put(
       ChatScreenController(
         bookingId: widget.bookingId,
-        tripId: widget.tripId,
+        // tripId: widget.tripId,
         userUniqueId: widget.userUniqueId,
+        bookingUserName: widget.userName,
       ),
     );
   }
@@ -40,27 +45,69 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const AppHeader(),
+      appBar: const AppHeader(),
       backgroundColor: const Color(0xFFF8F9FA), // Soft background for contrast
       body: SafeArea(
         child: Column(
           children: [
             // Chat Message List
             Expanded(
-              child: ListView.builder(
-                reverse: true, // Standard for modern chat apps (newest at bottom)
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  // Simulating alternating sent/received messages for UI demonstration
-                  bool isMe = index % 2 == 0;
-                  return _buildMessageBubble(
-                    message: "Hi Message ${index + 1}",
-                    time: "10:45 AM",
-                    isMe: isMe,
+              child: Obx(() {
+                if (controller.isLoadingMessages.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFF6A1B9A),
+                    ),
                   );
-                },
-              ),
+                }
+
+                if (controller.messageError.value.isNotEmpty) {
+                  return Center(
+                    child: Text(controller.messageError.value),
+                  );
+                }
+
+                if (controller.messages.isEmpty) {
+                  return const Center(
+                    child: Text('Start your conversation'),
+                  );
+                }
+
+                return ListView.builder(
+                  reverse: true,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  itemCount: controller.messages.length,
+                  itemBuilder: (context, index) {
+                    final message = controller.messages[index];
+
+                    final senderId =
+                        message['senderId']?.toString() ?? '';
+
+                    final isMe =
+                        senderId == controller.loggedInuserid.value;
+
+                    final messageBody =
+                        message['messageBody']?.toString() ?? '';
+
+                    final timestamp =
+                        message['timestamp']?.toString() ?? '';
+
+                    return _buildMessageBubble(
+                      message: messageBody,
+                      time: timestamp.isNotEmpty
+                          ? ChatUtil.getMessageDate(
+                        timestamp,
+                        timeOnly: true,
+                      )
+                          : '',
+                      isMe: isMe,
+                    );
+                  },
+                );
+              }),
             ),
 
             // Modern Chat Input Bar
