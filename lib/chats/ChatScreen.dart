@@ -45,12 +45,30 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(),
+      // appBar: const AppHeader(),
       backgroundColor: const Color(0xFFF8F9FA), // Soft background for contrast
       body: SafeArea(
         child: Column(
           children: [
             // Chat Message List
+            Obx(() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.userName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      controller.isOtherUserOnline.value
+                          ? 'online'
+                          : 'last seen ${controller.formatLastSeen(controller.otherUserLastSeen.value)}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                )),
             Expanded(
               child: Obx(() {
                 if (controller.isLoadingMessages.value) {
@@ -83,25 +101,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemBuilder: (context, index) {
                     final message = controller.messages[index];
 
-                    final senderId =
-                        message['senderId']?.toString() ?? '';
+                    final senderId = message['senderId']?.toString() ?? '';
 
-                    final isMe =
-                        senderId == controller.loggedInuserid.value;
+                    final isMe = senderId == controller.loggedInuserid.value;
 
                     final messageBody =
                         message['messageBody']?.toString() ?? '';
 
-                    final timestamp =
-                        message['timestamp']?.toString() ?? '';
+                    final timestamp = message['timestamp']?.toString() ?? '';
 
                     return _buildMessageBubble(
                       message: messageBody,
                       time: timestamp.isNotEmpty
                           ? ChatUtil.getMessageDate(
-                        timestamp,
-                        timeOnly: true,
-                      )
+                              timestamp,
+                              timeOnly: true,
+                            )
                           : '',
                       isMe: isMe,
                     );
@@ -216,7 +231,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         child: Column(
           crossAxisAlignment:
-          isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
               message,

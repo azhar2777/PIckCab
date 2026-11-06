@@ -43,7 +43,16 @@ class SmartBookingController extends GetxController {
 
   final RxBool showSmartBooking = false.obs;
   final List<String> allowedMobiles = <String>[
-    "8828451293", "9572511011", "9122220415", "7491010771", "9876543220", "9876543210", "9330662777"
+    "9122220415",
+    "9942977706",
+    "8789743114",
+    "7870766306",
+    "7491010771",
+    "9572511011",
+    "8828451293",
+    "9876543220",
+    "9876543210",
+    "9330662777"
   ];
 
 

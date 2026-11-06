@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:pickcab_partner/edit_profile/EditProfileScreen.dart';
+import 'package:pickcab_partner/services/presence_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../alerts/alerts_controller.dart';
@@ -437,6 +438,8 @@ class ProfileController extends GetxController {
     final json = jsonDecode(response.body);
     var msg = json["message"];
     if (json["status"] == true) {
+      await Get.find<PresenceService>().logoutPresence(userId);
+
       await unsubscribedToCities();
       await prefs.setBool("is_logged_in", true);
 

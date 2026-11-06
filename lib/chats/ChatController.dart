@@ -20,13 +20,17 @@ class ChatScreenController extends GetxController {
   final Rxn<DatabaseReference> refMessage = Rxn<DatabaseReference>();
   // final Rxn<DatabaseReference> refReceiverBookingMessage = Rxn<DatabaseReference>();
 
-  final RxList<Map<String, dynamic>> messages =
-      <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
 
   final RxBool isLoadingMessages = true.obs;
   final RxString messageError = ''.obs;
 
   StreamSubscription<DatabaseEvent>? _messagesSubscription;
+
+  final RxBool isOtherUserOnline = false.obs;
+  final RxInt otherUserLastSeen = 0.obs;
+
+  StreamSubscription<DatabaseEvent>? _presenceSubscription;
 
   ChatScreenController({
     required this.bookingId,
@@ -41,6 +45,56 @@ class ChatScreenController extends GetxController {
     super.onInit();
   }
 
+  void listenToUserPresence(String userId) {
+    _presenceSubscription?.cancel();
+
+    final ref =
+        FirebaseDatabase.instance.ref('${ChatUtil.NODE_USER_STATUS}/$userId');
+
+    _presenceSubscription = ref.onValue.listen((event) {
+      final value = event.snapshot.value;
+
+      if (value is Map) {
+        isOtherUserOnline.value = value['isOnline'] == true;
+
+        otherUserLastSeen.value =
+            int.tryParse(value['lastSeen']?.toString() ?? '0') ?? 0;
+      } else {
+        isOtherUserOnline.value = false;
+        otherUserLastSeen.value = 0;
+      }
+    });
+  }
+
+  String formatLastSeen(int timestamp) {
+    if (timestamp == 0) return 'Last seen a long time ago';
+
+    // Assuming lastSeen is stored in milliseconds
+    final lastSeen = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    final difference = DateTime.now().difference(lastSeen);
+
+    if (difference.isNegative) return 'Last seen just now';
+
+    if (difference.inSeconds < 60) {
+      return 'Just now';
+    } else if (difference.inMinutes < 60) {
+      final minutes = difference.inMinutes;
+      return '$minutes ${minutes == 1 ? 'minute' : 'minutes'} ago';
+    } else if (difference.inHours < 24) {
+      final hours = difference.inHours;
+      return '$hours ${hours == 1 ? 'hour' : 'hours'} ago';
+    } else if (difference.inDays == 1) {
+      return 'Yesterday';
+    } else if (difference.inDays < 7) {
+      final days = difference.inDays;
+      return '$days ${days == 1 ? 'day' : 'days'} ago';
+    } else {
+      return '${lastSeen.day.toString().padLeft(2, '0')}/'
+          '${lastSeen.month.toString().padLeft(2, '0')}/'
+          '${lastSeen.year}';
+    }
+  }
+
   void getChatMessages() {
     _messagesSubscription?.cancel();
 
@@ -48,11 +102,11 @@ class ChatScreenController extends GetxController {
     isLoadingMessages.value = true;
     messageError.value = '';
 
-    final ref = FirebaseDatabase.instance
-        .ref('${ChatUtil.NODE_MESSAGES}/$bookingId');
+    final ref =
+        FirebaseDatabase.instance.ref('${ChatUtil.NODE_MESSAGES}/$bookingId');
 
     _messagesSubscription = ref.onValue.listen(
-          (event) {
+      (event) {
         final List<Map<String, dynamic>> result = [];
 
         for (final child in event.snapshot.children) {
@@ -69,13 +123,13 @@ class ChatScreenController extends GetxController {
         // Newest first because your ListView uses reverse: true.
         result.sort((a, b) {
           final timeA = int.tryParse(
-            a['timestamp']?.toString() ?? '0',
-          ) ??
+                a['timestamp']?.toString() ?? '0',
+              ) ??
               0;
 
           final timeB = int.tryParse(
-            b['timestamp']?.toString() ?? '0',
-          ) ??
+                b['timestamp']?.toString() ?? '0',
+              ) ??
               0;
 
           return timeB.compareTo(timeA);
@@ -111,8 +165,6 @@ class ChatScreenController extends GetxController {
 
     getChatMessages();
   }
-
-
 
   Future<void> createChat() async {
     final text = inputController.text.trim();
@@ -180,11 +232,26 @@ class ChatScreenController extends GetxController {
       updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/conversationId'] =
           currentBookingId;
 
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] =
-          true;
+      // updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] =
+      //     true;
 
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] =
-          true;
+      // updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] =
+      //     true;
+
+      /**
+       * Add participants details 
+       */
+      updates[
+          '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] = {
+        'name': loggedInuserName.value,
+        'userId': senderId,
+      };
+
+      updates[
+          '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] = {
+        'name': bookingUserName,
+        'userId': receiverId,
+      };
 
       updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/lastMessage'] =
           text;

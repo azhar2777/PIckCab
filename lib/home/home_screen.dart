@@ -859,14 +859,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           booking['mobile'], bookingid),
                     ),
                   ),
-                const SizedBox(width: 12),
+                // const SizedBox(width: 12),
                 ],
-                Expanded(
-                  child: _actionButton(
-                    Icons.chat,
-                        () => controller.openChat(booking),
-                  ),
-                ),
+                // Expanded(
+                //   child: _actionButton(
+                //     Icons.chat,
+                //         () => controller.openChat(booking),
+                //   ),
+                // ),
               ],
             ),
 

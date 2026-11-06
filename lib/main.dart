@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:pickcab_partner/services/presence_service.dart';
 
 import 'Notificationcheck/notificationservicene.dart';
 import 'splash_screen.dart';
@@ -28,7 +29,10 @@ Future<void> main() async {
   // if (initialMessage != null) {
   //   NotificationServiceNew().handleInitialMessage(initialMessage);
   // }
-
+ Get.put<PresenceService>(
+    PresenceService(),
+    permanent: true,
+  );
   runApp(MyApp());
 }
 

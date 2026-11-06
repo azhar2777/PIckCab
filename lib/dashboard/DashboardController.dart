@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:in_app_update/in_app_update.dart';
 import 'package:pickcab_partner/alerts/alerts_controller.dart';
 import 'package:pickcab_partner/dashboard/AddCityBottomSheet.dart';
+import 'package:pickcab_partner/services/presence_service.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
 import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -160,8 +161,15 @@ class DashboardController extends GetxController {
   // ==================== Fetch User Details ====================
   Future<void> fetchUserProfile() async {
     try {
+      final PresenceService presenceService = PresenceService();
+
       final prefs = await SharedPreferences.getInstance();
-      final userId = prefs.getString("user_id");
+      final userId = prefs.getString('user_id') ?? '';
+      if(userId.isEmpty){
+        return ;
+      }
+
+      await presenceService.initialize(userId);
 
       print(userId);
 
