@@ -25,7 +25,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 // final controller = Get.put(ProfileController(), permanent: true);
-final controller = Get.put(DashboardController(), permanent: true);
+final controllerDashboard = Get.put(DashboardController(), permanent: true);
 
 class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final GlobalKey shareKey = GlobalKey();
@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   @override
   void initState() {
     print("ProfileScreen fetchUserProfile");
-    controller.fetchUserProfile();
+    controllerDashboard.fetchUserProfile();
     super.initState();
   }
 
@@ -109,6 +109,91 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                     onPressed: () {
                       Get.back();
                       ProfileController.to.navigateToLogout();
+                    },
+                    child: Text(
+                      'Logout',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        contentPadding: const EdgeInsets.all(24),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.red.shade50,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.delete, color: Colors.red, size: 32),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Delete Account',
+              style: GoogleFonts.montserrat(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Are you sure you want to delete your account.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.grey.shade700,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Get.back(),
+                    child: Text(
+                      'Cancel',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.grey.shade700,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.shade600,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      ProfileController.to.deleteAccount();
                     },
                     child: Text(
                       'Logout',
@@ -1460,6 +1545,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                   ),
                 ),
 
+
                 const SizedBox(height: 10),
 
                 // Logout Button
@@ -1486,6 +1572,35 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                     ),
                   ),
                 ),
+
+                SizedBox(height:  controllerDashboard.showDelete.value ? 10:0),
+                controllerDashboard.showDelete.value ?
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _showDeleteDialog(context),
+                    icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                    label: Text(
+                      'Delete Account',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      // backgroundColor: Colors.red.shade600,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: 8,
+                    ),
+                  ),
+                ):Container(),
+
+
               ],
             ],
           ),

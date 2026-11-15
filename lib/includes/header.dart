@@ -375,8 +375,12 @@ class _AppHeaderState extends State<AppHeader> {
 
     final controller = Get.find<DashboardController>();
     controller.selectedIndex.value = 3;
+    // if (mounted) {
+    //   Get.to(() => const ProfileScreen(), transition: Transition.fadeIn);
+    // }
     print("Header fetchUserProfile");
     controller.fetchUserProfile();
+
   }
 
   void navigateToProfile1() async {
@@ -388,6 +392,10 @@ class _AppHeaderState extends State<AppHeader> {
     //     transition: Transition.fadeIn);
     //
     // // If profile was updated, refresh data
+
+    if (mounted) {
+      Get.to(() => const ProfileScreen(), transition: Transition.fadeIn);
+    }
 
     final result = await Get.off(
       () => const DashboardScreen(selectedTab: 3),

@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +10,8 @@ import 'package:google_places_flutter/model/prediction.dart';
 import 'package:pickcab_partner/home/BannerSlider.dart';
 import '../../includes/header.dart';
 import '../Booking_details/booking_details_screen.dart';
+import '../const/const.dart';
+import '../profile/other_user_profile_screen.dart';
 import 'home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,8 +24,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.put(HomeController(), permanent: true);
 
-
-
   @override
   void initState() {
     super.initState();
@@ -31,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
-
 
     final double tabsHeight = 120.0;
 
@@ -58,13 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 floating: true,
                 pinned: false,
                 delegate: _TabsBannerHeaderDelegate(
-                  height: tabsHeight ,
+                  height: tabsHeight,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Tabs
                       Container(
-                        margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 0),
+                        margin: const EdgeInsets.only(
+                            left: 8, right: 8, top: 8, bottom: 0),
                         padding: const EdgeInsets.all(6),
                         height: 60,
                         decoration: BoxDecoration(
@@ -137,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -145,21 +147,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Search bar scrolls normally
               SliverToBoxAdapter(
-                child: controller.slides.isNotEmpty ?
-                  SizedBox(
-                    // height: controller.slideheight.value,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: BannerSlides(
-                        images: controller.slides,
-                      ),
-                    ),
-                  ) : Container(),
+                child: controller.slides.isNotEmpty
+                    ? SizedBox(
+                        // height: controller.slideheight.value,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          child: BannerSlides(
+                            images: controller.slides,
+                          ),
+                        ),
+                      )
+                    : Container(),
               ),
 
               // Loading state
-              if (!controller.isApiCalled.value ||
-                  controller.isLoading.value)
+              if (!controller.isApiCalled.value || controller.isLoading.value)
                 const SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
@@ -188,11 +190,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                          (context, index) => _buildBookingCard(
-                        displayList[index],
-                        controller,
-                        isBookingsTab ? "booking" : "free",
-                      ),
+                      (context, index) => _buildBookingCardNew(
+                          displayList[index],
+                          controller,
+                          isBookingsTab ? "booking" : "free",
+                          index),
                       childCount: displayList.length,
                     ),
                   ),
@@ -201,8 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       }),
-
-
     );
   }
 
@@ -429,6 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (booking['mark_booked'].toString() == "1") {
       isBooked = true;
     }
+    // isBooked = true;
 
     print(
         "${booking['id']} isBooked $isBooked mark_booked ${booking['mark_booked'].toString()}");
@@ -463,446 +464,1304 @@ class _HomeScreenState extends State<HomeScreen> {
         (booking['send_call'] == true) ||
         (booking['send_call'] == 1);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isExpired
-              ? Colors.orange.shade200 // Changed from red to orange
-              : const Color.fromARGB(255, 174, 174, 174),
-          width: isExpired ? 1.8 : 1.3,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: isExpired
-                ? Colors.orange.withOpacity(0.05) // Changed from red to orange
-                : Colors.black.withOpacity(0.07),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Stack(
         children: [
-          // Header Row with ID and Badges
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              itemType == "booking"
-                  ? GestureDetector(
-                      onTap: () {
-                        Get.to(BookingDetailsScreen(
-                          bookingId: bookingid,
-                        ));
-                      },
-                      child: Text(
-                        "ID: $tripId",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isExpired ? Colors.grey : Colors.redAccent,
-                          fontWeight: FontWeight.bold,
-                          // decoration: isExpired ? TextDecoration.lineThrough : null,
-                        ),
-                      ),
-                    )
-                  : Container(),
-              Row(
-                children: [
-                  // Booked Badge - Changed from "Expired" to "Booked"
-                  // if (isExpired)
-                  //   Container(
-                  //     margin: const EdgeInsets.only(right: 8),
-                  //     padding: const EdgeInsets.symmetric(
-                  //         horizontal: 10, vertical: 5),
-                  //     decoration: BoxDecoration(
-                  //       color: Colors
-                  //           .orange.shade100, // Changed from red to orange
-                  //       borderRadius: BorderRadius.circular(20),
-                  //       border: Border.all(
-                  //           color: Colors
-                  //               .orange.shade400), // Changed from red to orange
-                  //     ),
-                  //     child: Row(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         Icon(Icons.bookmark,
-                  //             color: Colors.orange.shade700,
-                  //             size: 14), // Changed from timer_off to bookmark
-                  //         const SizedBox(width: 4),
-                  //         Text(
-                  //           "Booked", // Changed from "Expired" to "Booked"
-                  //           style: TextStyle(
-                  //             color: Colors.orange
-                  //                 .shade700, // Changed from red to orange
-                  //             fontSize: 11,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // Verified Badge
-
+          Container(
+            // margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isExpired
+                    ? Colors.orange.shade200 // Changed from red to orange
+                    : const Color.fromARGB(255, 174, 174, 174),
+                width: isExpired ? 1.8 : 1.3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: isExpired
+                      ? Colors.orange
+                          .withOpacity(0.05) // Changed from red to orange
+                      : Colors.black.withOpacity(0.07),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header Row with ID and Badges
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    itemType == "booking"
+                        ? GestureDetector(
+                            onTap: () {
+                              Get.to(BookingDetailsScreen(
+                                bookingId: bookingid,
+                              ));
+                            },
+                            child: Text(
+                              "ID: $tripId",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color:
+                                    isExpired ? Colors.grey : Colors.redAccent,
+                                fontWeight: FontWeight.bold,
+                                // decoration: isExpired ? TextDecoration.lineThrough : null,
+                              ),
+                            ),
+                          )
+                        : Container(),
                     Row(
                       children: [
-                        if (isVerified)
-                          Container(
-                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2,),
-                          decoration: BoxDecoration(
+                        // Booked Badge - Changed from "Expired" to "Booked"
+                        // if (isExpired)
+                        //   Container(
+                        //     margin: const EdgeInsets.only(right: 8),
+                        //     padding: const EdgeInsets.symmetric(
+                        //         horizontal: 10, vertical: 5),
+                        //     decoration: BoxDecoration(
+                        //       color: Colors
+                        //           .orange.shade100, // Changed from red to orange
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       border: Border.all(
+                        //           color: Colors
+                        //               .orange.shade400), // Changed from red to orange
+                        //     ),
+                        //     child: Row(
+                        //       mainAxisSize: MainAxisSize.min,
+                        //       children: [
+                        //         Icon(Icons.bookmark,
+                        //             color: Colors.orange.shade700,
+                        //             size: 14), // Changed from timer_off to bookmark
+                        //         const SizedBox(width: 4),
+                        //         Text(
+                        //           "Booked", // Changed from "Expired" to "Booked"
+                        //           style: TextStyle(
+                        //             color: Colors.orange
+                        //                 .shade700, // Changed from red to orange
+                        //             fontSize: 11,
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // Verified Badge
 
-                            color: Color(0XFFE2F0D9),
-                            borderRadius: BorderRadius.circular(30),
-                            // border: Border.all(
-                            //     color: const Color.fromARGB(166, 29, 178, 3)),
-                          ),
-                          child: Row(
+                        Row(
+                          children: [
+                            if (isVerified)
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(0XFFE2F0D9),
+                                  borderRadius: BorderRadius.circular(30),
+                                  // border: Border.all(
+                                  //     color: const Color.fromARGB(166, 29, 178, 3)),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.verified,
+                                      size: 18,
+                                      color: Color(0XFF2A6310),
+                                    ),
+                                    Text(
+                                      "Verified",
+                                      style: TextStyle(
+                                        color: Color(0XFF2A6310),
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            if (isVerified)
+                              SizedBox(
+                                width: 6,
+                              ),
+                            Container(
+                              height: 30,
+                              width: 30,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0XFFFCEBEB),
+                                borderRadius: BorderRadius.circular(30),
+                                // border: Border.all(
+                                //     color: const Color.fromARGB(166, 29, 178, 3)),
+                              ),
+                              child: InkWell(
+                                onTap: () => {
+                                  controller.selectedBooking.value = booking,
+                                  _showRerportBottomSheet(context)
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.flag_outlined,
+                                      size: 18,
+                                      color: Color(0XFF9C2A2A),
+                                    ),
+                                    // Text(
+                                    //   "Report",
+                                    //   style: TextStyle(
+                                    //     color: Color(0XFFE44344),
+                                    //     fontSize: 9,
+                                    //     fontWeight: FontWeight.bold,
+                                    //   ),
+                                    // )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+
+                // Route Display (for regular bookings)
+                if (itemType == "booking")
+                  _buildDottedRoute(from, to, isTwoWay),
+                const SizedBox(height: 10),
+
+                // Date and Time with Booked indicator
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    itemType == "booking"
+                        ? Row(
                             children: [
-                              Icon(Icons.verified, size: 18, color: Color(0XFF2A6310),),
+                              Icon(
+                                Icons.calendar_month_sharp,
+                                size: 18,
+                                color:
+                                    isExpired ? Colors.grey : Colors.redAccent,
+                              ),
                               Text(
-                                "Verified",
+                                '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
                                 style: TextStyle(
-                                  color: Color(0XFF2A6310),
-                                  fontSize: 9,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                  // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                size: 18,
+                                color:
+                                    isExpired ? Colors.grey : Colors.redAccent,
+                              ),
+                              Text(
+                                '${booking["startTimeparsed"]}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                  // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                    itemType == "booking"
+                        ? Container()
+                        : Text(
+                            'To',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: isExpired ? Colors.grey : Colors.black,
+                              // decoration: isExpired ? TextDecoration.lineThrough : null,
+                            ),
+                          ),
+                    itemType == "booking"
+                        ? Container()
+                        : Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_month_sharp,
+                                size: 18,
+                                color:
+                                    isExpired ? Colors.grey : Colors.redAccent,
+                              ),
+                              Text(
+                                '${booking["endTimeparsed"]}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                  // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+
+                // Time Ago and Carrier Badge
+                Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color:
+                              isExpired ? Colors.grey
+                                  : const Color(0xFF6A1B9A),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.orange.withOpacity(0.18),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2)),
+                          ],
+                        ),
+                        child: Text(
+                          HomeController.timeAgo(booking['added_on']),
+                          style: const TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            letterSpacing: 0.1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    if (carrier == 1)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color:
+                              isExpired ? Colors.grey : const Color(0xFF6A1B9A),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          "Need Carrier",
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 247, 247, 247),
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  ],
+                ),
+
+                const SizedBox(height: 8),
+
+                Stack(
+                  children: [
+                    // Car Type and Rate/Free In
+                    (itemType == "booking")
+                        ? Row(
+                            children: [
+                              Expanded(
+                                  child: _infoBox(
+                                      "Car Type",
+                                      booking['carType'] ?? "Sedan",
+                                      Colors.grey.shade100,
+                                      isExpired)),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                  child: _infoBox("Rate", rate,
+                                      Colors.grey.shade100, isExpired)),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                  child: _infoBox(
+                                      "Car Type",
+                                      booking['carType'] ?? "Sedan",
+                                      Colors.grey.shade100,
+                                      isExpired)),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                  child: _infoBox("Free In", booking["from"],
+                                      Colors.grey.shade100, isExpired)),
+                            ],
+                          ),
+
+                    // Remarks Section
+                    if (remarks.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isExpired
+                                  ? Colors.grey.shade100
+                                  : Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: isExpired
+                                    ? Colors.grey.shade300
+                                    : Colors.grey.shade300,
+                              ),
+                            ),
+                            child: Opacity(
+                              opacity: isBooked || isExpired ? 0.3 : 1.0,
+                              child: Text(
+                                maskMobileNumbers("$remarks"),
+                                style: TextStyle(
+                                  fontSize: 13.5,
+                                  height: 1.5,
+                                  color: isBooked || isExpired
+                                      ? Colors.grey.shade500
+                                      : Colors.black87,
+                                  fontStyle: isBooked || isExpired
+                                      ? FontStyle.italic
+                                      : FontStyle.normal,
+                                  // decoration:                            isExpired ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Booked Stamp - Using the existing booked.png for all booked/expired bookings
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                // Action Buttons - Only for active (non-booked) and non-expired bookings
+                if (!isBooked && !isExpired)
+                  Row(
+                    children: [
+                      // Share button
+                      Expanded(
+                        child: _actionButton(
+                          Icons.share_rounded,
+                          () => controller.shareBooking(
+                              itemType == "booking", booking),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // WhatsApp button
+                      if (canSendWhatsApp) ...[
+                        Expanded(
+                          child: _actionButton(
+                            FontAwesomeIcons.whatsapp.data,
+                            () => controller.openWhatsApp(itemType == "booking",
+                                booking['mobile'], booking),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                      ],
+                      // Call button
+                      if (canSendCall) ...[
+                        Expanded(
+                          child: _actionButton(
+                            Icons.call,
+                            () => controller.makePhoneCall(
+                                booking['mobile'], bookingid),
+                          ),
+                        ),
+                        // const SizedBox(width: 12),
+                      ],
+                      // Expanded(
+                      //   child: _actionButton(
+                      //     Icons.chat,
+                      //         () => controller.openChat(booking),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+
+                // Booked Message - Show message for booked/expired bookings
+                // if ((isBooked || isExpired) && !isBooked)
+                //   Container(
+                //     width: double.infinity,
+                //     padding: const EdgeInsets.symmetric(vertical: 12),
+                //     decoration: BoxDecoration(
+                //       color: Colors.grey.shade100,
+                //       borderRadius: BorderRadius.circular(12),
+                //       border: Border.all(color: Colors.grey.shade300),
+                //     ),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Icon(
+                //           Icons.info_outline,
+                //           size: 18,
+                //           color: Colors.grey.shade600,
+                //         ),
+                //         const SizedBox(width: 8),
+                //         Text(
+                //           isExpired
+                //               ? "This booking has been booked" // Changed from expired message
+                //               : "This booking is confirmed",
+                //           style: TextStyle(
+                //             color: Colors.grey.shade600,
+                //             fontWeight: FontWeight.w500,
+                //             fontSize: 13,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+              ],
+            ),
+          ),
+          isBooked || isExpired
+              ? Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FractionallySizedBox(
+                      widthFactor: 1.0,
+                      heightFactor: 0.30,
+                      child: Container(
+                        // padding: const EdgeInsets.all(16),
+                        child: ClipRRect(
+                          // borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.3),
+                                // borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                child: isExpired
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.access_time_filled,
+                                              size: 30, color: Colors.white70),
+                                          SizedBox(height: 6),
+                                          Text(
+                                            "Expired Booking",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "This trip has passed",
+                                            style: TextStyle(
+                                                fontSize: 8,
+                                                color: Colors.white70),
+                                          ),
+                                          SizedBox(height: 16),
+                                        ],
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 10),
+                                            decoration: BoxDecoration(
+                                              // color: Color(0XFFB20000),
+                                              // borderRadius: BorderRadius.circular(20),
+                                              borderRadius: BorderRadius.zero,
+                                              border: Border.all(
+                                                color: Color(0XFFB20000),
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "Already Booked",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color(0XFFB20000),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBookingCardNew(Map<String, dynamic> booking,
+      HomeController controller, String itemType, int index) {
+    final bool isTwoWay = (booking['isTwoWay'] as bool?) ?? false;
+    bool isBooked = (booking['status']?.toString() ?? "") == "0";
+    if (booking['mark_booked'].toString() == "1") {
+      isBooked = true;
+    }
+    // isBooked = index == 0;
+
+    print(
+        "${booking['id']} isBooked $isBooked mark_booked ${booking['mark_booked'].toString()}");
+
+    final bool isVerified = (booking['verified'] as bool?) ?? false;
+
+    // Check if booking is expired
+    final bool isExpired = itemType == "booking"
+        ? controller.isBookingExpired(booking)
+        : controller.isFreeBookingExpired(booking);
+
+    final int carrier =
+        int.tryParse(booking['carrier']?.toString() ?? "0") ?? 0;
+    final String tripId = booking['trip_id']?.toString() ?? "N/A";
+    String rate = booking['price'] != null ? "₹${booking['price']}" : "";
+    final String from = booking['from'] ?? "Unknown";
+    final String to = booking['to'] ?? "Unknown";
+    final String remarks = (booking['remarks'] ?? '').toString().trim();
+    final String pricetype = (booking['price_type'] ?? '').toString().trim();
+    final String bookingid = (booking['id'] ?? '').toString().trim();
+    final String userImage = (booking['user_image'] ?? '').toString().trim();
+
+    if (pricetype == "negotiable") {
+      rate = "$rate @";
+    }
+
+    final bool canSendWhatsApp =
+        (booking['send_whatsapp']?.toString() == "1") ||
+            (booking['send_whatsapp'] == true) ||
+            (booking['send_whatsapp'] == 1);
+
+    final bool isQuick = booking['is_quick'] == 1;
+    final bool isProfileCompleted = booking['is_profile_completed'] == 1;
+
+    final bool canSendCall = (booking['send_call']?.toString() == "1") ||
+        (booking['send_call'] == true) ||
+        (booking['send_call'] == 1);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Color.fromARGB(255, 174, 174, 174),
+            width: isExpired ? 1.8 : 1.3,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.07),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      itemType == "booking"
+                          ? GestureDetector(
+                              onTap: () {
+                                Get.to(BookingDetailsScreen(
+                                  bookingId: bookingid,
+                                ));
+                              },
+                              child: Text(
+                                "ID: $tripId",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
                                   fontWeight: FontWeight.bold,
+                                  // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              // if (isVerified)
+                              //   Container(
+                              //     padding: EdgeInsets.symmetric(
+                              //       horizontal: 6,
+                              //       vertical: 2,
+                              //     ),
+                              //     decoration: BoxDecoration(
+                              //       color: Color(0XFFE2F0D9),
+                              //       borderRadius: BorderRadius.circular(30),
+                              //       // border: Border.all(
+                              //       //     color: const Color.fromARGB(166, 29, 178, 3)),
+                              //     ),
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.verified,
+                              //           size: 18,
+                              //           color: Color(0XFF2A6310),
+                              //         ),
+                              //         Text(
+                              //           "Verified",
+                              //           style: TextStyle(
+                              //             color: Color(0XFF2A6310),
+                              //             fontSize: 9,
+                              //             fontWeight: FontWeight.bold,
+                              //           ),
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              //   if (isVerified)
+                              //   SizedBox(
+                              //     width: 6,
+                              //   ),
+                              Container(
+                                height: 30,
+                                width: 30,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(0XFFFCEBEB),
+                                  borderRadius: BorderRadius.circular(30),
+                                  // border: Border.all(
+                                  //     color: const Color.fromARGB(166, 29, 178, 3)),
+                                ),
+                                child: InkWell(
+                                  onTap: () => {
+                                    controller.selectedBooking.value = booking,
+                                    _showRerportBottomSheet(context)
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.flag_outlined,
+                                        size: 18,
+                                        color: Color(0XFF9C2A2A),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
-                          ),
-                        ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  // Route Display (for regular bookings)
+                  if (itemType == "booking")
+                    _buildDottedRoute(from, to, isTwoWay),
+                  const SizedBox(height: 10),
 
-                        if (isVerified)
-                        SizedBox(width: 6,),
-                        Container(
-                          height: 30,
-                          width: 30,
-                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2,),
-                          decoration: BoxDecoration(
-
-                            color: Color(0XFFFCEBEB),
-                            borderRadius: BorderRadius.circular(30),
-                            // border: Border.all(
-                            //     color: const Color.fromARGB(166, 29, 178, 3)),
-                          ),
-                          child: InkWell(
-                            onTap: () => {
-                              controller.selectedBooking.value = booking,
-                              _showRerportBottomSheet(context)
-                            },
-                            child: Row(
+                  // Date and Time with Booked indicator
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      itemType == "booking"
+                          ? Row(
                               children: [
-                                Icon(Icons.flag_outlined, size: 18, color: Color(0XFF9C2A2A),),
-                                // Text(
-                                //   "Report",
-                                //   style: TextStyle(
-                                //     color: Color(0XFFE44344),
-                                //     fontSize: 9,
-                                //     fontWeight: FontWeight.bold,
-                                //   ),
-                                // )
+                                Icon(
+                                  Icons.calendar_month_sharp,
+                                  size: 18,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                ),
+                                Text(
+                                  '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: isExpired
+                                        ? Colors.grey
+                                        : Colors.redAccent,
+                                    // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today_outlined,
+                                  size: 18,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                ),
+                                Text(
+                                  '${booking["startTimeparsed"]}',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: isExpired
+                                        ? Colors.grey
+                                        : Colors.redAccent,
+                                    // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                  ),
+                                ),
                               ],
                             ),
+                      itemType == "booking"
+                          ? Container()
+                          : Text(
+                              'To',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: isExpired ? Colors.grey : Colors.black,
+                                // decoration: isExpired ? TextDecoration.lineThrough : null,
+                              ),
+                            ),
+                      itemType == "booking"
+                          ? Container()
+                          : Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_month_sharp,
+                                  size: 18,
+                                  color: isExpired
+                                      ? Colors.grey
+                                      : Colors.redAccent,
+                                ),
+                                Text(
+                                  '${booking["endTimeparsed"]}',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: isExpired
+                                        ? Colors.grey
+                                        : Colors.redAccent,
+                                    // decoration: isExpired ? TextDecoration.lineThrough : null,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // Time Ago and Carrier Badge
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: isExpired
+                                ? Colors.grey
+                                // : const Color(0xFF6A1B9A),
+                                : const Color(0xFFF5F5F5),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Color(0xFFC9C9C9),
+                            ),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //       color: Colors.orange.withOpacity(0.18),
+                            //       blurRadius: 8,
+                            //       offset: const Offset(0, 2)),
+                            // ],
                           ),
-                        )
-                      ],
-                    )
+                          child: Center(
+                            child: Text(
+                              HomeController.timeAgo(booking['added_on']),
+                              style: const TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                // color: Color.fromARGB(255, 255, 255, 255),
+                                color: Color(0xFF353535),
+                                letterSpacing: 0.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      if (carrier == 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: isExpired
+                                ? Colors.grey
+                            // : const Color(0xFF6A1B9A),
+                                : const Color(0xFFFCF1D3),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Color(0xFFE8D9B5),
+                            ),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //       color: Colors.orange.withOpacity(0.18),
+                            //       blurRadius: 8,
+                            //       offset: const Offset(0, 2)),
+                            // ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Need Carrier",
+                              style: const TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.normal,
+                                // color: Color.fromARGB(255, 255, 255, 255),
+                                // color: Colors.black,
+                                color: Color(0xFF95774D),
+                                letterSpacing: 0.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  // const SizedBox(height: 8),
                 ],
               ),
-            ],
-          ),
-          const SizedBox(height: 2),
-
-          // Route Display (for regular bookings)
-          if (itemType == "booking") _buildDottedRoute(from, to, isTwoWay),
-          const SizedBox(height: 10),
-
-          // Date and Time with Booked indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-
-              itemType == "booking"
-                  ? Row(
-                    children: [
-                      Icon(Icons.calendar_month_sharp, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
-                      Text(
-                          '${HomeController.formatTripDate(booking["date"])} @ ${booking["time"]}',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: isExpired ? Colors.grey : Colors.redAccent,
-                            // decoration: isExpired ? TextDecoration.lineThrough : null,
-                          ),
-                        ),
-                    ],
-                  )
-                  : Row(
-                    children: [
-                      Icon(Icons.calendar_today_outlined, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
-                      Text(
-                          '${booking["startTimeparsed"]}',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: isExpired ? Colors.grey : Colors.redAccent,
-                            // decoration: isExpired ? TextDecoration.lineThrough : null,
-                          ),
-                        ),
-                    ],
-                  ),
-              itemType == "booking"
-                  ? Container()
-                  : Text(
-                      'To',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: isExpired ? Colors.grey : Colors.black,
-                        // decoration: isExpired ? TextDecoration.lineThrough : null,
-                      ),
-                    ),
-              itemType == "booking"
-                  ? Container()
-                  : Row(
-                    children: [
-                      Icon(Icons.calendar_month_sharp, size: 18, color: isExpired ? Colors.grey : Colors.redAccent,),
-                      Text(
-                          '${booking["endTimeparsed"]}',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: isExpired ? Colors.grey : Colors.redAccent,
-                            // decoration: isExpired ? TextDecoration.lineThrough : null,
-                          ),
-                        ),
-                    ],
-                  ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          // Time Ago and Carrier Badge
-          Row(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isExpired ? Colors.grey : const Color(0xFF6A1B9A),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.orange.withOpacity(0.18),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2)),
-                    ],
-                  ),
-                  child: Text(
-                    HomeController.timeAgo(booking['added_on']),
-                    style: const TextStyle(
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      letterSpacing: 0.1,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 5),
-              if (carrier == 1)
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: isExpired ? Colors.grey : const Color(0xFF6A1B9A),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    "Need Carrier",
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 247, 247, 247),
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          // Car Type and Rate/Free In
-          (itemType == "booking")
-              ? Row(
-                  children: [
-                    Expanded(
-                        child: _infoBox(
-                            "Car Type",
-                            booking['carType'] ?? "Sedan",
-                            Colors.grey.shade100,
-                            isExpired)),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: _infoBox(
-                            "Rate", rate, Colors.grey.shade100, isExpired)),
-                  ],
-                )
-              : Row(
-                  children: [
-                    Expanded(
-                        child: _infoBox(
-                            "Car Type",
-                            booking['carType'] ?? "Sedan",
-                            Colors.grey.shade100,
-                            isExpired)),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: _infoBox("Free In", booking["from"],
-                            Colors.grey.shade100, isExpired)),
-                  ],
-                ),
-
-          // Remarks Section
-          if (remarks.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            ),
             Stack(
               children: [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color:
-                        isExpired ? Colors.grey.shade100 : Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: isExpired
-                          ? Colors.grey.shade300
-                          : Colors.grey.shade300,
-                    ),
-                  ),
-                  child: Opacity(
-                    opacity: isBooked || isExpired ? 0.3 : 1.0,
-                    child: Text(
-                      maskMobileNumbers("$remarks"),
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        height: 1.5,
-                        color: isBooked || isExpired
-                            ? Colors.grey.shade500
-                            : Colors.black87,
-                        fontStyle: isBooked || isExpired
-                            ? FontStyle.italic
-                            : FontStyle.normal,
-                        // decoration:                            isExpired ? TextDecoration.lineThrough : null,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
+                  child: Column(
+                    children: [
+                      // Car Type and Rate/Free In
+                      (itemType == "booking")
+                          ? Row(
+                              children: [
+                                Expanded(
+                                    child: _infoBox(
+                                        "Car Type",
+                                        booking['carType'] ?? "Sedan",
+                                        Colors.grey.shade100,
+                                        isExpired)),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                    child: _infoBox("Rate", rate,
+                                        Colors.grey.shade100, isExpired)),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Expanded(
+                                    child: _infoBox(
+                                        "Car Type",
+                                        booking['carType'] ?? "Sedan",
+                                        Colors.grey.shade100,
+                                        isExpired)),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                    child: _infoBox("Free In", booking["from"],
+                                        Colors.grey.shade100, isExpired)),
+                              ],
+                            ),
+                      if (remarks.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: isExpired
+                                ? Colors.grey.shade100
+                                : Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: isExpired
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade300,
+                            ),
+                          ),
+                          child: Opacity(
+                            opacity: isBooked || isExpired ? 0.3 : 1.0,
+                            child: Text(
+                              maskMobileNumbers("$remarks"),
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                height: 1.5,
+                                color: isBooked || isExpired
+                                    ? Colors.grey.shade500
+                                    : Colors.black87,
+                                fontStyle: isBooked || isExpired
+                                    ? FontStyle.italic
+                                    : FontStyle.normal,
+                                // decoration:                            isExpired ? TextDecoration.lineThrough : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+
+                      // Action Buttons - Only for active (non-booked) and non-expired bookings
+                      if (!isBooked && !isExpired)
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 8,
+                              // child: Center(
+                              //   child: Divider(
+                              //     color: Color(0xFFF3F4FA),
+                              //     height: 1,
+                              //   ),
+                              // ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8,),
+                              decoration: BoxDecoration(
+                                color: Color(0x66F4F5FB),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.07),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      // Get.to(OthereProfileScreen(
+                                      //   userId: booking['user_id'].toString().trim(),
+                                      // ));
+                                    },
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border.all(
+                                          // color: Colors.white,
+                                          color: Color(0x336A1B9A),
+                                          width: 2,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.07),
+                                            blurRadius: 12,
+                                            offset: const Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: Image.asset(
+                                          "assets/images/ic_user_avatar.png",
+                                          fit: BoxFit.contain,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        StarRating(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          size: 14.0,
+                                          rating: booking['average_rating'] == 0
+                                              ? 3.0
+                                              : booking['average_rating'],
+                                          color: Colors.black,
+                                          borderColor: Colors.black54,
+                                          allowHalfRating: true,
+                                          starCount: 5,
+                                          // filledIcon: Icons.favorite,
+                                          // halfFilledIcon: Icons.favorite_border,
+                                          // emptyIcon: Icons.favorite_outline,
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          "Mostly Completed",
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Color(0x336A1B9A),
+                                            borderRadius: BorderRadius.circular(50),
+                                          ),
+                                          child: Text(
+                                            booking['user_city'].toString().isEmpty
+                                                ? 'N/A'
+                                                : booking['user_city']
+                                                .toString()
+                                                .trim(),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  if (isVerified)
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color(0XFFE2F0D9),
+                                      borderRadius: BorderRadius.circular(30),
+                                      // border: Border.all(
+                                      //     color: const Color.fromARGB(166, 29, 178, 3)),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.verified,
+                                          size: 18,
+                                          color: Color(0XFF2A6310),
+                                        ),
+                                        Text(
+                                          "Verified",
+                                          style: TextStyle(
+                                            color: Color(0XFF2A6310),
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ) else Container(),
+                                  // Column(
+                                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     Text(
+                                  //       "City",
+                                  //       style: TextStyle(
+                                  //         fontSize: 16,
+                                  //         fontWeight: FontWeight.bold,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //     ),
+                                  //     Text(
+                                  //       booking['user_city'].toString().isEmpty ? 'N/A': booking['user_city'].toString().trim(),
+                                  //       style: TextStyle(
+                                  //         fontSize: 16,
+                                  //         fontWeight: FontWeight.normal,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                // Share button
+                                Expanded(
+                                  child: _actionButton(
+                                    Icons.share_rounded,
+                                    () => controller.shareBooking(
+                                        itemType == "booking", booking),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                // Chat button
+                                // if (isProfileCompleted) ...[
+                                //   Expanded(
+                                //     child: _actionButton(
+                                //       Icons.chat,
+                                //       () => controller.openChat(booking),
+                                //     ),
+                                //   ),
+                                //   const SizedBox(width: 12),
+                                // ],
+                                // if (canSendWhatsApp && !isProfileCompleted) ...[
+                                if (canSendWhatsApp) ...[
+                                  Expanded(
+                                    child: _actionButton(
+                                      FontAwesomeIcons.whatsapp.data,
+                                      () => controller.openWhatsApp(
+                                          itemType == "booking",
+                                          booking['mobile'],
+                                          booking),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                ],
+                                // Call button
+                                if (canSendCall) ...[
+                                  Expanded(
+                                    child: _actionButton(
+                                      Icons.call,
+                                      () => controller.makePhoneCall(
+                                          booking['mobile'], bookingid),
+                                    ),
+                                  ),
+                                  // const SizedBox(width: 12),
+                                ],
+                                // Expanded(
+                                //   child: _actionButton(
+                                //     Icons.chat,
+                                //         () => controller.openChat(booking),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                // Booked Stamp - Using the existing booked.png for all booked/expired bookings
-                if (isBooked || isExpired)
-                  Positioned(
-                    top: -2,
-                    right: 4,
-                    child: Transform.rotate(
-                      angle: 0.2,
-                      child: Image.asset(
-                        "assets/images/ic_booked.png",
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
+                isBooked || isExpired
+                    ? Positioned.fill(
+                        child: Container(
+                          // margin: const EdgeInsets.symmetric(vertical: 15),
+
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(16.0),
+                              bottomRight: Radius.circular(16.0),
+                            ),
+                          ),
+                          child: Center(
+                              child:
+                                  // isExpired ? Column(
+                                  //   mainAxisAlignment:
+                                  //   MainAxisAlignment.center,
+                                  //   children: [
+                                  //     Icon(Icons.access_time_filled,
+                                  //         size: 30, color: Colors.white70),
+                                  //     SizedBox(height: 6),
+                                  //     Text(
+                                  //       "Expired Booking",
+                                  //       style: TextStyle(
+                                  //         fontSize: 16,
+                                  //         fontWeight: FontWeight.bold,
+                                  //         color: Colors.white,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(height: 4),
+                                  //     Text(
+                                  //       "This trip has passed",
+                                  //       style: TextStyle(
+                                  //           fontSize: 8,
+                                  //           color: Colors.white70),
+                                  //     ),
+                                  //     SizedBox(height: 16),
+                                  //   ],
+                                  // )
+                                  //     :
+                                  Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.check_circle,
+                                  size: 30, color: Colors.white70),
+                              SizedBox(height: 4),
+                              Text(
+                                "Booking Completed",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "This booking is confirmed",
+                                style: TextStyle(
+                                    fontSize: 11, color: Colors.white70),
+                              ),
+                              SizedBox(height: 4),
+                            ],
+                          )),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ],
-
-
-          const SizedBox(height: 16),
-
-          // Action Buttons - Only for active (non-booked) and non-expired bookings
-          if (!isBooked && !isExpired)
-            Row(
-              children: [
-                // Share button
-                Expanded(
-                  child: _actionButton(
-                    Icons.share_rounded,
-                    () =>
-                        controller.shareBooking(itemType == "booking", booking),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // WhatsApp button
-                if (canSendWhatsApp) ...[
-                  Expanded(
-                    child: _actionButton(
-                      FontAwesomeIcons.whatsapp.data,
-                      () => controller.openWhatsApp(
-                          itemType == "booking", booking['mobile'], booking),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                ],
-                // Call button
-                if (canSendCall) ...[
-                  Expanded(
-                    child: _actionButton(
-                      Icons.call,
-                      () => controller.makePhoneCall(
-                          booking['mobile'], bookingid),
-                    ),
-                  ),
-                // const SizedBox(width: 12),
-                ],
-                // Expanded(
-                //   child: _actionButton(
-                //     Icons.chat,
-                //         () => controller.openChat(booking),
-                //   ),
-                // ),
-              ],
-            ),
-
-          // Booked Message - Show message for booked/expired bookings
-          if ((isBooked || isExpired) && !isBooked)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 18,
-                    color: Colors.grey.shade600,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    isExpired
-                        ? "This booking has been booked" // Changed from expired message
-                        : "This booking is confirmed",
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
@@ -936,6 +1795,25 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _userPlaceholder() {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Image.asset(
+          "assets/images/ic_user_avatar.png",
+          fit: BoxFit.contain,
+          width: 30,
+          height: 30,
+        ),
       ),
     );
   }
@@ -1053,43 +1931,50 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
-
               const SizedBox(height: 20),
-
-              Obx(() =>IntrinsicHeight(
-                child: Row(
+              Obx(
+                () => IntrinsicHeight(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment
-                      .stretch, // Forces second item to match height
+                    crossAxisAlignment: CrossAxisAlignment
+                        .stretch, // Forces second item to match height
 
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width*0.28,
+                        width: MediaQuery.of(context).size.width * 0.28,
                         child: InkWell(
-                          onTap: ()=>{
+                          onTap: () => {
                             controller.selectedReason.value = "Fake Booking"
                           },
                           child: Card(
-                            color: controller.selectedReason == "Fake Booking" ? Color(0XFFFCEBEB) : Colors.white,
+                            color: controller.selectedReason == "Fake Booking"
+                                ? Color(0XFFFCEBEB)
+                                : Colors.white,
                             // elevation: 2,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-
                                   Image.asset(
                                     "assets/images/fake_booking.png",
                                     fit: BoxFit.contain,
                                     width: 30,
                                     height: 30,
-                                    color: controller.selectedReason == "Fake Booking" ? Color(0XFF9C2A2A): Colors.grey,
+                                    color: controller.selectedReason ==
+                                            "Fake Booking"
+                                        ? Color(0XFF9C2A2A)
+                                        : Colors.grey,
                                   ),
-
-                                  Text("Fake Booking",
+                                  Text(
+                                    "Fake Booking",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(color: controller.selectedReason == "Fake Booking" ? Color(0XFF9C2A2A): Colors.black, fontSize: 13),
+                                    style: TextStyle(
+                                        color: controller.selectedReason ==
+                                                "Fake Booking"
+                                            ? Color(0XFF9C2A2A)
+                                            : Colors.black,
+                                        fontSize: 13),
                                   )
                                 ],
                               ),
@@ -1098,33 +1983,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width*0.28,
-
-
+                        width: MediaQuery.of(context).size.width * 0.28,
                         child: InkWell(
-                          onTap: ()=>{
-                            controller.selectedReason.value = "Scammer"
-                          },
+                          onTap: () =>
+                              {controller.selectedReason.value = "Scammer"},
                           child: Card(
-                            color: controller.selectedReason == "Scammer" ? Color(0XFFFCEBEB) : Colors.white,
+                            color: controller.selectedReason == "Scammer"
+                                ? Color(0XFFFCEBEB)
+                                : Colors.white,
                             // elevation: 2,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-
                                   Image.asset(
                                     "assets/images/fraud_booking.png",
                                     fit: BoxFit.contain,
                                     width: 30,
                                     height: 30,
-                                    color: controller.selectedReason == "Scammer" ? Color(0XFF9C2A2A): Colors.grey,
+                                    color:
+                                        controller.selectedReason == "Scammer"
+                                            ? Color(0XFF9C2A2A)
+                                            : Colors.grey,
                                   ),
-
-                                  Text("Scammer",
+                                  Text(
+                                    "Scammer",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(color: controller.selectedReason == "Scammer" ? Color(0XFF9C2A2A): Colors.black, fontSize: 13),
+                                    style: TextStyle(
+                                        color: controller.selectedReason ==
+                                                "Scammer"
+                                            ? Color(0XFF9C2A2A)
+                                            : Colors.black,
+                                        fontSize: 13),
                                   )
                                 ],
                               ),
@@ -1133,34 +2024,46 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width*0.28,
+                        width: MediaQuery.of(context).size.width * 0.28,
                         // height: 130,
 
                         child: InkWell(
-                          onTap: ()=>{
-                            controller.selectedReason.value = "Free Vehicle Post"
+                          onTap: () => {
+                            controller.selectedReason.value =
+                                "Free Vehicle Post"
                           },
                           child: Card(
-                            color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFFFCEBEB) : Colors.white,
+                            color:
+                                controller.selectedReason == "Free Vehicle Post"
+                                    ? Color(0XFFFCEBEB)
+                                    : Colors.white,
                             // elevation: 2,
                             child: Container(
-                              padding: const EdgeInsets.only(bottom: 5, top: 5, left: 4, right: 4),
+                              padding: const EdgeInsets.only(
+                                  bottom: 5, top: 5, left: 4, right: 4),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-
                                   Image.asset(
                                     "assets/images/wrong_details.png",
                                     fit: BoxFit.contain,
                                     width: 30,
                                     height: 30,
-                                    color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFF9C2A2A): Colors.grey,
+                                    color: controller.selectedReason ==
+                                            "Free Vehicle Post"
+                                        ? Color(0XFF9C2A2A)
+                                        : Colors.grey,
                                   ),
-
-                                  Text("Free Vehicle Post",
+                                  Text(
+                                    "Free Vehicle Post",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(color: controller.selectedReason == "Free Vehicle Post" ? Color(0XFF9C2A2A): Colors.black, fontSize: 12),
+                                    style: TextStyle(
+                                        color: controller.selectedReason ==
+                                                "Free Vehicle Post"
+                                            ? Color(0XFF9C2A2A)
+                                            : Colors.black,
+                                        fontSize: 12),
                                   )
                                 ],
                               ),
@@ -1170,9 +2073,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                ),
               ),
-              ),
-
               const SizedBox(height: 8),
               Container(
                 // height: 100,
@@ -1180,26 +2082,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: controller.reportMessage,
                   maxLength: 120,
                   maxLines: 2,
-
                   decoration: InputDecoration(
-                    labelText: "Write message",
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Color(0xFF8E24AA),
-                        width: 1,
+                      labelText: "Write message",
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF8E24AA),
+                          width: 1,
+                        ),
                       ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Color(0xFF8E24AA),
-                        width: 1,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF8E24AA),
+                          width: 1,
+                        ),
                       ),
-                    ),
-                    counter: Text('${controller.reportMessage.text.trim().length}/120')
-                  ),
+                      counter: Text(
+                          '${controller.reportMessage.text.trim().length}/120')),
                 ),
               ),
               const SizedBox(height: 8),
@@ -1224,8 +2125,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -1362,10 +2261,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
-
-class _TabsBannerHeaderDelegate
-    extends SliverPersistentHeaderDelegate {
+class _TabsBannerHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double height;
   final Widget child;
 
@@ -1382,10 +2278,10 @@ class _TabsBannerHeaderDelegate
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Material(
       color: Colors.white,
       child: SizedBox(
@@ -1398,13 +2294,11 @@ class _TabsBannerHeaderDelegate
 
   @override
   bool shouldRebuild(
-      covariant _TabsBannerHeaderDelegate oldDelegate,
-      ) {
-    return oldDelegate.height != height ||
-        oldDelegate.child != child;
+    covariant _TabsBannerHeaderDelegate oldDelegate,
+  ) {
+    return oldDelegate.height != height || oldDelegate.child != child;
   }
 }
-
 
 class Triangle extends StatelessWidget {
   final Color color;

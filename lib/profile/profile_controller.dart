@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ import '../home/home_screen.dart';
 import '../login/login_screen.dart';
 import '../my_bookings/my_booking_screen.dart';
 import '../new_booking/new_booking_screen.dart';
+import '../utils/Utils.dart';
 import 'addhardetail.dart';
 import 'profile_screen.dart';
 
@@ -46,7 +48,7 @@ class ProfileController extends GetxController {
     'rating': 0.0,
     'avatarUrl': 'https://i.pravatar.cc/300',
     'verified': false,
-    'car_number':''
+    'car_number': ''
   }.obs;
 
   final RxBool isLoading = true.obs;
@@ -77,6 +79,43 @@ class ProfileController extends GetxController {
     loadData();
   }
 
+  void deleteAccount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString("user_id");
+
+    print("deleteAccount $userId");
+
+    try {
+      final response = await http.post(
+        Uri.parse("$appurl/delete-profile"),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: {"user_id": userId},
+      );
+      print("responseDelete ${response.body}");
+
+      final json = jsonDecode(response.body);
+      print("responseDelete $json");
+      var msg = json["message"];
+      if (json["success"] == true) {
+        Utils.showAlertDialog(
+          title: "PickCab",
+          message: "Your profile has been deleted.",
+          dialogType: DialogType.error,
+          onOk: () => {
+            navigateToLogout()
+          },
+        );
+
+      } else {
+        Get.snackbar("Delete Error", msg);
+      }
+    } catch (e) {
+
+
+      print("error in sms api");
+      print(e);
+    }
+  }
 
 
 
@@ -132,9 +171,8 @@ class ProfileController extends GetxController {
                 ? "$imageurl/${data["user_image"]}"
                 : "https://i.pravatar.cc/300?u=$userId",
             'verified': data["verified"] == true || data["verified"] == "1",
-            'car_number': userCar is Map
-                ? userCar["reg_number"]?.toString() ?? ''
-                : '',
+            'car_number':
+                userCar is Map ? userCar["reg_number"]?.toString() ?? '' : '',
           });
         } else {
           throw Exception(json["message"] ?? "Failed to load profile");
@@ -480,29 +518,7 @@ class ProfileController extends GetxController {
           print(cityNames);
           isLoading.value = false;
           unsubscribedToFCM(cityNames);
-          // final cityList = data
-          //     .map(
-          //       (item) => AlertCity(
-          //         id: item["id"].toString(),
-          //         city: item["city"].toString().trim(),
-          //       ),
-          //     )
-          //     .toList();
-
-          // for (final city in cityList) {
-          //   try {
-          //     await FirebaseMessaging.instance.unsubscribeFromTopic(
-          //       "city_${city.city.toLowerCase()}",
-          //     );
-          //
-          //     print("unsubscribed: ${city.city}");
-          //   } catch (e) {
-          //     print("Failed to unsubscribe ${city.city}: $e");
-          //   }
-          // }
-        } else {
-          
-        }
+        } else {}
       }
     } catch (e) {
     } finally {

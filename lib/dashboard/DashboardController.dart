@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -11,12 +12,14 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 import 'package:in_app_update/in_app_update.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pickcab_partner/alerts/alerts_controller.dart';
 import 'package:pickcab_partner/dashboard/AddCityBottomSheet.dart';
 import 'package:pickcab_partner/services/presence_service.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
 import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../alerts/alerts_screen.dart';
 import '../const/const.dart';
@@ -32,8 +35,9 @@ import '../new_booking/new_booking_screen.dart';
 import '../profile/profile_screen.dart';
 import '../smartbooking/SmartBookingScreen.dart';
 import 'HtmlBottomSheet.dart';
+// import 'UpdateAppScreen.dart';
 
-class DashboardController extends GetxController {
+class DashboardController extends GetxController with WidgetsBindingObserver {
   static DashboardController get to => Get.find();
 
   // Notice
@@ -43,6 +47,11 @@ class DashboardController extends GetxController {
   final RxBool showSmartBooking = true.obs;
   final RxBool isBottomSheetOpen = false.obs;
   final RxBool isCityBottomSheetOpen = false.obs;
+  var showDelete = false.obs;
+  bool isUpdateDialogShowing = false;
+
+  RxMap<String, dynamic> userProfile = <String, dynamic>{}.obs;
+
   final List<String> allowedMobiles = <String>[
     "8828451293",
     "9572511011",
@@ -72,46 +81,120 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() {
-    fetchUserProfile();
-    // fetchNotice();
     super.onInit();
-
-    /// Run after dashboard is loaded
-    /// Run after dashboard fully renders
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(seconds: 10));
-
+    WidgetsBinding.instance.addObserver(this);
+    fetchUserProfile();
+    // Initial update check after UI renders
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!isClosed) {
-        checkForUpdateSafely();
+        debugPrint("pickCabAlertDialog called from onInit");
+        // Utils.pickCabAlertDialog(
+        //     context: Get.context!,
+        //     title: "Update Required",
+        //     message:
+        //         "A new version of PickCab is available. Please update the app to continue using it.",
+        //     buttonText: "Update Now",
+        //     onPressed: () {
+        //       openPlayStore();
+        //     },
+        //   );
+        checkForMandatoryUpdate();
       }
     });
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (!isClosed) {
+          
+          debugPrint("pickCabAlertDialog called from didChangeAppLifecycleState");
+          checkForMandatoryUpdate();
+          // Utils.pickCabAlertDialog(
+          //   context: Get.context!,
+          //   title: "Update Required",
+          //   message:
+          //       "A new version of PickCab is available. Please update the app to continue using it.",
+          //   buttonText: "Update Now",
+          //   onPressed: () {
+          //     openPlayStore();
+          //   },
+          // );
+        }
+      });
+    }
+  }
+
+  bool isUpdateCheckRunning = false;
+
+  Future<void> checkForMandatoryUpdate() async {
+    if (isUpdateCheckRunning || isClosed) return;
+
+    isUpdateCheckRunning = true;
+
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+
+      final installedVersionCode = int.tryParse(packageInfo.buildNumber) ?? 0;
+
+      final updateInfo = await InAppUpdate.checkForUpdate();
+
+      final availableVersionCode = updateInfo.availableVersionCode ?? 0;
+
+      debugPrint('Installed: $installedVersionCode');
+      debugPrint('Play Store: $availableVersionCode');
+
+      if (availableVersionCode > installedVersionCode) {
+        final context = Get.context;
+
+        if (context == null || isClosed) return;
+
+        Utils.pickCabAlertDialog(
+          context: context,
+          title: "Update Required",
+          message:
+              "A new version of PickCab is available. Please update the app to continue using it.",
+          buttonText: "Update Now",
+          onPressed: () {
+            openPlayStore();
+          },
+        );
+      }
+    } on PlatformException catch (e) {
+      debugPrint('In-app update error: ${e.code} - ${e.message}');
+    } catch (e) {
+      debugPrint('Update check error: $e');
+    } finally {
+      isUpdateCheckRunning = false;
+    }
+  }
+
+  Future<void> openPlayStore() async {
+    final url = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.pickcab.partner',
+    );
+
+    await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
   Future<void> checkForUpdateSafely() async {
     try {
+      print("updateAvailable checkForUpdateSafely");
       final info = await InAppUpdate.checkForUpdate()
           .timeout(const Duration(seconds: 5));
-
-      // final updateAvailable =
-      //     info.updateAvailability == UpdateAvailability.updateAvailable;
-      //
-      // final immediateAllowed = info.immediateUpdateAllowed;
-      // final flexibleUpdateAllowed = info.flexibleUpdateAllowed;
-      //
-      // if (updateAvailable && immediateAllowed) {
-      //   await InAppUpdate.performImmediateUpdate();
-      //   // await InAppUpdate.startFlexibleUpdate();
-      //   // await InAppUpdate.completeFlexibleUpdate();
-      // }
-      // else if(updateAvailable && flexibleUpdateAllowed){
-      //   await InAppUpdate.startFlexibleUpdate();
-      // }
 
       final updateAvailable =
           info.updateAvailability == UpdateAvailability.updateAvailable;
 
+      print("updateAvailable $updateAvailable");
+
       if (!updateAvailable) return;
 
+      print("updateAvailable ${info}");
       if (info.immediateUpdateAllowed) {
         await InAppUpdate.performImmediateUpdate();
       } else if (info.flexibleUpdateAllowed) {
@@ -125,6 +208,7 @@ class DashboardController extends GetxController {
         }
       }
     } catch (e) {
+      print("updateAvailable checkForUpdateSafely error");
       debugPrint("Update check error: $e");
     }
   }
@@ -165,8 +249,9 @@ class DashboardController extends GetxController {
 
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString('user_id') ?? '';
-      if(userId.isEmpty){
-        return ;
+      final userToken = prefs.getString('user_token') ?? '';
+      if (userId.isEmpty) {
+        return;
       }
 
       await presenceService.initialize(userId);
@@ -193,11 +278,20 @@ class DashboardController extends GetxController {
 
           await prefs.setString("mobile_number", data['user_mobile']);
           await prefs.setString("user_name", data['user_name']);
+          final newUserImage = data["user_image"] != null &&
+                  data["user_image"].toString().isNotEmpty
+              ? "$imageurl/${data["user_image"]}"
+              : "";
+          await prefs.setString("user_image", newUserImage);
 
           if (allowedMobiles.contains("${data['user_mobile']}")) {
             showSmartBooking.value = true;
           } else {
             showSmartBooking.value = true;
+          }
+
+          if ("${data['user_mobile']}".contains("9572511011")) {
+            showDelete.value = true;
           }
 
           print(
@@ -227,9 +321,10 @@ class DashboardController extends GetxController {
             'id': data['id'],
             'user_mobile': data['user_mobile'],
             'aadhar_verified': data['aadhar_verified'],
+            'device_token': data['device_token'],
           };
 
-          FirebaseUtil.updateuser(data['user_unq_id'], mapUser);
+          FirebaseUtil.updateuser(data['id'], mapUser);
         } else {
           throw Exception(json["message"] ?? "Failed to load profile");
         }
@@ -244,6 +339,43 @@ class DashboardController extends GetxController {
         isSuccess: false,
       );
     } finally {}
+  }
+
+  Future<void> fetchOthersProfile(String userId) async {
+    try {
+      if (userId.isEmpty || userId == "0") {
+        Get.offAll(() => LoginScreen());
+        return;
+      }
+
+      final url = Uri.parse("$appurl/user_details?user_id=$userId");
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+
+        if (jsonData["status"] == true) {
+          // Store API JSON data
+          userProfile.assignAll(
+            Map<String, dynamic>.from(jsonData["user_data"] ?? {}),
+          );
+        } else {
+          throw Exception(
+            jsonData["message"] ?? "Failed to load profile",
+          );
+        }
+      } else {
+        throw Exception("Server error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Profile fetch error: $e");
+
+      CustomNotification.show(
+        title: "Connection Error",
+        message: "Failed to load profile. Pull to refresh.",
+        isSuccess: false,
+      );
+    }
   }
 
   Future<void> fetchNotice(int showCity) async {

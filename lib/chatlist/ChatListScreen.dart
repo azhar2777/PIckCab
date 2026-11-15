@@ -118,6 +118,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     bookingId: bookingId,
                     userUniqueId: otherUserId,
                     userName: name,
+                    userImage: '',
                   ),
                 );
               },

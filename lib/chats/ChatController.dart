@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,6 +8,10 @@ import 'package:get/get.dart';
 import 'package:pickcab_partner/model/ChatMessage.dart';
 import 'package:pickcab_partner/utils/ChatUtil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import '../const/const.dart';
+import '../utils/firebase_util.dart';
 
 class ChatScreenController extends GetxController {
   static ChatScreenController get to => Get.find();
@@ -15,8 +20,10 @@ class ChatScreenController extends GetxController {
   // final String tripId;
   final String userUniqueId;
   final String bookingUserName;
+  final String bookingUserImage;
   var loggedInuserid = ''.obs;
   var loggedInuserName = ''.obs;
+  var loggedInuserImage = ''.obs;
   final Rxn<DatabaseReference> refMessage = Rxn<DatabaseReference>();
   // final Rxn<DatabaseReference> refReceiverBookingMessage = Rxn<DatabaseReference>();
 
@@ -37,6 +44,7 @@ class ChatScreenController extends GetxController {
     // required this.tripId,
     required this.userUniqueId,
     required this.bookingUserName,
+    required this.bookingUserImage,
   });
 
   @override
@@ -151,6 +159,7 @@ class ChatScreenController extends GetxController {
 
     loggedInuserid.value = prefs.getString('user_id') ?? '';
     loggedInuserName.value = prefs.getString('user_name') ?? '';
+    loggedInuserImage.value = prefs.getString('user_image') ?? '';
 
     debugPrint('Booking ID: $bookingId');
     debugPrint('Receiver ID: $userUniqueId');
@@ -167,6 +176,7 @@ class ChatScreenController extends GetxController {
   }
 
   Future<void> createChat() async {
+    var deviceToken = "";
     final text = inputController.text.trim();
 
     if (text.isEmpty) return;
@@ -207,12 +217,32 @@ class ChatScreenController extends GetxController {
       '${ChatUtil.NODE_CHAT_LIST}/$receiverId/$currentBookingId',
     );
 
+    final receiverRef =
+    FirebaseDatabase.instance.ref('${FirebaseUtil.NODE_USER}');
+
+
     try {
+
+      // final receiverUserSnapshot = await receiverRef.child(receiverId).get();
+      final receiverUserSnapshot = await receiverRef.child('9157').get();
+      if (receiverUserSnapshot.exists && receiverUserSnapshot.value is Map) {
+        final receiverUserData = Map<String, dynamic>.from(
+          receiverUserSnapshot.value as Map,
+        );
+
+        print('Receiver ID: $receiverId');
+        print('Receiver User Data: $receiverUserData');
+        deviceToken = receiverUserData['device_token']?.toString() ?? '';
+      } else {
+        print('Receiver user not found: $receiverId');
+      }
+
       final receiverSnapshot = await receiverChatRef.get();
 
       final receiverData = receiverSnapshot.value is Map
           ? Map<String, dynamic>.from(receiverSnapshot.value as Map)
           : <String, dynamic>{};
+
 
       final int oldUnreadCount =
           int.tryParse(receiverData['unreadCount']?.toString() ?? '0') ?? 0;
@@ -244,12 +274,14 @@ class ChatScreenController extends GetxController {
       updates[
           '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] = {
         'name': loggedInuserName.value,
+        'image': loggedInuserImage.value,
         'userId': senderId,
       };
 
       updates[
           '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] = {
         'name': bookingUserName,
+        'image': bookingUserImage,
         'userId': receiverId,
       };
 
@@ -270,6 +302,7 @@ class ChatScreenController extends GetxController {
         'conversationId': currentBookingId,
         'bookingId': currentBookingId,
         'otherUserId': receiverId,
+        'otherUserImage': bookingUserImage,
         'lastMessage': text,
         'messageType': 'text',
         'lastMessageTime': timestamp,
@@ -282,6 +315,7 @@ class ChatScreenController extends GetxController {
         'conversationId': currentBookingId,
         'bookingId': currentBookingId,
         'otherUserId': senderId,
+        'otherUserImage': loggedInuserImage.value,
         'lastMessage': text,
         'messageType': 'text',
         'lastMessageTime': timestamp,
@@ -296,11 +330,46 @@ class ChatScreenController extends GetxController {
 
       // Clear the input only after a successful write.
       inputController.clear();
+
+      sendBookingNotification(bookingId, deviceToken);
+
+
+
     } on FirebaseException catch (e) {
       debugPrint('Firebase error: ${e.code}');
       debugPrint('Firebase message: ${e.message}');
     } catch (e) {
       debugPrint('Error creating chat: $e');
+    }
+  }
+
+  Future<void> sendBookingNotification(String bookingId, String fcmToken) async {
+
+    try {
+      final request = http.MultipartRequest(
+        "POST",
+        Uri.parse("$appurl/send_chat_notification"),
+      );
+      request.fields.addAll({
+        "booking_id": bookingId,
+        "fcm_token": fcmToken,
+      });
+
+      final response = await request.send();
+      final resp = await response.stream.bytesToString();
+      final json = jsonDecode(resp);
+      print(json);
+
+    } catch (e) {
+      print("Error in sendBookingNotification");
+      print(e);
+      // CustomNotification.show(
+      //   title: "Error",
+      //   message: "Check internet",
+      //   isSuccess: false,
+      // );
+    } finally {
+
     }
   }
 }

@@ -54,7 +54,7 @@ class Message {
 
 class FirebaseUtil{
 
-  static String NODE_USER = "users";
+  static String NODE_USER = "pp_users";
   static String NODE_CHAT_LIST = "chatList";
   static String NODE_USER_MESSAGES = "userMessages";
   static String NODE_MESSAGES = "messages";

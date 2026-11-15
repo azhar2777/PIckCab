@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pickcab_partner/chats/ChatController.dart';
+import 'package:pickcab_partner/const/const.dart';
 import 'package:pickcab_partner/includes/header.dart';
 
 import '../utils/ChatUtil.dart';
@@ -10,6 +11,7 @@ class ChatScreen extends StatefulWidget {
   // final String tripId;
   final String userUniqueId;
   final String userName;
+  final String userImage;
 
   const ChatScreen({
     super.key,
@@ -17,6 +19,7 @@ class ChatScreen extends StatefulWidget {
     // required this.tripId,
     required this.userUniqueId,
     required this.userName,
+    required this.userImage,
   });
 
   @override
@@ -38,6 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
         // tripId: widget.tripId,
         userUniqueId: widget.userUniqueId,
         bookingUserName: widget.userName,
+        bookingUserImage: widget.userImage,
       ),
     );
   }
@@ -51,23 +55,94 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: [
             // Chat Message List
-            Obx(() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.userName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+            Obx(() => Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      bottom: BorderSide(width: 1, color: Colors.black.withOpacity(0.1)),
+                    ),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.black.withOpacity(0.1),
+                    //     blurRadius: 12,
+                    //     offset: const Offset(0, 5),
+                    //   ),
+                    // ],
+                  ),
+
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4,),
+                  child: Row(
+                    children: [
+                      // SizedBox(
+                      //   height: 50,
+                      //   width: 50,
+                      //   child: Container(
+                      //     padding: const EdgeInsets.all(3), // Border thickness
+                      //     decoration: BoxDecoration(
+                      //       shape: BoxShape.circle,
+                      //       border: Border.all(
+                      //         color: const Color(0xFF6A1B9A),
+                      //         width: 2,
+                      //       ),
+                      //     ),
+                      //     child: CircleAvatar(
+                      //       radius: 70,
+                      //       backgroundImage: NetworkImage(widget.userImage
+                      //               .contains('http')
+                      //           ? widget.userImage
+                      //           : widget.userImage.isNotEmpty
+                      //               ? '$imageurl/${widget.userImage}'
+                      //               : ''),
+                      //       onBackgroundImageError: (_, __) {},
+                      //     ),
+                      //   ),
+                      // ),
+                      Container(
+                        width: 54,
+                        height: 54,
+                        padding: const EdgeInsets.all(2),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF6A1B9A),
+                        ),
+                        child: ClipOval(
+                          child: (widget.userImage == null ||
+                              widget.userImage.toString().trim().isEmpty)
+                              ? _userPlaceholder()
+                              : Image.network(
+                            '$imageurl/${widget.userImage}',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return _userPlaceholder();
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                    Text(
-                      controller.isOtherUserOnline.value
-                          ? 'online'
-                          : 'last seen ${controller.formatLastSeen(controller.otherUserLastSeen.value)}',
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.userName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            controller.isOtherUserOnline.value
+                                ? 'online'
+                                : 'last seen ${controller.formatLastSeen(controller.otherUserLastSeen.value)}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )),
             Expanded(
               child: Obx(() {
@@ -194,6 +269,25 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _userPlaceholder() {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Image.asset(
+          "assets/images/ic_user_avatar.png",
+          fit: BoxFit.contain,
+          width: 30,
+          height: 30,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import '../const/const.dart';
 import '../const/custom_notification.dart';
 import '../home/home_screen.dart';
 import '../register/resgister_screen.dart';
+import '../utils/Utils.dart';
 
 class LoginController extends GetxController {
   final phoneController = TextEditingController();
@@ -220,9 +222,20 @@ class LoginController extends GetxController {
       final json = jsonDecode(response.body);
       print("phone $json");
       var msg = json["message"];
-
       if (json["status"] == true) {
-        // Format SMS with app hash for auto-read
+        if (json["is_active"] == false) {
+          Utils.showAlertDialog(
+            title: "PickCab",
+            message: "Your profile has been deactivated.",
+            dialogType: DialogType.error,
+            onOk: () => {
+              Get.back()
+            },
+          );
+          isLoading.value = false;
+          return;
+        }
+
         String message =
             "<#> $otp is your one-time Login/Signup verification code for PickCab Partner \n$appHash";
 

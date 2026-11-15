@@ -79,7 +79,7 @@ class NewBookingController extends GetxController {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 60)),
     );
     if (date != null) selectedDate.value = date;
   }

@@ -24,6 +24,7 @@ import '../alerts/alerts_screen.dart';
 import '../profile/profile_screen.dart';
 import '../new_booking/new_booking_screen.dart';
 import '../../services/notification_service.dart';
+import '../services/presence_service.dart';
 
 class HomeController extends GetxController {
   // Bookings Data
@@ -42,7 +43,8 @@ class HomeController extends GetxController {
   final RxInt selectedTab = 0.obs;
   final RxString selectedReason = ''.obs;
   final reportMessage = TextEditingController();
-  final Rx<Map<String, dynamic>?> selectedBooking = Rx<Map<String, dynamic>?>(null);
+  final Rx<Map<String, dynamic>?> selectedBooking =
+      Rx<Map<String, dynamic>?>(null);
 
   // Auto-removal timers
   Timer? _cleanupTimer;
@@ -64,15 +66,12 @@ class HomeController extends GetxController {
 
   final RxDouble slideheight = 5.0.obs;
 
-
-
   @override
   void onInit() {
     super.onInit();
     fetchIndianCities();
     _startAutoCleanupTimer();
     _loadRemovedBookings(); // Load previously removed bookings
-
   }
 
   @override
@@ -82,13 +81,9 @@ class HomeController extends GetxController {
     callAllFunctions();
     getBanners();
   }
-  
-  
+
   Future<void> getBanners() async {
-
-
     try {
-
       final url = Uri.parse("$appurl/getBanners");
       final response = await http.get(
         url,
@@ -106,10 +101,9 @@ class HomeController extends GetxController {
           Slides slideData = Slides.fromJson(data);
           slides.value = slideData.bannerData!;
 
-          if(slides.value.length > 0){
+          if (slides.value.length > 0) {
             slideheight.value = 150.0;
           }
-
         }
       }
     } catch (e) {
@@ -118,86 +112,109 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> submitReport() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("user_id");
+    if (selectedReason.isEmpty) {
+      Get.snackbar('Error', 'Please select a reason',
+          backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+      return;
+    }
 
-Future<void> submitReport() async {
-  final prefs = await SharedPreferences.getInstance();
-  var userId = prefs.getString("user_id");
-  if (selectedReason.isEmpty) {
-    Get.snackbar('Error', 'Please select a reason',
-        backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
-    return;
-  }
+    if(reportMessage.text.toString().trim().isEmpty){
+      Get.snackbar('Error', 'Please enter a message',
+          backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+      return;
+    }
+    if(reportMessage.text.toString().trim().length < 50){
+      Get.snackbar('Error', 'Message should be at least 50 characters long.',
+          backgroundColor: Colors.red.shade100, colorText: Colors.red.shade900);
+      return;
+    }
 
+    print("selected bookings ");
+    print(selectedBooking.value);
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$appurl/report_spam_booking'),
+      );
+      request.fields.addAll({
+        'reporter_id': userId.toString(),
+        'booking_id': selectedBooking?.value?['id'],
+        'booking_user_id': selectedBooking?.value?['user_id'],
+        'report_type': selectedReason.value,
+        'message': reportMessage.text.toString().trim()
+      });
 
-  print("selected bookings ");
-  print(selectedBooking.value);
-  try{
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$appurl/report_spam_booking'),
-    );
-    request.fields.addAll({
-      'reporter_id': userId.toString(),
-      'booking_id':  selectedBooking?.value?['id'],
-      'booking_user_id': selectedBooking?.value?['user_id'],
-      'report_type': selectedReason.value,
-      'message': reportMessage.text.toString().trim()
+      print(request.fields);
+      Get.back();
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        final body = await response.stream.bytesToString();
+        final json = jsonDecode(body);
+        print(json);
 
-    });
-
-    print(request.fields);
-    Get.back();
-    final response = await request.send();
-    if (response.statusCode == 200) {
-      final body = await response.stream.bytesToString();
-      final json = jsonDecode(body);
-      print(json);
-
-      if (json['status'] == true) {
-        Get.snackbar('Success', 'Report submitted successfully',
+        if (json['status'] == true) {
+          Get.snackbar(
+            'Success',
+            'Report submitted successfully',
             backgroundColor: Colors.green.shade100,
             colorText: Colors.green.shade900,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+            snackPosition: SnackPosition.BOTTOM,
+          );
 
-        selectedBooking.value = null;
-        selectedReason.value = "";
-        reportMessage.text = "";
-
-
-      } else {
-        Get.snackbar('Error', json['message'] ?? 'Failed to submit',
+          selectedBooking.value = null;
+          selectedReason.value = "";
+          reportMessage.text = "";
+        } else {
+          Get.snackbar(
+            'Error',
+            json['message'] ?? 'Failed to submit',
             backgroundColor: Colors.red.shade100,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      } else {
+        Get.snackbar(
+          'Error',
+          'Server error: ${response.reasonPhrase}',
+          backgroundColor: Colors.red.shade100,
           snackPosition: SnackPosition.BOTTOM,
         );
       }
-    } else {
-      Get.snackbar('Error', 'Server error: ${response.reasonPhrase}',
-          backgroundColor: Colors.red.shade100,
+    } catch (e) {
+      Get.back();
+      Get.snackbar(
+        'Error',
+        'Something went wrong: $e',
+        backgroundColor: Colors.red.shade100,
         snackPosition: SnackPosition.BOTTOM,
       );
     }
   }
-  catch (e) {
-    Get.back();
-    Get.snackbar('Error', 'Something went wrong: $e',
-        backgroundColor: Colors.red.shade100,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+
+  void logoutUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString("user_id");
+      await Get.find<PresenceService>().logoutPresence(userId!);
+      // await prefs.setBool("is_logged_in", true);
+
+      await prefs.remove('is_logged_in');
+      await prefs.remove('user_id');
+      await prefs.remove('device_id');
+      await prefs.remove('login_time');
+      await prefs.remove('app_name');
+
+      await prefs.clear();
+      print("Logged out successfully $userId");
+    } catch (e) {
+      print("logoutUser error: $e");
+    }
   }
 
-
-
-
-
-
-}
-
-
   Future<void> fetchUserProfile() async {
-
-
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString("user_id");
@@ -209,8 +226,6 @@ Future<void> submitReport() async {
         return;
       }
 
-
-
       final url = Uri.parse("$appurl/user_details?user_id=$userId");
       final response = await http.get(url);
 
@@ -221,30 +236,24 @@ Future<void> submitReport() async {
 
           print(data);
 
-
-        print("Helloooooooo ${data["is_active"].toString()}");
+          print("Helloooooooo ${data["is_active"].toString()}");
           final newAlertStatus = data["alert_status"].toString() == "1";
           enableNotification.value = newAlertStatus;
 
-          if(data["is_active"].toString() == "0"){
-            Utils.showAlertDialog(title: "Pickcab", message: "Your profile has been deactivated.", dialogType: DialogType.error, onOk: ()=>{
-              Get.offAll(() => LoginScreen())
-            });
-            FirebaseUtil.updateUserState(data["user_unq_id"], 0);
+          if (data["is_active"].toString() == "0") {
+            Utils.showAlertDialog(
+              title: "PickCab",
+              message: "Your profile has been deactivated.",
+              dialogType: DialogType.error,
+              onOk: () => {
+                Get.offAll(
+                  () => LoginScreen(),
+                ),
+                logoutUser()
+              },
+            );
+            // FirebaseUtil.updateUserState(data["user_unq_id"], 0);
           }
-          else{
-            print("user_unq_id ${data["user_unq_id"]}");
-            FirebaseUtil.updateUserState(data["user_unq_id"], 1);
-            // PPUser user = PPUser.fromJson(data);
-            // FirebaseUtil.updateUserData(user);
-
-          }
-
-
-
-
-
-
         } else {
           throw Exception(json["message"] ?? "Failed to load profile");
         }
@@ -253,27 +262,20 @@ Future<void> submitReport() async {
       }
     } catch (e) {
       print("Profile fetch error: $e");
-
-    } finally {
-
-    }
+    } finally {}
   }
 
   void callAllFunctions() async {
-    try{
+    try {
       isApiCalled.value = false;
       await fetchUserProfile();
       await fetchAvailableBookings();
       fetchAvailablefreeBookings();
-    }
-    catch (e) {
+    } catch (e) {
       debugPrint("callAllFunctions error: $e");
-
     } finally {
       isApiCalled.value = true;
-
     }
-
   }
 
   @override
@@ -283,8 +285,6 @@ Future<void> submitReport() async {
     _saveRemovedBookings(); // Save removed bookings before closing
     super.onClose();
   }
-
-
 
   // ==================== PERSISTENCE METHODS ====================
 
@@ -606,8 +606,7 @@ Future<void> submitReport() async {
           _markAsRemoved(bookingId, true);
           debugPrint(
               "✅ Free booking $bookingId removed immediately (past removal time)");
-        }
-        else {
+        } else {
           bookings.removeWhere((b) => b['id'].toString() == bookingId);
           _markAsRemoved(bookingId, false);
           debugPrint(
@@ -925,12 +924,10 @@ Future<void> submitReport() async {
           // print("fetchAvailableBookings items ${items.length}");
 
           final parsed = items.map((item) {
-
             final b = item as Map<String, dynamic>;
             // final u = item["user_data"] as Map<String, dynamic>;
             // print(item['booking']);
-            return
-              {
+            return {
               'id': b["id"].toString(),
               'user_id': b["user_id"].toString(),
               'trip_id': b["trip_id"]?.toString() ?? "N/A",
@@ -938,6 +935,9 @@ Future<void> submitReport() async {
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",
               'driver': b["user_name"] ?? "Unknown Driver",
               'mobile': b["user_mobile"]?.toString() ?? "",
+              'user_image': b["user_image"]?.toString() ?? "",
+              'user_city': b["city"]?.toString() ?? "",
+              'average_rating': int.tryParse(b["average_rating"]?.toString() ?? '') ?? 0,
               'user_unq_id': b["user_unq_id"]?.toString() ?? "",
               'from': b["start_location"] ?? "Unknown",
               'to': b["end_location"] ?? "Unknown",
@@ -945,17 +945,22 @@ Future<void> submitReport() async {
               'time': b["trip_time"] ?? "",
               'status': b["status"]?.toString() ?? "1",
               'mark_booked': b["mark_booked"]?.toString() ?? "1",
-              'isTwoWay': b["trip_type"] == "two_way",
+              // 'isTwoWay': b["trip_type"] == "two_way",
+              'isTwoWay': Utils.getTripType(b["trip_type"]) =="two_way" ,
               'carType': b["car_type"] ?? "Sedan",
               'carrier': b["carrier"]?.toString() ?? "0",
               'price': b["price"]?.toString() ?? "N/A",
               'price_type': b["price_type"]?.toString() ?? "N/A",
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
                   ? b["remarks"]
-                  : "N/A",
-              'verified': b["aadhar_verified"]?.toString() == "0",
+                  : "",
+              // 'verified': b["aadhar_verified"]?.toString() == "0",
+              'verified': b["aadhar_verified"]?.toString() == "1" ||
+                  b["dl_verified"]?.toString() == "2",
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
+              'is_quick': int.tryParse(b["is_quick"]?.toString() ?? '') ?? 0,
+              'is_profile_completed': int.tryParse(b["is_profile_completed"]?.toString() ?? '') ?? 0,
             };
           }).toList();
 
@@ -972,7 +977,6 @@ Future<void> submitReport() async {
 
           // Check each booking for scheduled removal based on bookingdate_time
           for (var booking in bookings) {
-
             checkAndScheduleRemoval(booking, false);
           }
 
@@ -983,8 +987,6 @@ Future<void> submitReport() async {
           // print(bookings.toJson());
           debugPrint(
               "📊 Loaded ${bookings.length} bookings (filtered out ${parsed.length - filteredParsed.length} removed)");
-
-
         }
       }
     } catch (e) {
@@ -1046,11 +1048,12 @@ Future<void> submitReport() async {
                       tripDateTime.day == now.day) {
                     dateDisplay = "Today";
                   } else if (tripDateTime
-                      .isAfter(now.subtract(const Duration(days: 1))) &&
+                          .isAfter(now.subtract(const Duration(days: 1))) &&
                       tripDateTime.isBefore(now.add(const Duration(days: 1)))) {
                     dateDisplay = "Tomorrow";
                   } else {
-                    dateDisplay = DateFormat('dd MMM yyyy').format(tripDateTime);
+                    dateDisplay =
+                        DateFormat('dd MMM yyyy').format(tripDateTime);
                   }
                 } catch (_) {
                   dateDisplay = datePart;
@@ -1108,8 +1111,12 @@ Future<void> submitReport() async {
               'date': dateDisplay,
               'time': timeDisplay,
               'endTimeStr': b["end_time"]?.toString() ?? "N/A",
-              'startTimeparsed': b["start_time"]?.toString() != null ? '${formatEndtDateTime(b["start_time"])}':'N/A',
-              'endTimeparsed': b["end_time"]?.toString() != null ? '${formatEndtDateTime(b["end_time"])}':'N/A',
+              'startTimeparsed': b["start_time"]?.toString() != null
+                  ? '${formatEndtDateTime(b["start_time"])}'
+                  : 'N/A',
+              'endTimeparsed': b["end_time"]?.toString() != null
+                  ? '${formatEndtDateTime(b["end_time"])}'
+                  : 'N/A',
               'status': b["status"]?.toString() ?? "1",
               'isTwoWay': isTwoWay,
               'carType': b["car_type"] ?? "Sedan",
@@ -1192,9 +1199,7 @@ Future<void> submitReport() async {
     // showBookingForm.value = true;
     try {
       var postData = {
-        'booking_id' : bookingId,
-
-
+        'booking_id': bookingId,
       };
       print("$appurl/update_call_count");
       print("postData $postData ");
@@ -1206,12 +1211,9 @@ Future<void> submitReport() async {
 
       final json = jsonDecode(response.body);
       print(json);
-
     } catch (e) {
       debugPrint("error while getting booking details : $e");
     }
-
-
   }
 
   Future<void> makePhoneCall(String phone, String bookingId) async {
@@ -1223,26 +1225,29 @@ Future<void> submitReport() async {
     if (await canLaunchUrl(uri)) await launchUrl(uri);
   }
 
-  void openChat(Map<String, dynamic> booking){
+  void openChat(Map<String, dynamic> booking) {
     // ChatScreen(bookingId: "23507", userUniqueId: "898", userName:'John Cena'),
     print('openChat');
-    print(booking);
+    // print(booking);
     Get.to(
-          () => ChatScreen(bookingId: booking['id'], userUniqueId: booking['user_id'], userName: booking['driver'],),
+      () => ChatScreen(
+        bookingId: booking['id'],
+        userUniqueId: booking['user_id'],
+        userName: booking['driver'],
+        userImage: booking['user_image'],
+      ),
       transition: Transition.fadeIn,
     );
-
-
   }
 
-  Future<void> openWhatsApp(bool isBooking, String phone, Map<String, dynamic> booking) async {
+  Future<void> openWhatsApp(
+      bool isBooking, String phone, Map<String, dynamic> booking) async {
     Utils.getWhatsappShareMesage(isBooking, phone, booking);
 
     // Get.to(
     //       () => ChatScreen(bookingId: booking['id'], tripId: booking['trip_id'],userUniqueId: booking['user_unq_id']),
     //   transition: Transition.fadeIn,
     // );
-
   }
 
   Future<void> openWhatsApp2(String phone, Map<String, dynamic> booking) async {
@@ -1271,10 +1276,12 @@ Future<void> submitReport() async {
     final String rate =
         booking['price'] != null ? "Rs ${booking['price']}" : "N/A";
     final String carType = booking['carType']?.toString() ?? 'Sedan';
-    final String tripType =
-        (booking['isTwoWay'] == true || booking['isTwoWay'] == "1")
-            ? "ROUND TRIP"
-            : "ONEWAY";
+    // final String tripType =
+    //     (booking['isTwoWay'] == true || booking['isTwoWay'] == "1")
+    //         ? "ROUND TRIP"
+    //         : "ONEWAY";
+
+    final String tripType = Utils.getTripType(booking['trip_type']) == "two_way" ? "ROUND TRIP" :"ONEWAY";
 
     const String appLink =
         "https://play.google.com/store/apps/details?id=com.pickcab.partner";
@@ -1326,7 +1333,7 @@ $appLink
     }
   }
 
-  void shareBooking(bool isBooking,  Map<String, dynamic> booking) {
+  void shareBooking(bool isBooking, Map<String, dynamic> booking) {
     Utils.getShareMessage(isBooking, booking);
   }
 
@@ -1425,7 +1432,6 @@ $appLink
     }
   }
 
-
   String formatEndtDateTime(String dateString) {
     final dateTime = DateTime.parse(dateString);
     final now = DateTime.now();
@@ -1461,6 +1467,4 @@ $appLink
 
     return '${getOrdinal(dateTime.day)} ${DateFormat('MMMM').format(dateTime)} @ $time';
   }
-
-
 }

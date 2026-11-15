@@ -531,11 +531,13 @@ class _SupportDetailsScreenState extends State<SupportDetailsScreen> {
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                                child: Text("Resolved",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color:  Colors.green.shade700,
-                                    fontWeight: FontWeight.w500,
+                                child: Center(
+                                  child: Text("Resolved",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color:  Colors.green.shade700,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                                 ),
@@ -560,7 +562,7 @@ class _SupportDetailsScreenState extends State<SupportDetailsScreen> {
                       const SizedBox(height: 16),
                       TextField(
                         controller: controller.commentController,
-                        maxLines: 5,
+                        maxLines: 3,
                         decoration: InputDecoration(
                           labelText: "Write messages",
                           alignLabelWithHint: true,
@@ -629,6 +631,7 @@ class _SupportDetailsScreenState extends State<SupportDetailsScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 10,),
             ],
           );
         }),

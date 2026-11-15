@@ -222,17 +222,33 @@ class SmartBookingController extends GetxController {
         }
 
 
-        // if(gemin_data['pickup_date']) {
-        //   selectedDate.value = DateTime.parse(gemin_data['pickup_date']);
+
+        // if (gemin_data['pickup_date'] != null &&
+        //     gemin_data['pickup_date'].toString().isNotEmpty) {
+        //   final dateString = gemin_data['pickup_date'].toString().trim();
+        //
+        //   selectedDate.value = DateTime.parse(dateString);
+        //
+        //   print("Selected date: ${selectedDate.value}");
         // }
-        // if(gemin_data['pickup_time']){
-        //   selectedTime.value = parseTime(gemin_data['pickup_time']);
-        // }
+
         if (gemin_data['pickup_date'] != null &&
-            gemin_data['pickup_date'].toString().isNotEmpty) {
+            gemin_data['pickup_date'].toString().trim().isNotEmpty) {
+
           final dateString = gemin_data['pickup_date'].toString().trim();
 
-          selectedDate.value = DateTime.parse(dateString);
+          final responseDate = DateTime.parse(dateString);
+          final today = DateTime.now();
+
+          final maxAllowedDate = DateTime(
+            today.year,
+            today.month,
+            today.day,
+          ).add(const Duration(days: 60));
+
+          selectedDate.value = responseDate.isAfter(maxAllowedDate)
+              ? maxAllowedDate
+              : responseDate;
 
           print("Selected date: ${selectedDate.value}");
         }
@@ -443,7 +459,7 @@ class SmartBookingController extends GetxController {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 60)),
     );
     if (date != null) selectedDate.value = date;
   }

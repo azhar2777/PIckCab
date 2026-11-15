@@ -50,6 +50,7 @@ class SupportController extends GetxController {
   final RxList<SupportTicket> tickets = <SupportTicket>[].obs;
   final RxBool isLoading = true.obs;
   final RxString errorMessage = ''.obs;
+  final RxBool showAll = false.obs;
 
   final List<String> supportTypes = [
     'Booking Issue',
@@ -75,15 +76,23 @@ class SupportController extends GetxController {
     fetchTickets();
   }
 
+
+  void toggleShow(){
+    showAll.value = !showAll.value;
+    fetchTickets();
+  }
+
   Future<void> fetchTickets() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString("user_id");
+    tickets.value.clear();
 
     try {
       isLoading(true);
       errorMessage('');
 
-      final uri = Uri.parse('$appurl/support/mySupports?user_id=$userId');
+      final uri = Uri.parse('$appurl/support/mySupports?user_id=$userId&show_all=${showAll.value? '1':'0'}');
+      print(uri);
       final request = http.Request('GET', uri);
 
       final response = await request.send();
@@ -643,12 +652,40 @@ class _SupportScreenState extends State<SupportScreen> {
                 ),
 
                 const SizedBox(height: 16),
-                Text(
-                  "Your Support Tickets",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Your Support Tickets",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: (){
+                        controller.toggleShow();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Color(0x666A1B9A),
+                          borderRadius: BorderRadius.circular(10),
+                          // border: Border.all(
+                          //     color: const Color.fromARGB(166, 29, 178, 3)),
+                        ),
+                        child: Text(
+                          controller.showAll.value ? "Show Less" : "Show All",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const Divider(height: 30),
 
