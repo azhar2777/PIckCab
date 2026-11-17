@@ -960,7 +960,7 @@ class HomeController extends GetxController {
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
               'is_quick': int.tryParse(b["is_quick"]?.toString() ?? '') ?? 0,
-              'is_profile_completed': int.tryParse(b["is_profile_completed"]?.toString() ?? '') ?? 0,
+              'is_profile_completed': int.tryParse(b["is_profile_completed"]?.toString() ?? '0'),
             };
           }).toList();
 
@@ -1018,13 +1018,16 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
+
         if (data["status"] == true && data["available_free_bookings"] != null) {
           final List items = data["available_free_bookings"];
+          print("available_free_bookingswwwwwww ${items}");
           final now = DateTime.now();
 
           final parsed = items.map<Map<String, dynamic>>((item) {
-            final b = item["booking"] as Map<String, dynamic>;
-            final u = item["user_data"] as Map<String, dynamic>;
+            // final b = item["booking"] as Map<String, dynamic>;
+            final b = Map<String, dynamic>.from(item as Map);
+            // final u = item["user_data"] as Map<String, dynamic>;
 
             String dateDisplay = "Any Day";
             String timeDisplay = "Any Time";
@@ -1063,36 +1066,6 @@ class HomeController extends GetxController {
               }
             }
 
-            // if (b["start_time"] != null) {
-            //   String startStr = b["start_time"].toString().trim();
-            //   if (startStr.contains(" ")) {
-            //     final parts = startStr.split(" ");
-            //     final datePart = parts[0];
-            //     final timePart = parts[1].substring(0, 5);
-            //
-            //     timeDisplay = timePart;
-            //
-            //     try {
-            //       tripDateTime = DateTime.parse("$datePart ${parts[1]}");
-            //       if (tripDateTime.year == now.year &&
-            //           tripDateTime.month == now.month &&
-            //           tripDateTime.day == now.day) {
-            //         dateDisplay = "Today";
-            //       } else if (tripDateTime
-            //               .isAfter(now.subtract(const Duration(days: 1))) &&
-            //           tripDateTime.isBefore(now.add(const Duration(days: 1)))) {
-            //         dateDisplay = "Tomorrow";
-            //       } else {
-            //         dateDisplay =
-            //             DateFormat('dd MMM yyyy').format(tripDateTime);
-            //       }
-            //     } catch (_) {
-            //       dateDisplay = datePart;
-            //     }
-            //   } else {
-            //     timeDisplay = startStr;
-            //   }
-            // }
 
             final bool isTwoWay = b["end_time"] != null &&
                 b["end_time"].toString().trim().isNotEmpty &&
@@ -1102,8 +1075,8 @@ class HomeController extends GetxController {
             return {
               'id': b["id"].toString(),
               'trip_id': b["trip_id"]?.toString() ?? "N/A",
-              'driver': u["user_name"] ?? "Unknown Driver",
-              'mobile': u["user_mobile"]?.toString() ?? "",
+              'driver': b["user_name"] ?? "Unknown Driver",
+              'mobile': b["user_mobile"]?.toString() ?? "",
               'send_call': b["send_call"]?.toString() ?? "N/A",
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",
               'from': b["location"] ?? "Location not set",
@@ -1118,7 +1091,8 @@ class HomeController extends GetxController {
                   ? '${formatEndtDateTime(b["end_time"])}'
                   : 'N/A',
               'status': b["status"]?.toString() ?? "1",
-              'isTwoWay': isTwoWay,
+              // 'isTwoWay': isTwoWay,
+              'isTwoWay': false,
               'carType': b["car_type"] ?? "Sedan",
               'carrier': b["carrier"]?.toString() ?? "0",
               'remarks': (b["remarks"] ?? "").toString().trim().isNotEmpty
@@ -1127,10 +1101,17 @@ class HomeController extends GetxController {
               'added_on': b["added_on"] ?? DateTime.now().toString(),
               'bookingdate_time': b["bookingdate_time"]?.toString() ?? "",
               'avatarUrl': "",
-              'verified': u["aadhar_verified"]?.toString() == "1" ||
-                  u["dl_verified"]?.toString() == "2",
-              'user_image': u["user_image"] ?? "",
+              'verified': b["aadhar_verified"]?.toString() == "1" ||
+                  b["dl_verified"]?.toString() == "2",
+              'user_image': b["user_image"] ?? "",
+              'is_quick': int.tryParse(b["is_quick"]?.toString() ?? '') ?? 0,
+              'is_profile_completed': int.tryParse(b["is_profile_completed"]?.toString() ?? '0'),
+              'average_rating': int.tryParse(b["average_rating"]?.toString() ?? '') ?? 0
             };
+
+
+
+
           }).toList();
 
           parsed.sort((a, b) =>

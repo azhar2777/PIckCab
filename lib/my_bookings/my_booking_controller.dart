@@ -515,10 +515,12 @@ class MyBookingController extends GetxController {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
+        print("loadTripForEdit json: $json");
         if (json["status"] == true) {
           final trip = json["trip_details"]["booking"];
 
           fromController.text = trip["start_location"] ?? '';
+          priceController.text = trip["price"] ?? '';
           toController.text = trip["end_location"] ?? '';
           remarksController.text = trip["remarks"] ?? '';
           selectedCar.value = trip["car_type"] ?? 'Innova';

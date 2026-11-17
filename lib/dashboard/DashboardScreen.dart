@@ -45,9 +45,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-
     super.initState();
-    controller.selectedIndex.value =  widget.selectedTab !=null ? widget.selectedTab : 0 ;
+    controller.selectedIndex.value =
+        widget.selectedTab != null ? widget.selectedTab : 0;
     _checkAndroidVersion(); // 👈 call async method
   }
 
@@ -64,122 +64,118 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
-    return Obx(() => Scaffold(
-
-      body: IndexedStack(
-        index: controller.selectedIndex.value,
-        children: screens,
-      ),
-
-      bottomNavigationBar: Container(
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 254, 237, 255),
-                // color: Colors.red,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-                
+    return Obx(
+      () => Scaffold(
+        body: IndexedStack(
+          index: controller.selectedIndex.value,
+          children: screens,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Transform.translate(
+          offset: const Offset(0, 10), // Move 10px down
+          child: Container(
+            width: 65,
+            height: 65,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF7B2CAF),
+                  Color(0xFF5A189A),
+                ],
               ),
-              child: SafeArea(
-                top: false,
-                child:
-                Container(
-                   // height: 70,
-                  child: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    selectedItemColor: Color(0xFF6A1B9A),
-                    unselectedItemColor: Colors.grey,
-                    selectedFontSize: 10,
-                    unselectedFontSize: 10,
-                    showUnselectedLabels: true,
-
-                    currentIndex: controller.selectedIndex.value > 2 ? controller.selectedIndex.value+1 : controller.selectedIndex.value,
-                    onTap: (index) {
-                      if (index == 2) return; // 👈 ignore center item
-
-                      if (index > 2) {
-                        controller.changeTab(index - 1); // shift index
-                      } else {
-                        controller.changeTab(index);
-                      }
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6A1B9A).withOpacity(0.8),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: FloatingActionButton(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: const CircleBorder(),
+              onPressed: () {
+                _showPostBottomSheet(context);
+              },
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 45,
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 254, 237, 255),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(22),
+            ),
+          ),
+          child: SafeArea(
+            top: false,
+            child: SizedBox(
+              height: 60,
+              child: Row(
+                children: [
+                  _buildNavItem(Icons.home, 'Home', 0),
+                  _buildNavItem(Icons.bookmark_border, 'My Bookings', 1),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      _showPostBottomSheet(context);
                     },
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home, size: 22,),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.bookmark_border, size: 22,),
-                        label: 'My Bookings',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SizedBox(width: 22, height: 22),
-                        label: '',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.notifications_outlined, size: 22,),
-                        label: 'My Alerts',
-                      ),
-                      BottomNavigationBarItem(
-                        // icon: Icon(Icons.person_outline, size: 22,),
-                        // label : 'Profile',
-                        icon: Icon(Icons.chat, size: 22,),
-                        label: 'Chats',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              // bottom: bottomheight == 60 ? 0 : 10,
-              top: -(bottomheight/3),
-              child: Container(
-                color: Colors.transparent,
-                // width: 60,
-                child: GestureDetector(
-                  onTap: () => _showPostBottomSheet(context),
-                  child: Container(
-                    width: 65,
-                    height: 65,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF7B2CAF), Color(0xFF5A189A)],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF6A1B9A).withOpacity(0.8),
-                          blurRadius: 20,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
+                    child: const SizedBox(
+                      width: 60,
+                      height: 60,
                     ),
-                    child: const Icon(Icons.add, color: Colors.white, size: 40),
                   ),
-                ),
+                  _buildNavItem(Icons.notifications_outlined, 'My Alerts', 2),
+                  // _buildNavItem(Icons.chat, 'Chats', 3),
+                  _buildNavItem(Icons.person_outline, 'Chats', 3),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
-
-    ),
-
     );
+  }
 
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    final isSelected = controller.selectedIndex.value == index;
 
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          controller.changeTab(index);
+        },
+        child: SizedBox(
+          height: 50,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 22,
+                color: isSelected ? const Color(0xFF6A1B9A) : Colors.grey,
+              ),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: isSelected ? const Color(0xFF6A1B9A) : Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showPostBottomSheetNotice(BuildContext context) {
@@ -187,19 +183,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
       SafeArea(
         child: Container(
           padding: const EdgeInsets.all(20),
-          height: MediaQuery.of(context).size.height*0.9,
-          width: MediaQuery.of(context).size.width*0.98,
+          height: MediaQuery.of(context).size.height * 0.9,
+          width: MediaQuery.of(context).size.width * 0.98,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Expanded(
             child: ListView(
-
-
               children: [
                 Obx(() {
-
                   if (controller.noticeHtml.value.isEmpty) {
                     return const Center(
                       child: Text('No HTML available'),
@@ -242,21 +235,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: controller.showSmartBooking.value ? 20: 0),
-              controller.showSmartBooking.value ?
-              _buildPostOption(
-                icon: Icons.auto_awesome,
-                title: 'Quick Booking with AI',
-                onTap: () {
-                  Get.delete<SmartBookingController>();
-                  Get.put(SmartBookingController());
+              SizedBox(height: controller.showSmartBooking.value ? 20 : 0),
+              controller.showSmartBooking.value
+                  ? _buildPostOption(
+                      icon: Icons.auto_awesome,
+                      title: 'Quick Booking with AI',
+                      onTap: () {
+                        Get.delete<SmartBookingController>();
+                        Get.put(SmartBookingController());
 
-                  Get.back();
-                  controller.navigateToSmartBooking();
-                },
-              ):Container(),
+                        Get.back();
+                        controller.navigateToSmartBooking();
+                      },
+                    )
+                  : Container(),
               const SizedBox(height: 20),
-
               _buildPostOption(
                 icon: Icons.add_road,
                 title: 'New Booking',
@@ -277,7 +270,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-
   Widget _buildPostOption({
     required IconData icon,
     required String title,
@@ -296,14 +288,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           color: Colors.white, // required for shadow visibility
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade300),
-          boxShadow: title == 'Quick Booking with AI' ? [
-            BoxShadow(
-              color: Color(0xFF6A1B9A),
-              blurRadius: 8,
-              spreadRadius: 1,
-              offset: const Offset(0, 3), // shadow position
-            ),
-          ]:[],
+          boxShadow: title == 'Quick Booking with AI'
+              ? [
+                  BoxShadow(
+                    color: Color(0xFF6A1B9A),
+                    blurRadius: 8,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 3), // shadow position
+                  ),
+                ]
+              : [],
         ),
         child: Row(
           children: [
@@ -316,4 +310,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
