@@ -5,7 +5,7 @@
 - Fixed Fee vehicle api
 - Added City and ratings in Avatar
 - Changed Design of Need carrier and Time ago
-- Designed  Booking Completd View
+- Designed  Booking Completed View
 - Changed Support Screen to show only 3
 - Added chat functionality
 - Added send chat notification
