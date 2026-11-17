@@ -1,6 +1,6 @@
 
 # V1.0.29
-## version code 41
+## version code 41 - 2026-11-17
 - Fixed Bottom navigation Design
 - Fixed Fee vehicle api
 - Added City and ratings in Avatar
@@ -12,4 +12,4 @@
 - Added 60 days futire booking
 - Added check for Deactivated user
 - Added update check and navigate to play store
-- Notificationservicene Sound isse fixed
+- Notification Sound issue fixed
