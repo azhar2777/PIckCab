@@ -9,7 +9,7 @@
 - Changed Support Screen to show only 3
 - Added chat functionality
 - Added send chat notification
-- Added 60 days futire booking
+- Added 60 days future booking
 - Added check for Deactivated user
 - Added update check and navigate to play store
 - Notification Sound issue fixed
