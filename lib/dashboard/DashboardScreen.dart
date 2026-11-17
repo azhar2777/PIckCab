@@ -136,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   _buildNavItem(Icons.notifications_outlined, 'My Alerts', 2),
                   // _buildNavItem(Icons.chat, 'Chats', 3),
-                  _buildNavItem(Icons.person_outline, 'Chats', 3),
+                  _buildNavItem(Icons.person_outline, 'Profile', 3),
                 ],
               ),
             ),

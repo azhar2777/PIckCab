@@ -88,16 +88,7 @@ class DashboardController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!isClosed) {
         debugPrint("pickCabAlertDialog called from onInit");
-        // Utils.pickCabAlertDialog(
-        //     context: Get.context!,
-        //     title: "Update Required",
-        //     message:
-        //         "A new version of PickCab is available. Please update the app to continue using it.",
-        //     buttonText: "Update Now",
-        //     onPressed: () {
-        //       openPlayStore();
-        //     },
-        //   );
+
         checkForMandatoryUpdate();
       }
     });
@@ -136,6 +127,7 @@ class DashboardController extends GetxController with WidgetsBindingObserver {
     try {
       final packageInfo = await PackageInfo.fromPlatform();
 
+
       final installedVersionCode = int.tryParse(packageInfo.buildNumber) ?? 0;
 
       final updateInfo = await InAppUpdate.checkForUpdate();
@@ -171,14 +163,28 @@ class DashboardController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> openPlayStore() async {
-    final url = Uri.parse(
+    final Uri url = Uri.parse(
       'https://play.google.com/store/apps/details?id=com.pickcab.partner',
     );
 
-    await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    );
+    try {
+      final bool launched = await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+
+      if (!launched) {
+        Get.snackbar(
+          "Unable to Open Play Store",
+          "Please try again or check your internet connection.",
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Unable to Open Play Store",
+        "Please check your internet connection.\nError: $e",
+      );
+    }
   }
 
   Future<void> checkForUpdateSafely() async {
