@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as legacy;
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -173,9 +174,9 @@ class NewBookingScreen extends StatelessWidget {
 
                     googleAPIKey:
                         "AIzaSyAVaPMPGqeahxVzZbpEJGbGkiW0RNMzIEM", // ← Replace with your real key
-                    inputDecoration: InputDecoration(
+                    inputDecoration: legacy.InputDecoration(
                       hintText: "Search city, e.g. Ranchi, Jamshedpur...",
-                      border: OutlineInputBorder(
+                      border: legacy.OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
@@ -504,7 +505,7 @@ class NewBookingScreen extends StatelessWidget {
             TextFormField(
               controller: c.priceController,
               keyboardType: TextInputType.number,
-              decoration: _inputDecoration(hint: 'Enter price (₹)', isFloating: true),
+              decoration: _inputDecorationNormal(hint: 'Enter price (₹)', isFloating: true),
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
 
             ),
@@ -578,7 +579,7 @@ class NewBookingScreen extends StatelessWidget {
             TextFormField(
               controller: c.remarksController,
               maxLines: 4,
-              decoration: _inputDecoration(hint: 'Enter Message...', isFloating: true),
+              decoration: _inputDecorationNormal(hint: 'Enter Message...', isFloating: true),
 
             ),
             const SizedBox(height: 30),
@@ -722,30 +723,57 @@ class NewBookingScreen extends StatelessWidget {
         ),
       );
 
-  InputDecoration _inputDecoration({required String hint, bool isFloating =false}) => InputDecoration(
+  legacy.InputDecoration _inputDecoration({required String hint, bool isFloating =false}) => legacy.InputDecoration(
         hintText: hint,
         labelText: hint,
         filled: true,
         fillColor: Colors.white,
 
-    floatingLabelBehavior: isFloating ? FloatingLabelBehavior.always: FloatingLabelBehavior.never, // always float
+    floatingLabelBehavior: isFloating ? legacy.FloatingLabelBehavior.always: legacy.FloatingLabelBehavior.never, // always float
 
     contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        border: OutlineInputBorder(
+        border: legacy.OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: legacy.OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: legacy.OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF8E24AA), width: 2),
         ),
       );
 }
+
+
+InputDecoration _inputDecorationNormal({required String hint, bool isFloating =false}) => InputDecoration(
+  hintText: hint,
+  labelText: hint,
+  filled: true,
+  fillColor: Colors.white,
+
+  floatingLabelBehavior: isFloating ? FloatingLabelBehavior.always: FloatingLabelBehavior.never, // always float
+
+  contentPadding:
+  const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14),
+    borderSide: BorderSide(color: Colors.grey.shade300),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14),
+    borderSide: BorderSide(color: Colors.grey.shade300),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14),
+    borderSide: const BorderSide(color: Color(0xFF8E24AA), width: 2),
+  ),
+);
+
+
 
 // Full Width City Field (From/To)
 class _CityFieldFull extends StatelessWidget {

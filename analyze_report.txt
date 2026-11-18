@@ -1,0 +1,837 @@
+Analyzing pickcab_partner...                                    
+
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_controller.dart:1:1 • deprecated_member_use
+   info • 'canLaunch' is deprecated and shouldn't be used. Use canLaunchUrl instead. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_controller.dart:74:15 • deprecated_member_use
+   info • 'launch' is deprecated and shouldn't be used. Use launchUrl instead. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_controller.dart:75:13 • deprecated_member_use
+   info • The variable name 'openWhatsApp_old' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/Booking_details/booking_details_controller.dart:105:16 • non_constant_identifier_names
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/booking_details_controller.dart:137:5 • avoid_print
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_controller.dart:138:36 • invalid_use_of_protected_member
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_controller.dart:145:36 • invalid_use_of_protected_member
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/booking_details_controller.dart:179:9 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:198:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:199:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:200:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:201:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:202:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:203:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:206:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:210:13 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/booking_details_controller.dart:212:5 • avoid_print
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_controller.dart:236:36 • invalid_use_of_protected_member
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_controller.dart:240:36 • invalid_use_of_protected_member
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_controller.dart:241:34 • invalid_use_of_protected_member
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/booking_details_controller.dart:255:9 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:275:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:276:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:277:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:278:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:279:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:280:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:281:13 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:284:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/Booking_details/booking_details_controller.dart:289:13 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/booking_details_controller.dart:291:5 • avoid_print
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_controller.dart:294:13 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_controller.dart:294:19 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:1:1 • deprecated_member_use
+warning • Unused import: 'package:pickcab_partner/home/home_screen.dart'. Try removing the import directive • lib/Booking_details/booking_details_screen.dart:5:8 • unused_import
+warning • Unused import: 'package:shared_preferences/shared_preferences.dart'. Try removing the import directive • lib/Booking_details/booking_details_screen.dart:6:8 • unused_import
+warning • Unused import: '../login/login_screen.dart'. Try removing the import directive • lib/Booking_details/booking_details_screen.dart:9:8 • unused_import
+   info • The private field _showAllDetails could be 'final'. Try making the field 'final' • lib/Booking_details/booking_details_screen.dart:25:8 • prefer_final_fields
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/Booking_details/booking_details_screen.dart:60:53 • invalid_use_of_protected_member
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:192:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:232:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:265:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:311:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:312:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:316:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:368:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:382:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:436:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:476:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:557:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:585:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:588:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:626:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:628:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:672:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:774:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:776:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/Booking_details/booking_details_screen.dart:808:61 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:9:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:14:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:15:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:19:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:22:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/Booking_details/services/api_service.dart:29:7 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/LocationFetch/address_search_page.dart:1:1 • deprecated_member_use
+   info • The private field _addressParts could be 'final'. Try making the field 'final' • lib/LocationFetch/address_search_page.dart:18:23 • prefer_final_fields
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/Notificationcheck/details.dart:1:1 • deprecated_member_use
+   info • Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter • lib/Notificationcheck/details.dart:6:9 • use_super_parameters
+warning • Unused import: 'package:firebase_core/firebase_core.dart'. Try removing the import directive • lib/Notificationcheck/notificationservicene.dart:2:8 • unused_import
+   info • The import of 'package:flutter/foundation.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/Notificationcheck/notificationservicene.dart:4:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/Notificationcheck/notificationservicene.dart:5:1 • deprecated_member_use
+warning • The declaration '_onDidReceiveLocalNotification' isn't referenced. Try removing the declaration of '_onDidReceiveLocalNotification' • lib/Notificationcheck/notificationservicene.dart:109:8 • unused_element
+   info • 'getToken' is deprecated and shouldn't be used. Use register() and onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/Notificationcheck/notificationservicene.dart:117:48 • deprecated_member_use
+   info • 'onTokenRefresh' is deprecated and shouldn't be used. Use onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/Notificationcheck/notificationservicene.dart:121:26 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/alerts/alerts_controller.dart:3:1 • deprecated_member_use
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/alerts/alerts_controller.dart:13:8 • unused_import
+warning • Unused import: '../my_bookings/my_booking_screen.dart'. Try removing the import directive • lib/alerts/alerts_controller.dart:14:8 • unused_import
+warning • Unused import: '../profile/profile_screen.dart'. Try removing the import directive • lib/alerts/alerts_controller.dart:16:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:164:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:176:11 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/alerts/alerts_controller.dart:176:30 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:178:11 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/alerts/alerts_controller.dart:178:38 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:212:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:226:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/alerts/alerts_controller.dart:228:11 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/alerts/alerts_screen.dart:1:1 • deprecated_member_use
+warning • Unused import: 'package:http/http.dart'. Try removing the import directive • lib/alerts/alerts_screen.dart:6:8 • unused_import
+warning • The value of the local variable 'raw' isn't used. Try removing the variable or using it • lib/alerts/alerts_screen.dart:135:25 • unused_local_variable
+warning • The declaration '_showPostBottomSheet' isn't referenced. Try removing the declaration of '_showPostBottomSheet' • lib/alerts/alerts_screen.dart:210:8 • unused_element
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/alerts/check.dart:1:1 • deprecated_member_use
+   info • The file name 'ChatListController.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/chatlist/ChatListController.dart:1:1 • file_names
+   info • Unnecessary override. Try adding behavior in the overriding member or removing the override • lib/chatlist/ChatListController.dart:19:8 • unnecessary_overrides
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chatlist/ChatListController.dart:24:5 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/chatlist/ChatListScreen.dart:1:1 • deprecated_member_use
+   info • The file name 'ChatListScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/chatlist/ChatListScreen.dart:1:1 • file_names
+   info • The file name 'ChatController.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/chats/ChatController.dart:1:1 • file_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatController.dart:6:1 • deprecated_member_use
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/chats/ChatController.dart:221:35 • unnecessary_string_interpolations
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:233:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:234:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:237:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:253:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:254:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:361:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:364:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/chats/ChatController.dart:365:7 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatScreen.dart:1:1 • deprecated_member_use
+   info • The file name 'ChatScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/chats/ChatScreen.dart:1:1 • file_names
+warning • Unused import: 'package:pickcab_partner/includes/header.dart'. Try removing the import directive • lib/chats/ChatScreen.dart:5:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatScreen.dart:62:72 • deprecated_member_use
+warning • The operand can't be 'null', so the condition is always 'false'. Try removing the condition, an enclosing condition, or the whole conditional statement • lib/chats/ChatScreen.dart:109:52 • unnecessary_null_comparison
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatScreen.dart:210:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatScreen.dart:282:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/chats/ChatScreen.dart:320:35 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/const/custom_notification.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/AddCityBottomSheet.dart:1:1 • deprecated_member_use
+   info • The file name 'AddCityBottomSheet.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/dashboard/AddCityBottomSheet.dart:1:1 • file_names
+warning • Unused import: 'package:url_launcher/url_launcher.dart'. Try removing the import directive • lib/dashboard/AddCityBottomSheet.dart:5:8 • unused_import
+   info • The file name 'DashboardController.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/dashboard/DashboardController.dart:1:1 • file_names
+warning • Unused import: 'package:awesome_dialog/awesome_dialog.dart'. Try removing the import directive • lib/dashboard/DashboardController.dart:3:8 • unused_import
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/DashboardController.dart:4:1 • deprecated_member_use
+   info • The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/dashboard/DashboardController.dart:4:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/DashboardController.dart:5:1 • deprecated_member_use
+warning • Unused import: '../model/PPUser.dart'. Try removing the import directive • lib/dashboard/DashboardController.dart:31:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:67:5 • avoid_print
+   info • Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check • lib/dashboard/DashboardController.dart:146:20 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:192:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:199:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:203:7 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/dashboard/DashboardController.dart:203:30 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:217:7 • avoid_print
+warning • The value of the local variable 'userToken' isn't used. Try removing the variable or using it • lib/dashboard/DashboardController.dart:258:13 • unused_local_variable
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:265:7 • avoid_print
+warning • The operand can't be 'null', so the condition is always 'false'. Try removing the condition, an enclosing condition, or the whole conditional statement • lib/dashboard/DashboardController.dart:267:18 • unnecessary_null_comparison
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:303:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:312:15 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:314:15 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:323:11 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/dashboard/DashboardController.dart:323:34 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:341:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:377:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:388:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:411:15 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:417:15 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:437:25 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:444:17 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:452:21 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:473:23 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/dashboard/DashboardController.dart:488:7 • avoid_print
+   info • The file name 'DashboardScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/dashboard/DashboardScreen.dart:1:1 • file_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/DashboardScreen.dart:3:1 • deprecated_member_use
+warning • Unused import: 'package:pickcab_partner/chatlist/ChatListScreen.dart'. Try removing the import directive • lib/dashboard/DashboardScreen.dart:10:8 • unused_import
+warning • Unused import: '../chats/ChatScreen.dart'. Try removing the import directive • lib/dashboard/DashboardScreen.dart:17:8 • unused_import
+   info • Use the '??' operator rather than '?:' when testing for 'null'. Try rewriting the code to use '??' • lib/dashboard/DashboardScreen.dart:50:9 • prefer_if_null_operators
+warning • The operand can't be 'null', so the condition is always 'true'. Remove the condition • lib/dashboard/DashboardScreen.dart:50:28 • unnecessary_null_comparison
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/dashboard/DashboardScreen.dart:91:50 • deprecated_member_use
+warning • The declaration '_showPostBottomSheetNotice' isn't referenced. Try removing the declaration of '_showPostBottomSheetNotice' • lib/dashboard/DashboardScreen.dart:181:8 • unused_element
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/HtmlBottomSheet.dart:1:1 • deprecated_member_use
+   info • The file name 'HtmlBottomSheet.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/dashboard/HtmlBottomSheet.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/dashboard/HtmlBottomSheet.dart:79:33 • deprecated_member_use
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/dashboard/HtmlBottomSheet.dart:115:26 • avoid_unnecessary_containers
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/UpdateAppScreen.dart:1:1 • deprecated_member_use
+   info • The file name 'UpdateAppScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/dashboard/UpdateAppScreen.dart:1:1 • file_names
+warning • Unused import: 'package:pickcab_partner/dashboard/DashboardController.dart'. Try removing the import directive • lib/dashboard/UpdateAppScreen.dart:2:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/dashboard/UpdateAppScreen.dart:6:1 • deprecated_member_use
+warning • Duplicate import. Try removing all but one import of the library • lib/dashboard/UpdateAppScreen.dart:6:8 • duplicate_import
+warning • Duplicate import. Try removing all but one import of the library • lib/dashboard/UpdateAppScreen.dart:8:8 • duplicate_import
+   info • The file name 'EditProfileController.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/edit_profile/EditProfileController.dart:1:1 • file_names
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/edit_profile/EditProfileController.dart:4:1 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:99:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:115:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:146:11 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/edit_profile/EditProfileController.dart:146:17 • prefer_interpolation_to_compose_strings
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/edit_profile/EditProfileController.dart:146:37 • invalid_use_of_protected_member
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/edit_profile/EditProfileController.dart:148:38 • invalid_use_of_protected_member
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/edit_profile/EditProfileController.dart:149:38 • invalid_use_of_protected_member
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:157:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:187:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:230:7 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/edit_profile/EditProfileController.dart:250:27 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:259:7 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/edit_profile/EditProfileController.dart:259:13 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:260:7 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/edit_profile/EditProfileController.dart:264:19 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/edit_profile/EditProfileController.dart:271:7 • avoid_print
+   info • The file name 'EditProfileScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/edit_profile/EditProfileScreen.dart:1:1 • file_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/edit_profile/EditProfileScreen.dart:3:1 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/edit_profile/EditProfileScreen.dart:305:55 • deprecated_member_use
+   info • The variable name '_inputField_username' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/edit_profile/EditProfileScreen.dart:505:10 • non_constant_identifier_names
+warning • A value for optional parameter 'prefix' isn't ever given. Try removing the unused parameter • lib/edit_profile/EditProfileScreen.dart:509:13 • unused_element_parameter
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_controller.dart:1:1 • deprecated_member_use
+   info • 'canLaunch' is deprecated and shouldn't be used. Use canLaunchUrl instead. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_controller.dart:76:15 • deprecated_member_use
+   info • 'launch' is deprecated and shouldn't be used. Use launchUrl instead. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_controller.dart:77:13 • deprecated_member_use
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/free_booking_details/booking_details_controller.dart:140:36 • invalid_use_of_protected_member
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_controller.dart:176:5 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_controller.dart:176:11 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:1:1 • deprecated_member_use
+warning • Unused import: 'package:url_launcher/url_launcher.dart'. Try removing the import directive • lib/free_booking_details/booking_details_screen.dart:5:8 • unused_import
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/free_booking_details/booking_details_screen.dart:53:65 • invalid_use_of_protected_member
+warning • The value of the local variable 'bookingId' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:64:22 • unused_local_variable
+warning • The value of the local variable 'addedOn' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:73:22 • unused_local_variable
+warning • The value of the local variable 'canSendWhatsApp' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:74:20 • unused_local_variable
+warning • The value of the local variable 'canSendCall' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:75:20 • unused_local_variable
+warning • The value of the local variable 'userId' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:81:22 • unused_local_variable
+warning • The value of the local variable 'bookById' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:82:22 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:166:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:202:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:253:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:254:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:258:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:344:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:360:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:363:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:384:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:394:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:446:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:463:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:508:58 • deprecated_member_use
+warning • The declaration '_infoItem' isn't referenced. Try removing the declaration of '_infoItem' • lib/free_booking_details/booking_details_screen.dart:621:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:628:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:667:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:765:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:767:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:810:33 • deprecated_member_use
+warning • The value of the local variable 'booking' isn't used. Try removing the variable or using it • lib/free_booking_details/booking_details_screen.dart:888:11 • unused_local_variable
+warning • The member 'value' can only be used within instance members of subclasses of 'RxMap' • lib/free_booking_details/booking_details_screen.dart:888:47 • invalid_use_of_protected_member
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:900:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:975:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:977:43 • deprecated_member_use
+warning • The declaration '_buildAdditionalInfoCard' isn't referenced. Try removing the declaration of '_buildAdditionalInfoCard' • lib/free_booking_details/booking_details_screen.dart:997:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/free_booking_details/booking_details_screen.dart:1014:33 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:9:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:14:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:15:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:19:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:22:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/free_booking_details/services/api_service.dart:29:7 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/freebooking/freebooking_controller.dart:2:1 • deprecated_member_use
+warning • Unused import: '../../my_bookings/my_booking_screen.dart'. Try removing the import directive • lib/freebooking/freebooking_controller.dart:10:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/freebooking/freebooking_new.dart:2:1 • deprecated_member_use
+warning • Unused import: 'package:font_awesome_flutter/font_awesome_flutter.dart'. Try removing the import directive • lib/freebooking/freebooking_new.dart:3:8 • unused_import
+warning • Unused import: 'package:http/http.dart'. Try removing the import directive • lib/freebooking/freebooking_new.dart:8:8 • unused_import
+warning • Unused import: '../../includes/header.dart'. Try removing the import directive • lib/freebooking/freebooking_new.dart:11:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/freebooking/freebookingback.dart:2:1 • deprecated_member_use
+warning • Unused import: 'package:font_awesome_flutter/font_awesome_flutter.dart'. Try removing the import directive • lib/freebooking/freebookingback.dart:3:8 • unused_import
+warning • Unused import: '../../includes/header.dart'. Try removing the import directive • lib/freebooking/freebookingback.dart:8:8 • unused_import
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/freebooking/freebookingback.dart:235:21 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/freebooking/freebookingback.dart:236:21 • deprecated_member_use
+   info • The file name 'BannerSlider.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/home/BannerSlider.dart:1:1 • file_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/home/BannerSlider.dart:2:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/home/home_controller.dart:4:1 • deprecated_member_use
+warning • Unused import: 'package:pickcab_partner/model/PPUser.dart'. Try removing the import directive • lib/home/home_controller.dart:9:8 • unused_import
+warning • Unused import: 'package:pickcab_partner/utils/firebase_util.dart'. Try removing the import directive • lib/home/home_controller.dart:12:8 • unused_import
+warning • Unused import: '../../const/custom_notification.dart'. Try removing the import directive • lib/home/home_controller.dart:18:8 • unused_import
+   info • Use 'isNotEmpty' instead of 'length' to test whether the collection is empty. Try rewriting the expression to use 'isNotEmpty' • lib/home/home_controller.dart:104:15 • prefer_is_empty
+warning • The member 'value' can only be used within instance members of subclasses of 'RxList' • lib/home/home_controller.dart:104:22 • invalid_use_of_protected_member
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:110:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:111:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:135:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:136:5 • avoid_print
+warning • The receiver can't be null, so the null-aware operator '?.' is unnecessary. Try replacing the operator '?.' with '.' • lib/home/home_controller.dart:144:38 • invalid_null_aware_operator
+warning • The receiver can't be null, so the null-aware operator '?.' is unnecessary. Try replacing the operator '?.' with '.' • lib/home/home_controller.dart:145:43 • invalid_null_aware_operator
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:150:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:156:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:211:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:213:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:222:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:237:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:239:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:264:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:920:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:986:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1024:11 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/home/home_controller.dart:1024:49 • unnecessary_brace_in_string_interps
+warning • The value of the local variable 'isTwoWay' isn't used. Try removing the variable or using it • lib/home/home_controller.dart:1070:24 • unused_local_variable
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/home/home_controller.dart:1088:21 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/home/home_controller.dart:1091:21 • unnecessary_string_interpolations
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1185:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1186:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1194:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1201:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_controller.dart:1211:5 • avoid_print
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead. Try replacing the use of the deprecated member with the replacement • lib/home/home_controller.dart:1357:5 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead. Try replacing the use of the deprecated member with the replacement • lib/home/home_controller.dart:1357:11 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:3:1 • deprecated_member_use
+warning • Unused import: '../const/const.dart'. Try removing the import directive • lib/home/home_screen.dart:13:8 • unused_import
+warning • Unused import: '../profile/other_user_profile_screen.dart'. Try removing the import directive • lib/home/home_screen.dart:14:8 • unused_import
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/home/home_screen.dart:304:9 • sized_box_for_whitespace
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:341:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:365:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:373:35 • deprecated_member_use
+warning • The declaration '_buildBookingCard' isn't referenced. Try removing the declaration of '_buildBookingCard' • lib/home/home_screen.dart:422:10 • unused_element
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_screen.dart:434:5 • avoid_print
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:487:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:488:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:745:54 • deprecated_member_use
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/home/home_screen.dart:839:51 • unnecessary_string_interpolations
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/home/home_screen.dart:949:30 • avoid_unnecessary_containers
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:961:53 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/home/home_screen.dart:1040:5 • avoid_print
+warning • The value of the local variable 'userImage' isn't used. Try removing the variable or using it • lib/home/home_screen.dart:1059:18 • unused_local_variable
+warning • The value of the local variable 'isQuick' isn't used. Try removing the variable or using it • lib/home/home_screen.dart:1070:16 • unused_local_variable
+warning • The value of the local variable 'isProfileCompleted' isn't used. Try removing the variable or using it • lib/home/home_screen.dart:1071:16 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1089:35 • deprecated_member_use
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/home/home_screen.dart:1427:49 • unnecessary_string_interpolations
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1468:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1488:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1497:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1701:49 • deprecated_member_use
+warning • The declaration '_userPlaceholder' isn't referenced. Try removing the declaration of '_userPlaceholder' • lib/home/home_screen.dart:1802:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/home/home_screen.dart:1807:28 • deprecated_member_use
+   info • The 'child' argument should be last in widget constructor invocations. Try moving the argument to the end of the argument list • lib/home/home_screen.dart:1831:9 • sort_child_properties_last
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/home/home_screen.dart:1943:23 • sized_box_for_whitespace
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:1950:62 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:1964:70 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:1973:74 • unrelated_type_equality_checks
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/home/home_screen.dart:1985:23 • sized_box_for_whitespace
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:1991:62 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:2006:67 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:2014:74 • unrelated_type_equality_checks
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/home/home_screen.dart:2026:23 • sized_box_for_whitespace
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:2037:59 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:2053:70 • unrelated_type_equality_checks
+   info • The type of the right operand ('String') isn't a subtype or a supertype of the left operand ('RxString'). Try changing one or both of the operands • lib/home/home_screen.dart:2062:74 • unrelated_type_equality_checks
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/home/home_screen.dart:2079:15 • avoid_unnecessary_containers
+warning • The value of the local variable 'raw' isn't used. Try removing the variable or using it • lib/home/home_screen.dart:2201:29 • unused_local_variable
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/includes/header.dart:6:1 • deprecated_member_use
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/includes/header.dart:18:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:63:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:67:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:234:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:265:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:271:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:303:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:305:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:309:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:311:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:337:7 • avoid_print
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/includes/header.dart:337:23 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:374:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:381:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:388:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/includes/header.dart:417:7 • avoid_print
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement • lib/includes/header.dart:463:19 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/includes/header_controller.dart:4:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/login/googlesign.dart:4:1 • deprecated_member_use
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/login/googlesign.dart:11:8 • unused_import
+   info • The type name 'LoginController_backup' isn't an UpperCamelCase identifier. Try changing the name to follow the UpperCamelCase style • lib/login/googlesign.dart:14:7 • camel_case_types
+   info • The variable name 'NavigateToRegister' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/login/googlesign.dart:331:8 • non_constant_identifier_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/login/login_controller.dart:6:1 • deprecated_member_use
+warning • Unused import: '../const/custom_notification.dart'. Try removing the import directive • lib/login/login_controller.dart:17:8 • unused_import
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/login/login_controller.dart:18:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:84:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:85:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:90:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:220:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:223:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:265:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:266:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:274:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:302:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:303:7 • avoid_print
+   info • Missing type annotation. Try adding a type annotation • lib/login/login_controller.dart:397:35 • strict_top_level_inference
+warning • The value of the local variable 'data' isn't used. Try removing the variable or using it • lib/login/login_controller.dart:407:31 • unused_local_variable
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:412:11 • avoid_print
+   info • Empty catch block. Try adding statements to the block, adding a comment to the block, or removing the 'catch' clause • lib/login/login_controller.dart:420:17 • empty_catches
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:431:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/login_controller.dart:433:9 • avoid_print
+   info • The variable name 'NavigateToRegister' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/login/login_controller.dart:536:8 • non_constant_identifier_names
+warning • Unused import: 'dart:io'. Try removing the import directive • lib/login/login_screen.dart:1:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:2:1 • deprecated_member_use
+   info • The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/login/login_screen.dart:3:8 • unnecessary_import
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/login/login_screen.dart:12:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:127:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:128:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:129:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:163:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:166:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:171:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:209:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:214:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:227:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:244:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:247:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:252:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:286:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:289:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:294:51 • deprecated_member_use
+   info • 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:386:56 • deprecated_member_use
+   info • 'MaterialState' is deprecated and shouldn't be used. Use WidgetState instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:390:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:477:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:495:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:501:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:517:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:522:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:629:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:632:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:733:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:745:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:787:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/login/login_screen.dart:803:51 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/login/phone.dart:2:1 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check • lib/login/phone.dart:70:28 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/phone.dart:153:39 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/login/phone.dart:154:39 • avoid_print
+warning • Unused import: 'dart:convert'. Try removing the import directive • lib/main.dart:1:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/main.dart:2:1 • deprecated_member_use
+warning • Unused import: 'package:firebase_messaging/firebase_messaging.dart'. Try removing the import directive • lib/main.dart:6:8 • unused_import
+warning • Unused import: 'notificationservice/notification_service.dart'. Try removing the import directive • lib/main.dart:11:8 • unused_import
+   info • The file name 'ChatMessage.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/model/ChatMessage.dart:1:1 • file_names
+   info • The file name 'PPUser.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/model/PPUser.dart:1:1 • file_names
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/model/PPUser.dart:81:39 • unnecessary_new
+   info • Unnecessary constructor invocation. Try using a collection literal • lib/model/PPUser.dart:81:39 • prefer_collection_literals
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:82:18 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:83:27 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:84:25 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:85:27 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:86:26 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:87:20 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:88:26 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:89:25 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:90:28 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:91:19 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:92:24 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:93:28 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:94:22 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:95:31 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:96:27 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:97:21 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:98:25 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:99:35 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:100:34 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:101:25 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:102:27 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:103:28 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:104:28 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/PPUser.dart:105:25 • unnecessary_this
+   info • The file name 'Slides.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/model/Slides.dart:1:1 • file_names
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/model/Slides.dart:12:25 • unnecessary_new
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/model/Slides.dart:18:39 • unnecessary_new
+   info • Unnecessary constructor invocation. Try using a collection literal • lib/model/Slides.dart:18:39 • prefer_collection_literals
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:19:22 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:20:9 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:21:29 • unnecessary_this
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/model/Slides.dart:43:39 • unnecessary_new
+   info • Unnecessary constructor invocation. Try using a collection literal • lib/model/Slides.dart:43:39 • prefer_collection_literals
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:44:18 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:45:21 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:46:20 • unnecessary_this
+   info • Unnecessary 'this.' qualifier. Try removing 'this.' • lib/model/Slides.dart:47:25 • unnecessary_this
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/edit_booking_screen.dart:2:1 • deprecated_member_use
+warning • The operand can't be 'null', so the condition is always 'true'. Remove the condition • lib/my_bookings/edit_booking_screen.dart:590:53 • unnecessary_null_comparison
+warning • The '!' will have no effect because the receiver can't be null. Try removing the '!' operator • lib/my_bookings/edit_booking_screen.dart:592:68 • unnecessary_non_null_assertion
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/edit_booking_screen.dart:675:11 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/edit_booking_screen.dart:677:11 • deprecated_member_use
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booked_card.dart:6:1 • deprecated_member_use
+   info • The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/my_bookings/items/booked_card.dart:6:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booked_card.dart:7:1 • deprecated_member_use
+   info • Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter • lib/my_bookings/items/booked_card.dart:20:9 • use_super_parameters
+   info • The private field _dragPosition could be 'final'. Try making the field 'final' • lib/my_bookings/items/booked_card.dart:34:10 • prefer_final_fields
+warning • The value of the field '_dragPosition' isn't used. Try removing the field, or using it • lib/my_bookings/items/booked_card.dart:34:10 • unused_field
+   info • The private field _isCompleted could be 'final'. Try making the field 'final' • lib/my_bookings/items/booked_card.dart:35:8 • prefer_final_fields
+warning • The value of the field '_isCompleted' isn't used. Try removing the field, or using it • lib/my_bookings/items/booked_card.dart:35:8 • unused_field
+warning • The declaration '_showMarkAsBookedDialog' isn't referenced. Try removing the declaration of '_showMarkAsBookedDialog' • lib/my_bookings/items/booked_card.dart:37:16 • unused_element
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext • lib/my_bookings/items/booked_card.dart:92:36 • use_build_context_synchronously
+warning • The value of the local variable 'bookedbyid' isn't used. Try removing the variable or using it • lib/my_bookings/items/booked_card.dart:120:19 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booked_card.dart:138:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booked_card.dart:444:41 • deprecated_member_use
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booking_card.dart:5:1 • deprecated_member_use
+   info • The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/my_bookings/items/booking_card.dart:5:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booking_card.dart:6:1 • deprecated_member_use
+   info • Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter • lib/my_bookings/items/booking_card.dart:25:9 • use_super_parameters
+   info • The private field _dragPosition could be 'final'. Try making the field 'final' • lib/my_bookings/items/booking_card.dart:43:10 • prefer_final_fields
+warning • The value of the field '_dragPosition' isn't used. Try removing the field, or using it • lib/my_bookings/items/booking_card.dart:43:10 • unused_field
+   info • The private field _isCompleted could be 'final'. Try making the field 'final' • lib/my_bookings/items/booking_card.dart:44:8 • prefer_final_fields
+warning • The value of the field '_isCompleted' isn't used. Try removing the field, or using it • lib/my_bookings/items/booking_card.dart:44:8 • unused_field
+warning • The declaration '_showMarkAsBookedDialog' isn't referenced. Try removing the declaration of '_showMarkAsBookedDialog' • lib/my_bookings/items/booking_card.dart:49:16 • unused_element
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext • lib/my_bookings/items/booking_card.dart:104:46 • use_build_context_synchronously
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booking_card.dart:152:43 • deprecated_member_use
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/my_bookings/items/booking_card.dart:357:33 • sized_box_for_whitespace
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/items/booking_card.dart:666:47 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/my_booking_controller.dart:2:1 • deprecated_member_use
+warning • Unused import: 'my_booking_screen.dart'. Try removing the import directive • lib/my_bookings/my_booking_controller.dart:18:8 • unused_import
+   info • Use the '??' operator rather than '?:' when testing for 'null'. Try rewriting the code to use '??' • lib/my_bookings/my_booking_controller.dart:158:24 • prefer_if_null_operators
+warning • The operand can't be 'null', so the condition is always 'false'. Try removing the condition, an enclosing condition, or the whole conditional statement • lib/my_bookings/my_booking_controller.dart:258:30 • unnecessary_null_comparison
+warning • The '!' will have no effect because the receiver can't be null. Try removing the '!' operator • lib/my_bookings/my_booking_controller.dart:263:50 • unnecessary_non_null_assertion
+   info • The variable name 'pickTime_OLD' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/my_bookings/my_booking_controller.dart:289:8 • non_constant_identifier_names
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/my_bookings/my_booking_controller.dart:290:5 • avoid_print
+   info • Use the '??' operator rather than '?:' when testing for 'null'. Try rewriting the code to use '??' • lib/my_bookings/my_booking_controller.dart:450:24 • prefer_if_null_operators
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/my_bookings/my_booking_controller.dart:518:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/my_bookings/my_booking_controller.dart:612:5 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/my_bookings/my_booking_controller.dart:612:11 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/my_bookings/my_booking_controller.dart:724:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/my_bookings/my_booking_controller.dart:742:7 • avoid_print
+   info • Empty catch block. Try adding statements to the block, adding a comment to the block, or removing the 'catch' clause • lib/my_bookings/my_booking_controller.dart:766:17 • empty_catches
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/my_bookings/my_booking_screen.dart:1:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/my_booking_screen.dart:3:1 • deprecated_member_use
+warning • The declaration '_buildBottomNav' isn't referenced. Try removing the declaration of '_buildBottomNav' • lib/my_bookings/my_booking_screen.dart:300:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/my_bookings/my_booking_screen.dart:365:52 • deprecated_member_use
+warning • The declaration '_infoBox' isn't referenced. Try removing the declaration of '_infoBox' • lib/my_bookings/my_booking_screen.dart:380:10 • unused_element
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/new_booking/new_booking_controller.dart:2:1 • deprecated_member_use
+warning • Unused import: '../../my_bookings/my_booking_controller.dart'. Try removing the import directive • lib/new_booking/new_booking_controller.dart:9:8 • unused_import
+warning • Unused import: '../../my_bookings/my_booking_screen.dart'. Try removing the import directive • lib/new_booking/new_booking_controller.dart:10:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/new_booking/new_booking_controller.dart:163:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/new_booking/new_booking_controller.dart:184:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/new_booking/new_booking_controller.dart:198:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/new_booking/new_booking_controller.dart:213:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/new_booking/new_booking_controller.dart:214:7 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/new_booking/new_booking_screen.dart:4:1 • deprecated_member_use
+warning • Unused import: '../../includes/header.dart'. Try removing the import directive • lib/new_booking/new_booking_screen.dart:12:8 • unused_import
+warning • The declaration '_showCityDialog' isn't referenced. Try removing the declaration of '_showCityDialog' • lib/new_booking/new_booking_screen.dart:20:8 • unused_element
+   info • Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check • lib/new_booking/new_booking_screen.dart:248:37 • use_build_context_synchronously
+warning • The declaration '_getFullAddress' isn't referenced. Try removing the declaration of '_getFullAddress' • lib/new_booking/new_booking_screen.dart:310:10 • unused_element
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/new_booking/new_booking_screen.dart:770:15 • prefer_interpolation_to_compose_strings
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/new_booking/new_booking_screen.dart:963:11 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/new_booking/new_booking_screen.dart:965:11 • deprecated_member_use
+warning • Unused import: 'dart:math'. Try removing the import directive • lib/notificationservice/notification_service.dart:1:8 • unused_import
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/notificationservice/notification_service.dart:5:1 • deprecated_member_use
+warning • Unused import: 'package:get/get.dart'. Try removing the import directive • lib/notificationservice/notification_service.dart:7:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:41:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:44:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:48:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:62:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:65:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:67:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:128:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/notificationservice/notification_service.dart:130:7 • avoid_print
+   info • 'getToken' is deprecated and shouldn't be used. Use register() and onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/notificationservice/notification_service.dart:132:37 • deprecated_member_use
+   info • 'onTokenRefresh' is deprecated and shouldn't be used. Use onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/notificationservice/notification_service.dart:137:15 • deprecated_member_use
+warning • The value of the field '_verificationId' isn't used. Try removing the field, or using it • lib/otpmessage/sendotp.dart:5:11 • unused_field
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/otpmessage/sendotp.dart:16:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/otpmessage/sendotp.dart:20:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/otpmessage/sendotp.dart:27:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/otpmessage/sendotp.dart:33:9 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/profile/ProfileShareCard.dart:1:1 • deprecated_member_use
+   info • The file name 'ProfileShareCard.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/profile/ProfileShareCard.dart:1:1 • file_names
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/ProfileShareCard.dart:54:75 • dead_null_aware_expression
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/profile/ProfileShareCard.dart:79:32 • avoid_unnecessary_containers
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/ProfileShareCard.dart:85:41 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/ProfileShareCard.dart:119:54 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/ProfileShareCard.dart:145:53 • dead_null_aware_expression
+warning • Unused import: 'dart:async'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:2:8 • unused_import
+warning • Unused import: 'dart:convert'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:3:8 • unused_import
+warning • Unused import: 'dart:io'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:4:8 • unused_import
+warning • Unused import: 'dart:ui'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:5:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/profile/other_user_profile_screen.dart:6:1 • deprecated_member_use
+   info • The import of 'package:flutter/rendering.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:7:8 • unnecessary_import
+warning • Unused import: 'package:google_fonts/google_fonts.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:10:8 • unused_import
+warning • Unused import: 'package:pickcab_partner/profile/ProfileShareCard.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:11:8 • unused_import
+warning • Unused import: 'package:share_plus/share_plus.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:12:8 • unused_import
+warning • Unused import: 'package:url_launcher/url_launcher.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:13:8 • unused_import
+warning • Unused import: '../support/support_screen.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:16:8 • unused_import
+warning • Unused import: 'addhardetail.dart'. Try removing the import directive • lib/profile/other_user_profile_screen.dart:17:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/other_user_profile_screen.dart:36:5 • avoid_print
+warning • The value of the local variable 'aadharStatus' isn't used. Try removing the variable or using it • lib/profile/other_user_profile_screen.dart:59:22 • unused_local_variable
+warning • The value of the local variable 'dlStatus' isn't used. Try removing the variable or using it • lib/profile/other_user_profile_screen.dart:60:22 • unused_local_variable
+warning • Unused import: 'dart:io'. Try removing the import directive • lib/profile/profile_controller.dart:4:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_controller.dart:8:1 • deprecated_member_use
+warning • Unused import: '../alerts/alerts_controller.dart'. Try removing the import directive • lib/profile/profile_controller.dart:16:8 • unused_import
+warning • Unused import: '../dashboard/DashboardController.dart'. Try removing the import directive • lib/profile/profile_controller.dart:20:8 • unused_import
+warning • Unused import: 'profile_screen.dart'. Try removing the import directive • lib/profile/profile_controller.dart:29:8 • unused_import
+warning • The value of the field '_picker' isn't used. Try removing the field, or using it • lib/profile/profile_controller.dart:59:21 • unused_field
+   info • Unnecessary override. Try adding behavior in the overriding member or removing the override • lib/profile/profile_controller.dart:64:8 • unnecessary_overrides
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:71:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:86:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:94:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:97:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:115:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:116:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:143:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:184:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:232:9 • avoid_print
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_controller.dart:284:27 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_controller.dart:286:33 • dead_null_aware_expression
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:389:7 • avoid_print
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_controller.dart:407:47 • dead_null_aware_expression
+warning • The value of the local variable 'msg' isn't used. Try removing the variable or using it • lib/profile/profile_controller.dart:477:9 • unused_local_variable
+warning • The value of the local variable 'data' isn't used. Try removing the variable or using it • lib/profile/profile_controller.dart:513:31 • unused_local_variable
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:518:11 • avoid_print
+   info • Empty catch block. Try adding statements to the block, adding a comment to the block, or removing the 'catch' clause • lib/profile/profile_controller.dart:523:17 • empty_catches
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:534:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_controller.dart:536:9 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:6:1 • deprecated_member_use
+warning • Unused import: 'addhardetail.dart'. Try removing the import directive • lib/profile/profile_screen.dart:17:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/profile/profile_screen.dart:35:5 • avoid_print
+warning • The declaration '_showPostBottomSheet' isn't referenced. Try removing the declaration of '_showPostBottomSheet' • lib/profile/profile_screen.dart:215:8 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:355:38 • deprecated_member_use
+warning • The declaration '_buildImagePickerTile' isn't referenced. Try removing the declaration of '_buildImagePickerTile' • lib/profile/profile_screen.dart:648:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:667:41 • deprecated_member_use
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:779:5 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:779:11 • deprecated_member_use
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_screen.dart:957:69 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_screen.dart:959:75 • dead_null_aware_expression
+warning • The left operand can't be null, so the right operand is never executed. Try removing the operator and the right operand • lib/profile/profile_screen.dart:962:66 • dead_null_aware_expression
+warning • The value of the local variable 'aadharStatus' isn't used. Try removing the variable or using it • lib/profile/profile_screen.dart:1020:22 • unused_local_variable
+warning • The value of the local variable 'dlStatus' isn't used. Try removing the variable or using it • lib/profile/profile_screen.dart:1021:22 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/profile/profile_screen.dart:1317:54 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/register/register_controller.dart:5:1 • deprecated_member_use
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/register/register_controller.dart:17:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/register/register_controller.dart:97:5 • avoid_print
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/register/register_controller.dart:255:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/register/register_controller.dart:258:7 • curly_braces_in_flow_control_structures
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/register/register_controller.dart:276:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/register/register_controller.dart:294:7 • avoid_print
+warning • Unused import: 'dart:io'. Try removing the import directive • lib/register/resgister_screen.dart:2:8 • unused_import
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/register/resgister_screen.dart:3:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:5:1 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:297:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:298:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:299:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:322:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:352:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:357:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:362:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:394:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:397:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:400:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:468:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:504:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:519:62 • deprecated_member_use
+   info • 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:575:60 • deprecated_member_use
+   info • 'MaterialState' is deprecated and shouldn't be used. Use WidgetState instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:579:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:684:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:687:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:736:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:739:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:807:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:809:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:812:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:822:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:864:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:878:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:892:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:968:33 • deprecated_member_use
+   info • The variable name '_inputField_username' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/register/resgister_screen.dart:980:10 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/register/resgister_screen.dart:1000:33 • deprecated_member_use
+   info • 'onTokenRefresh' is deprecated and shouldn't be used. Use onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/services/notification_service.dart:25:32 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:26:7 • avoid_print
+   info • 'getToken' is deprecated and shouldn't be used. Use register() and onRegistered instead. Try replacing the use of the deprecated member with the replacement • lib/services/notification_service.dart:33:54 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:35:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:39:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:49:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:68:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:73:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:74:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:86:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:91:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:93:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:96:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:99:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:101:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:103:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:105:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/services/notification_service.dart:107:7 • avoid_print
+   info • The import of 'package:flutter/foundation.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/widgets.dart'. Try removing the import directive • lib/services/presence_service.dart:4:8 • unnecessary_import
+warning • Duplicate import. Try removing all but one import of the library • lib/services/presence_service.dart:7:8 • duplicate_import
+warning • Duplicate import. Try removing all but one import of the library • lib/services/presence_service.dart:10:8 • duplicate_import
+warning • The value of the field '_userId' isn't used. Try removing the field, or using it • lib/services/presence_service.dart:19:11 • unused_field
+   info • The file name 'SmartBookingController.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/smartbooking/SmartBookingController.dart:1:1 • file_names
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingController.dart:3:1 • deprecated_member_use
+   info • The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive • lib/smartbooking/SmartBookingController.dart:3:8 • unnecessary_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingController.dart:4:1 • deprecated_member_use
+warning • Unused import: 'package:intl/intl.dart'. Try removing the import directive • lib/smartbooking/SmartBookingController.dart:12:8 • unused_import
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:95:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:136:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:165:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:167:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:177:7 • avoid_print
+   info • The variable name 'gemin_data' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/smartbooking/SmartBookingController.dart:180:13 • non_constant_identifier_names
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:253:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:262:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:265:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:268:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:386:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:387:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:395:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:429:7 • avoid_print
+warning • The value of the local variable 'json' isn't used. Try removing the variable or using it • lib/smartbooking/SmartBookingController.dart:440:13 • unused_local_variable
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:444:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingController.dart:445:7 • avoid_print
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:1:1 • deprecated_member_use
+   info • The file name 'SmartBookingScreen.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/smartbooking/SmartBookingScreen.dart:1:1 • file_names
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingScreen.dart:35:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/smartbooking/SmartBookingScreen.dart:39:11 • avoid_print
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:404:79 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:426:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:524:79 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:612:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:619:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:627:32 • deprecated_member_use
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/smartbooking/SmartBookingScreen.dart:639:41 • avoid_unnecessary_containers
+warning • The declaration '_showPostBottomSheet' isn't referenced. Try removing the declaration of '_showPostBottomSheet' • lib/smartbooking/SmartBookingScreen.dart:644:8 • unused_element
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/smartbooking/SmartBookingScreen.dart:658:24 • avoid_unnecessary_containers
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:717:36 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/smartbooking/SmartBookingScreen.dart:791:36 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/splash_screen.dart:1:1 • deprecated_member_use
+warning • Unused import: 'package:in_app_update/in_app_update.dart'. Try removing the import directive • lib/splash_screen.dart:3:8 • unused_import
+   info • The private field _started could be 'final'. Try making the field 'final' • lib/splash_screen.dart:27:8 • prefer_final_fields
+warning • The value of the field '_started' isn't used. Try removing the field, or using it • lib/splash_screen.dart:27:8 • unused_field
+   info • The private field _navigated could be 'final'. Try making the field 'final' • lib/splash_screen.dart:28:8 • prefer_final_fields
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/support/support_details.screen.dart:2:1 • deprecated_member_use
+warning • Unused import: 'package:pickcab_partner/profile/profile_screen.dart'. Try removing the import directive • lib/support/support_details.screen.dart:6:8 • unused_import
+warning • Unused import: '../../includes/header.dart'. Try removing the import directive • lib/support/support_details.screen.dart:10:8 • unused_import
+warning • Unused import: '../alerts/alerts_screen.dart'. Try removing the import directive • lib/support/support_details.screen.dart:11:8 • unused_import
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/support/support_details.screen.dart:14:8 • unused_import
+warning • Unused import: '../my_bookings/my_booking_screen.dart'. Try removing the import directive • lib/support/support_details.screen.dart:15:8 • unused_import
+   info • Unnecessary override. Try adding behavior in the overriding member or removing the override • lib/support/support_details.screen.dart:67:8 • unnecessary_overrides
+warning • The value of the local variable 'userId' isn't used. Try removing the variable or using it • lib/support/support_details.screen.dart:75:11 • unused_local_variable
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/support/support_details.screen.dart:92:11 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/support/support_details.screen.dart:203:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/support/support_details.screen.dart:206:11 • avoid_print
+warning • The '!' will have no effect because the receiver can't be null. Try removing the '!' operator • lib/support/support_details.screen.dart:265:43 • unnecessary_non_null_assertion
+warning • The declaration '_showPostBottomSheet' isn't referenced. Try removing the declaration of '_showPostBottomSheet' • lib/support/support_details.screen.dart:275:8 • unused_element
+warning • The declaration '_option' isn't referenced. Try removing the declaration of '_option' • lib/support/support_details.screen.dart:348:10 • unused_element
+   info • Use a 'SizedBox' to add whitespace to a layout. Try using a 'SizedBox' rather than a 'Container' • lib/support/support_details.screen.dart:463:30 • sized_box_for_whitespace
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/support/support_details.screen.dart:486:39 • unnecessary_string_interpolations
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/support/support_screen.dart:2:1 • deprecated_member_use
+warning • Unused import: '../../includes/header.dart'. Try removing the import directive • lib/support/support_screen.dart:11:8 • unused_import
+warning • Unused import: '../alerts/alerts_screen.dart'. Try removing the import directive • lib/support/support_screen.dart:12:8 • unused_import
+warning • Unused import: '../home/home_screen.dart'. Try removing the import directive • lib/support/support_screen.dart:15:8 • unused_import
+warning • Unused import: '../my_bookings/my_booking_screen.dart'. Try removing the import directive • lib/support/support_screen.dart:16:8 • unused_import
+warning • The member 'value' can only be used within instance members of subclasses of 'RxList' • lib/support/support_screen.dart:88:13 • invalid_use_of_protected_member
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/support/support_screen.dart:95:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/support/support_screen.dart:103:9 • avoid_print
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/support/support_screen.dart:150:13 • unnecessary_string_interpolations
+warning • The declaration '_showPostBottomSheet' isn't referenced. Try removing the declaration of '_showPostBottomSheet' • lib/support/support_screen.dart:281:8 • unused_element
+warning • The declaration '_option' isn't referenced. Try removing the declaration of '_option' • lib/support/support_screen.dart:354:10 • unused_element
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement • lib/support/support_screen.dart:459:29 • deprecated_member_use
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/support/support_screen.dart:481:33 • curly_braces_in_flow_control_structures
+   info • Unnecessary instance of 'Container'. Try removing the 'Container' (but not its children) from the widget tree • lib/support/support_screen.dart:620:34 • avoid_unnecessary_containers
+   info • The file name 'ChatUtil.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/utils/ChatUtil.dart:1:1 • file_names
+   info • The variable name 'NODE_USER' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/ChatUtil.dart:7:17 • non_constant_identifier_names
+   info • The variable name 'NODE_USER_STATUS' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/ChatUtil.dart:8:17 • non_constant_identifier_names
+   info • The variable name 'NODE_CHAT_LIST' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/ChatUtil.dart:9:17 • non_constant_identifier_names
+   info • The variable name 'NODE_CONVERSATION' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/ChatUtil.dart:10:17 • non_constant_identifier_names
+   info • The variable name 'NODE_MESSAGES' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/ChatUtil.dart:11:17 • non_constant_identifier_names
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/ChatUtil.dart:15:59 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/ChatUtil.dart:20:59 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/ChatUtil.dart:25:59 • unnecessary_string_interpolations
+   info • Missing type annotation. Try adding a type annotation • lib/utils/ChatUtil.dart:30:10 • strict_top_level_inference
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/ChatUtil.dart:41:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/ChatUtil.dart:44:5 • avoid_print
+   info • The file name 'Utils.dart' isn't a lower_case_with_underscores identifier. Try changing the name to follow the lower_case_with_underscores style • lib/utils/Utils.dart:1:1 • file_names
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/utils/Utils.dart:2:1 • deprecated_member_use
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/Utils.dart:11:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/Utils.dart:12:5 • avoid_print
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:41:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:42:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:43:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:44:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:45:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:46:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:47:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:50:17 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:56:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:57:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:58:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:69:13 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/Utils.dart:75:5 • avoid_print
+   info • 'Share' is deprecated and shouldn't be used. Use SharePlus instead. Try replacing the use of the deprecated member with the replacement • lib/utils/Utils.dart:78:13 • deprecated_member_use
+   info • 'share' is deprecated and shouldn't be used. Use SharePlus.instance.share() instead. Try replacing the use of the deprecated member with the replacement • lib/utils/Utils.dart:78:19 • deprecated_member_use
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:129:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:130:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:131:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:132:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:133:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:134:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:137:17 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:141:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:142:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:143:15 • prefer_interpolation_to_compose_strings
+   info • Use interpolation to compose strings and values. Try using string interpolation to build the composite string • lib/utils/Utils.dart:150:13 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/Utils.dart:152:5 • avoid_print
+warning • Unused import: 'dart:async'. Try removing the import directive • lib/utils/firebase_util.dart:1:8 • unused_import
+warning • Unused import: 'dart:convert'. Try removing the import directive • lib/utils/firebase_util.dart:2:8 • unused_import
+warning • Unused import: 'package:firebase_messaging/firebase_messaging.dart'. Try removing the import directive • lib/utils/firebase_util.dart:7:8 • unused_import
+   info • 'package:flutter/cupertino.dart' is deprecated and shouldn't be used. Use package:cupertino_ui/cupertino_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/utils/firebase_util.dart:8:1 • deprecated_member_use
+warning • Unused import: 'package:get/get.dart'. Try removing the import directive • lib/utils/firebase_util.dart:9:8 • unused_import
+warning • Unused import: 'package:http/http.dart'. Try removing the import directive • lib/utils/firebase_util.dart:11:8 • unused_import
+   info • The variable name 'NODE_USER' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/firebase_util.dart:57:17 • non_constant_identifier_names
+   info • The variable name 'NODE_CHAT_LIST' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/firebase_util.dart:58:17 • non_constant_identifier_names
+   info • The variable name 'NODE_USER_MESSAGES' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/firebase_util.dart:59:17 • non_constant_identifier_names
+   info • The variable name 'NODE_MESSAGES' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/utils/firebase_util.dart:60:17 • non_constant_identifier_names
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:62:10 • strict_top_level_inference
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:69:10 • strict_top_level_inference
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:70:71 • unnecessary_brace_in_string_interps
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:73:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:74:59 • unnecessary_string_interpolations
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:77:10 • strict_top_level_inference
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:84:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:86:35 • unnecessary_string_interpolations
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:89:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:96:35 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:116:35 • unnecessary_string_interpolations
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:120:10 • strict_top_level_inference
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:130:7 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:131:7 • avoid_print
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:139:10 • strict_top_level_inference
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:140:5 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:144:5 • avoid_print
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:168:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:170:60 • unnecessary_string_interpolations
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:170:86 • unnecessary_brace_in_string_interps
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:170:98 • unnecessary_brace_in_string_interps
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:176:40 • unnecessary_brace_in_string_interps
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:176:54 • unnecessary_brace_in_string_interps
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:202:60 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:202:80 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:207:70 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:207:95 • unnecessary_string_interpolations
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/utils/firebase_util.dart:207:96 • unnecessary_brace_in_string_interps
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:210:7 • avoid_print
+warning • The value of the local variable 'badgeCount' isn't used. Try removing the variable or using it • lib/utils/firebase_util.dart:212:11 • unused_local_variable
+   info • Function literals shouldn't be passed to 'forEach'. Try using a 'for' loop • lib/utils/firebase_util.dart:213:25 • avoid_function_literals_in_foreach_calls
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:215:9 • avoid_print
+   info • Don't invoke 'print' in production code. Try using a logging framework • lib/utils/firebase_util.dart:217:9 • avoid_print
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:246:21 • unnecessary_string_interpolations
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/utils/firebase_util.dart:249:21 • unnecessary_new
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/utils/firebase_util.dart:266:28 • unnecessary_new
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:281:21 • unnecessary_string_interpolations
+   info • Unnecessary 'new' keyword. Try removing the 'new' keyword • lib/utils/firebase_util.dart:284:21 • unnecessary_new
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:297:60 • unnecessary_string_interpolations
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:303:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:305:60 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:305:80 • unnecessary_string_interpolations
+   info • Unnecessary empty statement. Try removing the empty statement or restructuring the code • lib/utils/firebase_util.dart:305:91 • empty_statements
+   info • Missing type annotation. Try adding a type annotation • lib/utils/firebase_util.dart:311:10 • strict_top_level_inference
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:313:60 • unnecessary_string_interpolations
+   info • Unnecessary use of string interpolation. Try replacing the string literal with the variable name • lib/utils/firebase_util.dart:313:80 • unnecessary_string_interpolations
+   info • Unnecessary empty statement. Try removing the empty statement or restructuring the code • lib/utils/firebase_util.dart:313:91 • empty_statements
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/widget_test.dart:8:1 • deprecated_member_use
+
+833 issues found. (ran in 5.9s)

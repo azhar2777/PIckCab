@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart' as legacy;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -154,10 +155,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     focusNode: searchFocusNode,
                     textEditingController: tempController,
                     googleAPIKey: apiKey,
-                    inputDecoration: InputDecoration(
+                    inputDecoration: legacy.InputDecoration(
                       hintText:
                           "Search city, e.g. Ranchi, Jamshedpur, Patna...",
-                      border: OutlineInputBorder(
+                      border: legacy.OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),

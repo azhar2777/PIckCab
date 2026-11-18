@@ -1,6 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as legacy;
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -20,6 +20,7 @@ class Editprofilescreen extends StatefulWidget {
 }
 
 class _EditprofilescreenState extends State<Editprofilescreen> {
+  // final InputDecoration inputDecoration;
   final controller = Get.put(Editprofilecontroller(), permanent: true);
 
   String _extractCleanCity(String description) {
@@ -418,19 +419,30 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                     focusNode: searchFocusNode,
                     textEditingController: tempController,
                     googleAPIKey: apiKey,
-                    inputDecoration: InputDecoration(
-                      hintText:
-                          "Search city, e.g. Ranchi, Jamshedpur, Patna...",
-                      border: OutlineInputBorder(
+                    inputDecoration: legacy.InputDecoration(
+                      hintText: "Search city, e.g. Ranchi, Jamshedpur, Patna...",
+                      border: legacy.OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: legacy.OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: legacy.OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.grey[100],
-                      prefixIcon:
-                          const Icon(Icons.search, color: Color(0xFF6A1B9A)),
+                      fillColor: Colors.grey.shade100,
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Color(0xFF6A1B9A),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 14),
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                     ),
                     debounceTime: 500,
                     countries: const ["in"],
