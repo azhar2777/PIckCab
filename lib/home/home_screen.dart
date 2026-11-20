@@ -1035,17 +1035,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 12),
                                 // Chat button
-                                // if (isProfileCompleted) ...[
-                                //   Expanded(
-                                //     child: _actionButton(
-                                //       Icons.chat,
-                                //       () => controller.openChat(booking),
-                                //     ),
-                                //   ),
-                                //   const SizedBox(width: 12),
-                                // ],
-                                // if (canSendWhatsApp && !isProfileCompleted) ...[
-                                if (canSendWhatsApp) ...[
+                                if (isProfileCompleted) ...[
+                                  Expanded(
+                                    child: _actionButton(
+                                      Icons.chat,
+                                      () => controller.openChat(booking),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                ],
+                                if (canSendWhatsApp && !isProfileCompleted) ...[
+                                // if (canSendWhatsApp) ...[
                                   Expanded(
                                     child: _actionButton(
                                       FontAwesomeIcons.whatsapp.data,

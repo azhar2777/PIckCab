@@ -245,7 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        // controller.createChat();
+                        controller.createChat();
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
