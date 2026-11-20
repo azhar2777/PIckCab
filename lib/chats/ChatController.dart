@@ -16,11 +16,12 @@ import '../utils/firebase_util.dart';
 class ChatScreenController extends GetxController {
   static ChatScreenController get to => Get.find();
   final inputController = TextEditingController();
-  final String bookingId;
-  // final String tripId;
-  final String userUniqueId;
-  final String bookingUserName;
-  final String bookingUserImage;
+  final Map<String, dynamic> bookingData;
+  // final String bookingId;
+  //
+  // final String userUniqueId;
+  // final String bookingUserName;
+  // final String bookingUserImage;
   var loggedInuserid = ''.obs;
   var loggedInuserName = ''.obs;
   var loggedInuserImage = ''.obs;
@@ -40,118 +41,18 @@ class ChatScreenController extends GetxController {
   StreamSubscription<DatabaseEvent>? _presenceSubscription;
 
   ChatScreenController({
-    required this.bookingId,
-    // required this.tripId,
-    required this.userUniqueId,
-    required this.bookingUserName,
-    required this.bookingUserImage,
+    // required this.bookingId,
+    // // required this.tripId,
+    // required this.userUniqueId,
+    // required this.bookingUserName,
+    // required this.bookingUserImage,
+  required this.bookingData
   });
 
   @override
   void onInit() {
     getChats();
     super.onInit();
-  }
-
-  void listenToUserPresence(String userId) {
-    _presenceSubscription?.cancel();
-
-    final ref =
-        FirebaseDatabase.instance.ref('${ChatUtil.NODE_USER_STATUS}/$userId');
-
-    _presenceSubscription = ref.onValue.listen((event) {
-      final value = event.snapshot.value;
-
-      if (value is Map) {
-        isOtherUserOnline.value = value['isOnline'] == true;
-
-        otherUserLastSeen.value =
-            int.tryParse(value['lastSeen']?.toString() ?? '0') ?? 0;
-      } else {
-        isOtherUserOnline.value = false;
-        otherUserLastSeen.value = 0;
-      }
-    });
-  }
-
-  String formatLastSeen(int timestamp) {
-    if (timestamp == 0) return 'Last seen a long time ago';
-
-    // Assuming lastSeen is stored in milliseconds
-    final lastSeen = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    final difference = DateTime.now().difference(lastSeen);
-
-    if (difference.isNegative) return 'Last seen just now';
-
-    if (difference.inSeconds < 60) {
-      return 'Just now';
-    } else if (difference.inMinutes < 60) {
-      final minutes = difference.inMinutes;
-      return '$minutes ${minutes == 1 ? 'minute' : 'minutes'} ago';
-    } else if (difference.inHours < 24) {
-      final hours = difference.inHours;
-      return '$hours ${hours == 1 ? 'hour' : 'hours'} ago';
-    } else if (difference.inDays == 1) {
-      return 'Yesterday';
-    } else if (difference.inDays < 7) {
-      final days = difference.inDays;
-      return '$days ${days == 1 ? 'day' : 'days'} ago';
-    } else {
-      return '${lastSeen.day.toString().padLeft(2, '0')}/'
-          '${lastSeen.month.toString().padLeft(2, '0')}/'
-          '${lastSeen.year}';
-    }
-  }
-
-  void getChatMessages() {
-    _messagesSubscription?.cancel();
-
-    messages.clear();
-    isLoadingMessages.value = true;
-    messageError.value = '';
-
-    final ref =
-        FirebaseDatabase.instance.ref('${ChatUtil.NODE_MESSAGES}/$bookingId');
-
-    _messagesSubscription = ref.onValue.listen(
-      (event) {
-        final List<Map<String, dynamic>> result = [];
-
-        for (final child in event.snapshot.children) {
-          if (child.value is Map) {
-            final data = Map<String, dynamic>.from(
-              child.value as Map,
-            );
-
-            data['messageId'] ??= child.key;
-            result.add(data);
-          }
-        }
-
-        // Newest first because your ListView uses reverse: true.
-        result.sort((a, b) {
-          final timeA = int.tryParse(
-                a['timestamp']?.toString() ?? '0',
-              ) ??
-              0;
-
-          final timeB = int.tryParse(
-                b['timestamp']?.toString() ?? '0',
-              ) ??
-              0;
-
-          return timeB.compareTo(timeA);
-        });
-
-        messages.assignAll(result);
-        isLoadingMessages.value = false;
-      },
-      onError: (Object error) {
-        messageError.value = 'Unable to load messages';
-        isLoadingMessages.value = false;
-        debugPrint('Message listener error: $error');
-      },
-    );
   }
 
   Future<void> getChats() async {
@@ -161,215 +62,11 @@ class ChatScreenController extends GetxController {
     loggedInuserName.value = prefs.getString('user_name') ?? '';
     loggedInuserImage.value = prefs.getString('user_image') ?? '';
 
-    debugPrint('Booking ID: $bookingId');
-    debugPrint('Receiver ID: $userUniqueId');
-    debugPrint('Current User ID: ${loggedInuserid.value}');
+    print("getChats loggedInuserid ${loggedInuserid.value} "
+        "loggedInuserName ${loggedInuserName.value} "
+        "loggedInuserImage ${loggedInuserImage.value}");
 
-    if (loggedInuserid.value.isEmpty) {
-      debugPrint('Logged-in user ID is missing');
-      isLoadingMessages.value = false;
-      messageError.value = 'User ID is missing';
-      return;
-    }
-
-    getChatMessages();
+    print("${bookingData}}");
   }
 
-  Future<void> createChat() async {
-    var deviceToken = "";
-    final text = inputController.text.trim();
-
-    if (text.isEmpty) return;
-
-    final String senderId = loggedInuserid.value;
-    final String receiverId = userUniqueId;
-    final String currentBookingId = bookingId.toString();
-
-    final DatabaseReference rootRef = FirebaseDatabase.instance.ref();
-
-    // Generate a unique message ID.
-    final messageRef =
-        rootRef.child('${ChatUtil.NODE_MESSAGES}/$currentBookingId');
-
-    final String? messageKey = messageRef.push().key;
-
-    if (messageKey == null) {
-      debugPrint('Unable to generate message ID');
-      return;
-    }
-
-    final int timestamp = DateTime.now().millisecondsSinceEpoch;
-
-    final newMessage = ChatMessage(
-      bookingId: currentBookingId,
-      messageBody: text,
-      messageId: messageKey,
-      timestamp: timestamp.toString(),
-      readStatus: '0',
-      receiverId: receiverId,
-      senderId: senderId,
-      senderName: loggedInuserName.value,
-      type: 'text',
-    );
-
-    // Read the receiver's existing unread count for this booking.
-    final receiverChatRef = rootRef.child(
-      '${ChatUtil.NODE_CHAT_LIST}/$receiverId/$currentBookingId',
-    );
-
-    final receiverRef =
-    FirebaseDatabase.instance.ref('${FirebaseUtil.NODE_USER}');
-
-
-    try {
-
-      // final receiverUserSnapshot = await receiverRef.child(receiverId).get();
-      final receiverUserSnapshot = await receiverRef.child('9157').get();
-      if (receiverUserSnapshot.exists && receiverUserSnapshot.value is Map) {
-        final receiverUserData = Map<String, dynamic>.from(
-          receiverUserSnapshot.value as Map,
-        );
-
-        print('Receiver ID: $receiverId');
-        print('Receiver User Data: $receiverUserData');
-        deviceToken = receiverUserData['device_token']?.toString() ?? '';
-      } else {
-        print('Receiver user not found: $receiverId');
-      }
-
-      final receiverSnapshot = await receiverChatRef.get();
-
-      final receiverData = receiverSnapshot.value is Map
-          ? Map<String, dynamic>.from(receiverSnapshot.value as Map)
-          : <String, dynamic>{};
-
-
-      final int oldUnreadCount =
-          int.tryParse(receiverData['unreadCount']?.toString() ?? '0') ?? 0;
-
-      final Map<String, dynamic> updates = {};
-
-      // 1. Messages: Messages/{bookingId}/{messageId}
-      print('newMessage.toJson()');
-      print(newMessage.toJson());
-      updates['${ChatUtil.NODE_MESSAGES}/$currentBookingId/$messageKey'] =
-          newMessage.toJson();
-
-      // 2. Conversation: Conversation/{bookingId}
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/bookingId'] =
-          currentBookingId;
-
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/conversationId'] =
-          currentBookingId;
-
-      // updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] =
-      //     true;
-
-      // updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] =
-      //     true;
-
-      /**
-       * Add participants details 
-       */
-      updates[
-          '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$senderId'] = {
-        'name': loggedInuserName.value,
-        'image': loggedInuserImage.value,
-        'userId': senderId,
-      };
-
-      updates[
-          '${ChatUtil.NODE_CONVERSATION}/$currentBookingId/participants/$receiverId'] = {
-        'name': bookingUserName,
-        'image': bookingUserImage,
-        'userId': receiverId,
-      };
-
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/lastMessage'] =
-          text;
-
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/lastMessageTime'] =
-          timestamp;
-
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/lastMessageSenderId'] =
-          senderId;
-
-      updates['${ChatUtil.NODE_CONVERSATION}/$currentBookingId/status'] =
-          'active';
-
-      // 3. Sender's chat list entry.
-      updates['${ChatUtil.NODE_CHAT_LIST}/$senderId/$currentBookingId'] = {
-        'conversationId': currentBookingId,
-        'bookingId': currentBookingId,
-        'otherUserId': receiverId,
-        'otherUserImage': bookingUserImage,
-        'lastMessage': text,
-        'messageType': 'text',
-        'lastMessageTime': timestamp,
-        'lastMessageSenderId': senderId,
-        'unreadCount': 0,
-      };
-
-      // 4. Receiver's chat list entry.
-      updates['${ChatUtil.NODE_CHAT_LIST}/$receiverId/$currentBookingId'] = {
-        'conversationId': currentBookingId,
-        'bookingId': currentBookingId,
-        'otherUserId': senderId,
-        'otherUserImage': loggedInuserImage.value,
-        'lastMessage': text,
-        'messageType': 'text',
-        'lastMessageTime': timestamp,
-        'lastMessageSenderId': senderId,
-        'unreadCount': oldUnreadCount + 1,
-      };
-
-      // Apply all changes atomically.
-      await rootRef.update(updates);
-
-      debugPrint('Message and chat details saved: $messageKey');
-
-      // Clear the input only after a successful write.
-      inputController.clear();
-
-      sendBookingNotification(bookingId, deviceToken);
-
-
-
-    } on FirebaseException catch (e) {
-      debugPrint('Firebase error: ${e.code}');
-      debugPrint('Firebase message: ${e.message}');
-    } catch (e) {
-      debugPrint('Error creating chat: $e');
-    }
-  }
-
-  Future<void> sendBookingNotification(String bookingId, String fcmToken) async {
-
-    try {
-      final request = http.MultipartRequest(
-        "POST",
-        Uri.parse("$appurl/send_chat_notification"),
-      );
-      request.fields.addAll({
-        "booking_id": bookingId,
-        "fcm_token": fcmToken,
-      });
-
-      final response = await request.send();
-      final resp = await response.stream.bytesToString();
-      final json = jsonDecode(resp);
-      print(json);
-
-    } catch (e) {
-      print("Error in sendBookingNotification");
-      print(e);
-      // CustomNotification.show(
-      //   title: "Error",
-      //   message: "Check internet",
-      //   isSuccess: false,
-      // );
-    } finally {
-
-    }
-  }
 }
