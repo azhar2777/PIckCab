@@ -7,19 +7,15 @@ import 'package:pickcab_partner/includes/header.dart';
 import '../utils/ChatUtil.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String bookingId;
+  final Map<String, dynamic> bookingData;
   // final String tripId;
-  final String userUniqueId;
-  final String userName;
-  final String userImage;
+  // final String userUniqueId;
+  // final String userName;
+  // final String userImage;
 
   const ChatScreen({
     super.key,
-    required this.bookingId,
-    // required this.tripId,
-    required this.userUniqueId,
-    required this.userName,
-    required this.userImage,
+    required this.bookingData,
   });
 
   @override
@@ -37,11 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // controller = Get.put(ChatScreenController(), tag: widget.tripId);
     controller = Get.put(
       ChatScreenController(
-        bookingId: widget.bookingId,
-        // tripId: widget.tripId,
-        userUniqueId: widget.userUniqueId,
-        bookingUserName: widget.userName,
-        bookingUserImage: widget.userImage,
+        bookingData: widget.bookingData,
       ),
     );
   }
@@ -106,11 +98,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: Color(0xFF6A1B9A),
                         ),
                         child: ClipOval(
-                          child: (widget.userImage == null ||
-                              widget.userImage.toString().trim().isEmpty)
+                          child: (widget.bookingData['user_mage'] == null ||
+                              widget.bookingData['user_mage'].toString().trim().isEmpty)
                               ? _userPlaceholder()
                               : Image.network(
-                            '$imageurl/${widget.userImage}',
+                            '$imageurl/${widget.bookingData['user_mage']}',
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
@@ -127,7 +119,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.userName,
+                            widget.bookingData['user_name']??'Chat user',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -136,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           Text(
                             controller.isOtherUserOnline.value
                                 ? 'online'
-                                : 'last seen ${controller.formatLastSeen(controller.otherUserLastSeen.value)}',
+                                : 'last seen ',
                             style: const TextStyle(fontSize: 12),
                           ),
                         ],
@@ -253,7 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        controller.createChat();
+                        // controller.createChat();
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),

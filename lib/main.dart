@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_localizations/flutter_localizations.dart' as flutter_localizations;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/material.dart' as legacy;
 
@@ -47,19 +48,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialRoute: "splashscreen",
+
       routes: {
         "splashscreen": (context) => SplashScreen(),
       },
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
+
       theme: legacy.ThemeData(
         colorScheme: legacy.ColorScheme.fromSeed(
           seedColor: legacy.Colors.deepPurple,
         ),
         useMaterial3: true,
       ),
+
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        flutter_localizations.GlobalWidgetsLocalizations.delegate,
+        flutter_localizations.GlobalCupertinoLocalizations.delegate,
+      ],
+
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('hi', 'IN'),
+      ],
+
       debugShowCheckedModeBanner: false,
     );
   }

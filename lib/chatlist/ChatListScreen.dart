@@ -68,14 +68,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
           itemBuilder: (context, index) {
             final chat = controller.conversations[index];
 
-            final bookingId =
-                chat['bookingId']?.toString() ?? '';
-            final otherUserId =
-                chat['otherUserId']?.toString() ?? '';
-            final name =
-                chat['name']?.toString() ?? 'User';
-            final lastMessage =
-                chat['lastMessage']?.toString() ?? '';
+            final bookingId = chat['bookingId']?.toString() ?? '';
+            final otherUserId = chat['otherUserId']?.toString() ?? '';
+            final name = chat['name']?.toString() ?? 'User';
+            final lastMessage = chat['lastMessage']?.toString() ?? '';
             final unreadCount = int.tryParse(
                   chat['unreadCount']?.toString() ?? '0',
                 ) ??
@@ -91,9 +87,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
               ),
               title: Text(name),
               subtitle: Text(
-                lastMessage.isEmpty
-                    ? 'Start a conversation'
-                    : lastMessage,
+                lastMessage.isEmpty ? 'Start a conversation' : lastMessage,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -102,9 +96,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       radius: 12,
                       backgroundColor: const Color(0xFF6A1B9A),
                       child: Text(
-                        unreadCount > 99
-                            ? '99+'
-                            : '$unreadCount',
+                        unreadCount > 99 ? '99+' : '$unreadCount',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -113,14 +105,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     )
                   : null,
               onTap: () {
-                Get.to(
-                  () => ChatScreen(
-                    bookingId: bookingId,
-                    userUniqueId: otherUserId,
-                    userName: name,
-                    userImage: '',
-                  ),
-                );
+                // Get.to(
+                //   () => ChatScreen(
+                //     bookingId: bookingId,
+                //     userUniqueId: otherUserId,
+                //     userName: name,
+                //     userImage: '',
+                //   ),
+                // );
               },
             );
           },

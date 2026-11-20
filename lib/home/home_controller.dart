@@ -1212,10 +1212,11 @@ class HomeController extends GetxController {
     // print(booking);
     Get.to(
       () => ChatScreen(
-        bookingId: booking['id'],
-        userUniqueId: booking['user_id'],
-        userName: booking['driver'],
-        userImage: booking['user_image'],
+        // bookingId: booking['id'],
+        // userUniqueId: booking['user_id'],
+        // userName: booking['driver'],
+        // userImage: booking['user_image'],
+        bookingData: booking,
       ),
       transition: Transition.fadeIn,
     );
