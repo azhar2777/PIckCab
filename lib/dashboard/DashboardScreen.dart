@@ -99,7 +99,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               backgroundColor: Colors.transparent,
               shape: const CircleBorder(),
               onPressed: () {
+                // print("_showPostBottomSheet");
+                // _showPostBottomSheet(context);
+                debugPrint("FAB CLICKED");
+
+                // Get.bottomSheet(
+                //   Container(
+                //     height: 200,
+                //     color: Colors.white,
+                //     child: const Center(
+                //       child: Text(
+                //         "Bottom Sheet Opened",
+                //         style: TextStyle(fontSize: 20),
+                //       ),
+                //     ),
+                //   ),
+                //   backgroundColor: Colors.white,
+                //   isScrollControlled: true,
+                // );
                 _showPostBottomSheet(context);
+
               },
               child: const Icon(
                 Icons.add,
@@ -178,95 +197,89 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _showPostBottomSheetNotice(BuildContext context) {
+
+  void _showPostBottomSheet(BuildContext context) {
     Get.bottomSheet(
       SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          height: MediaQuery.of(context).size.height * 0.9,
-          width: MediaQuery.of(context).size.width * 0.98,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        child: Material(
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(20),
           ),
-          child: Expanded(
-            child: ListView(
-              children: [
-                Obx(() {
-                  if (controller.noticeHtml.value.isEmpty) {
-                    return const Center(
-                      child: Text('No HTML available'),
-                    );
-                  }
+          clipBehavior: Clip.antiAlias,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Post',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
 
-                  webController.loadHtmlString(
-                    controller.noticeHtml.value,
-                  );
+                  if (controller.showSmartBooking.value) ...[
+                    const SizedBox(height: 20),
+                    _buildPostOption(
+                      icon: Icons.auto_awesome,
+                      title: 'Quick Booking with AI',
+                      onTap: () {
+                        Get.back();
 
-                  return WebViewWidget(
-                    controller: webController,
-                  );
-                })
-              ],
+                        Future.delayed(
+                          const Duration(milliseconds: 250),
+                              () {
+                            if (Get.isRegistered<
+                                SmartBookingController>()) {
+                              Get.delete<SmartBookingController>(
+                                force: true,
+                              );
+                            }
+
+                            Get.put(SmartBookingController());
+                            controller.navigateToSmartBooking();
+                          },
+                        );
+                      },
+                    ),
+                  ],
+
+                  const SizedBox(height: 20),
+
+                  _buildPostOption(
+                    icon: Icons.add_road,
+                    title: 'New Booking',
+                    onTap: () {
+                      Get.back();
+                      controller.onNewBooking();
+                    },
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  _buildPostOption(
+                    icon: Icons.directions_car,
+                    title: 'Free Vehicle',
+                    onTap: () {
+                      Get.back();
+                      controller.onFreeVehicle();
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),
       ),
       isScrollControlled: true,
-    );
-  }
-
-  void _showPostBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Post',
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: controller.showSmartBooking.value ? 20 : 0),
-              controller.showSmartBooking.value
-                  ? _buildPostOption(
-                      icon: Icons.auto_awesome,
-                      title: 'Quick Booking with AI',
-                      onTap: () {
-                        Get.delete<SmartBookingController>();
-                        Get.put(SmartBookingController());
-
-                        Get.back();
-                        controller.navigateToSmartBooking();
-                      },
-                    )
-                  : Container(),
-              const SizedBox(height: 20),
-              _buildPostOption(
-                icon: Icons.add_road,
-                title: 'New Booking',
-                onTap: () => {Get.back(), controller.onNewBooking()},
-              ),
-              const SizedBox(height: 12),
-              _buildPostOption(
-                icon: Icons.directions_car,
-                title: 'Free Vehicle',
-                onTap: () => {Get.back(), controller.onFreeVehicle()},
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
     );
   }
 
@@ -275,38 +288,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required String title,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
+    return Material(
+      color: Colors.white,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        // decoration: BoxDecoration(
-        //   border: Border.all(color: Colors.grey.shade300),
-        //   borderRadius: BorderRadius.circular(12),
-        // ),
-        decoration: BoxDecoration(
-          color: Colors.white, // required for shadow visibility
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade300),
-          boxShadow: title == 'Quick Booking with AI'
-              ? [
-                  BoxShadow(
-                    color: Color(0xFF6A1B9A),
-                    blurRadius: 8,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 3), // shadow position
-                  ),
-                ]
-              : [],
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: const Color(0xFF6A1B9A)),
-            const SizedBox(width: 16),
-            Text(title, style: const TextStyle(fontSize: 16)),
-          ],
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 12,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white, // required for shadow visibility
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade300),
+            boxShadow: title == 'Quick Booking with AI'
+                ? [
+              BoxShadow(
+                color: Color(0xFF6A1B9A),
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: const Offset(0, 2), // shadow position
+              ),
+            ]
+                : [],
+          ),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: const Color(0xFF6A1B9A),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 16,
+                    // color: title == 'Quick Booking with AI' ? Colors.white : Colors.black
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+
+
 }
