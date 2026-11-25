@@ -22,19 +22,21 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void initState() {
     super.initState();
 
-    controller = Get.put(ChatListController());
+    controller = Get.put(ChatListController(
+
+    ));
 
     getChats();
   }
 
   Future<void> getChats() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    final userId = prefs.getString('user_id') ?? '';
-
-    if (userId.isNotEmpty) {
-      controller.getConversations(userId);
-    }
+    // final prefs = await SharedPreferences.getInstance();
+    //
+    // final userId = prefs.getString('user_id') ?? '';
+    //
+    // if (userId.isNotEmpty) {
+    //   controller.getUserConversations(userId);
+    // }
   }
 
   @override

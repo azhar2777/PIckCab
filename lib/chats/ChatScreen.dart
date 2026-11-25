@@ -8,14 +8,14 @@ import '../utils/ChatUtil.dart';
 
 class ChatScreen extends StatefulWidget {
   final Map<String, dynamic> bookingData;
-  // final String tripId;
-  // final String userUniqueId;
-  // final String userName;
-  // final String userImage;
+  final String receiverId;
+  final String receiverMobile;
+  final String receiverName;
+  final String receiverImage;
 
   const ChatScreen({
     super.key,
-    required this.bookingData,
+    required this.bookingData, required this.receiverId, required this.receiverMobile, required this.receiverName, required this.receiverImage,
   });
 
   @override
@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // controller = Get.put(ChatScreenController(), tag: widget.tripId);
     controller = Get.put(
       ChatScreenController(
-        bookingData: widget.bookingData,
+        bookingData: widget.bookingData, receiverId: widget.receiverId, receiverName: widget.receiverName, receiverImage: widget.receiverImage, receiverMobile: widget.receiverMobile,
       ),
     );
   }
@@ -245,7 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        controller.createChat();
+                        controller.createChatMessage();
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),

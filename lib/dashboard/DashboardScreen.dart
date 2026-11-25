@@ -8,6 +8,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pickcab_partner/alerts/alerts_screen.dart';
 import 'package:pickcab_partner/chatlist/ChatListScreen.dart';
+import 'package:pickcab_partner/chatlist/ConversationScreen.dart';
 import 'package:pickcab_partner/my_bookings/my_booking_screen.dart';
 import 'package:pickcab_partner/profile/profile_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -34,9 +35,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const MyBookingScreen(),
 
     const AlertsScreen(),
-    const ProfileScreen(),
+    // const ProfileScreen(),
     // const ChatScreen(bookingId: "23507", userUniqueId: "898", userName:'John Cena'),
-    // const ChatListScreen(),
+    const Conversationscreen(),
   ];
 
   var bottomheight = 60.0;
@@ -135,8 +136,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   _buildNavItem(Icons.notifications_outlined, 'My Alerts', 2),
-                  // _buildNavItem(Icons.chat, 'Chats', 3),
-                  _buildNavItem(Icons.person_outline, 'Profile', 3),
+                  _buildNavItem(Icons.chat, 'Chats', 3),
+                  // _buildNavItem(Icons.person_outline, 'Profile', 3),
                 ],
               ),
             ),

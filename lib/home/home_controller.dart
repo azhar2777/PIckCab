@@ -6,16 +6,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pickcab_partner/chats/ChatScreen.dart';
-import 'package:pickcab_partner/model/PPUser.dart';
 import 'package:pickcab_partner/smartbooking/SmartBookingScreen.dart';
 import 'package:pickcab_partner/utils/Utils.dart';
-import 'package:pickcab_partner/utils/firebase_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../const/const.dart';
-import '../../const/custom_notification.dart';
 import '../freebooking/freebooking_new.dart';
 import '../login/login_screen.dart';
 import '../model/Slides.dart';
@@ -934,6 +930,7 @@ class HomeController extends GetxController {
               'send_call': b["send_call"]?.toString() ?? "N/A",
               'send_whatsapp': b["send_whatsapp"]?.toString() ?? "N/A",
               'driver': b["user_name"] ?? "Unknown Driver",
+              'user_name': b["user_name"] ?? "Unknown User",
               'mobile': b["user_mobile"]?.toString() ?? "",
               'user_image': b["user_image"]?.toString() ?? "",
               'user_city': b["city"]?.toString() ?? "",
@@ -1209,14 +1206,14 @@ class HomeController extends GetxController {
   void openChat(Map<String, dynamic> booking) {
     // ChatScreen(bookingId: "23507", userUniqueId: "898", userName:'John Cena'),
     print('openChat');
-    // print(booking);
+    print(booking);
     Get.to(
       () => ChatScreen(
-        // bookingId: booking['id'],
-        // userUniqueId: booking['user_id'],
-        // userName: booking['driver'],
-        // userImage: booking['user_image'],
         bookingData: booking,
+        receiverId: booking['user_id'],
+        receiverName: booking['user_name'],
+        receiverImage: booking['user_image'],
+        receiverMobile: booking['mobile'],
       ),
       transition: Transition.fadeIn,
     );

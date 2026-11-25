@@ -8,6 +8,7 @@ class ChatUtil {
   static String NODE_USER_STATUS = "userstatus";
   static String NODE_CHAT_LIST = "chatlist";
   static String NODE_CONVERSATION = "conversation";
+  static const String NODE_USER_CONVERSATIONS ='userConversations';
   static String NODE_MESSAGES = "messages";
   
 
